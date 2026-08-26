@@ -1,0 +1,82 @@
+# Apache config for the OVH shared hosting (hébergement web mutualisé).
+# Copied verbatim into dist/gm-app/browser/ by the Angular assets pipeline.
+
+Options -Indexes
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Let ACME challenges through untouched, over plain http.
+  RewriteRule ^\.well-known/ - [L]
+
+  # Canonical host: redirect any other name to the bare domain over https.
+  RewriteCond %{HTTP_HOST} !^argnd\.fr$ [NC]
+  RewriteRule ^(.*)$ https://argnd.fr/$1 [R=301,L]
+
+  # OVH terminates TLS upstream — trust X-Forwarded-Proto.
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # Anti-hotlinking: images served only to requests from this site.
+  RewriteCond %{HTTP_REFERER} ^https?://(?!(www\.)?argnd\.fr/) [NC]
+  RewriteRule \.(png|jpe?g|gif|webp|avif|svg|ico)$ - [F,NC]
+
+  # Serve real files and directories untouched.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # SPA fallback: everything else is handled by Angular's client-side router.
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml text/javascript application/javascript application/json application/manifest+json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 day"
+
+  # Fingerprinted bundles (outputHashing: all) can be cached forever.
+  <FilesMatch "\.(js|css|woff2?|ttf|eot)$">
+    ExpiresDefault "access plus 1 year"
+  </FilesMatch>
+
+  # Assets from public/ keep their filename across deploys, so cache them briefly.
+  <FilesMatch "\.(png|jpe?g|gif|webp|avif|svg|ico)$">
+    ExpiresDefault "access plus 7 days"
+  </FilesMatch>
+
+  <FilesMatch "\.(html|json|webmanifest)$">
+    ExpiresDefault "access plus 0 seconds"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2?|ttf|eot)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  <FilesMatch "\.(html|json|webmanifest)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# Do not publish the deploy state file written by the GitHub Actions FTP sync.
+<Files ".ftp-deploy-sync-state.json">
+  Require all denied
+</Files>
+
+<IfModule mod_mime.c>
+  AddType image/avif .avif
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+</IfModule>

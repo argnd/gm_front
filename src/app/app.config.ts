@@ -19,7 +19,9 @@ export const appConfig: ApplicationConfig = {
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.googleClientId),
+            provider: new GoogleLoginProvider(environment.googleClientId, {
+              oneTapEnabled: false,
+            }),
           },
         ],
         onError: (err: unknown) => console.error(err),

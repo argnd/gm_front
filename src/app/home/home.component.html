@@ -22,11 +22,7 @@
       } @else if (error()) {
         <p class="state-msg error">{{ error() }}</p>
       } @else if (answer() !== null) {
-        @if (isString(answer())) {
-          <pre>{{ answer() }}</pre>
-        } @else {
-          <pre>{{ answer() | json }}</pre>
-        }
+        <pre>{{ answer() }}</pre>
       }
     </div>
   </main>

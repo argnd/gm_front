@@ -70,6 +70,9 @@
             },
             "development": {
               "buildTarget": "gm-app:build:development"
+            },
+            "local": {
+              "buildTarget": "gm-app:build:local"
             }
           },
           "defaultConfiguration": "development"

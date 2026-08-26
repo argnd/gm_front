@@ -32,7 +32,7 @@
       } @else if (conversation()?.turns?.length) {
         <div class="turns">
           @for (turn of conversation()!.turns; track $index) {
-            <app-turn-card [turn]="turn" [index]="$index" />
+            <app-turn-card [turn]="turn" [index]="$index" [isLast]="$last" />
           }
         </div>
       } @else {

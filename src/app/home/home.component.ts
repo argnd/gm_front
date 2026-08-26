@@ -2,7 +2,7 @@ import { Component, OnDestroy, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { AuthService } from '../core/auth.service';
 import { ApiService } from '../core/api.service';
-import { Stat, Turn, AnswerPayload } from '../models/turn.model';
+import { Stat, Turn, AnswerPayload, extractStatsFromAnswer } from '../models/turn.model';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StatsPanelComponent } from './stats-panel/stats-panel.component';
 import { ChatInputComponent } from './chat-input/chat-input.component';
@@ -91,9 +91,10 @@ export class HomeComponent implements OnDestroy {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (data) => {
-          this.conversation.set(data);
-          this.turns.update((prev) => [...prev, data]);
-          this.updateStats(data);
+          const processed = processPayload(data);
+          this.conversation.set(processed);
+          this.turns.update((prev) => [...prev, processed]);
+          this.updateStats(processed);
           this.prompt.set('');
 
           if (this.turns().length > MAX_TURNS) {
@@ -147,6 +148,20 @@ export class HomeComponent implements OnDestroy {
     }
     this.stats.set(updated);
   }
+}
+
+function processPayload(payload: AnswerPayload): AnswerPayload {
+  return {
+    ...payload,
+    turns: payload.turns.map(turn => {
+      const { stats, cleanAnswer } = extractStatsFromAnswer(turn.answer);
+      return {
+        ...turn,
+        answer: cleanAnswer,
+        newstats: stats ?? turn.newstats,
+      };
+    }),
+  };
 }
 
 function buildRandomStats(): Map<string, number> {

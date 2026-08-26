@@ -44,6 +44,8 @@ export class HomeComponent implements OnDestroy {
     Array.from(this.stats().entries()).map(([name, value]) => ({ name, value })),
   );
 
+  protected readonly reversedTurns = computed(() => [...(this.conversation()?.turns ?? [])].reverse());
+
   protected readonly controlsDisabled = computed(() => this.loading() || this.adventureOver());
 
   private adventureOverTimer: ReturnType<typeof setTimeout> | null = null;

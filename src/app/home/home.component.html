@@ -31,8 +31,8 @@
         <p class="state-msg error">{{ error() }}</p>
       } @else if (conversation()?.turns?.length) {
         <div class="turns">
-          @for (turn of conversation()!.turns; track $index) {
-            <app-turn-card [turn]="turn" [index]="$index" [isLast]="$last" />
+          @for (turn of reversedTurns(); track $index) {
+            <app-turn-card [turn]="turn" [index]="reversedTurns().length - 1 - $index" [isLast]="$first" />
           }
         </div>
       } @else {

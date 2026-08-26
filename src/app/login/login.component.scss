@@ -1,0 +1,32 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.login-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 48px 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  text-align: center;
+  min-width: 320px;
+
+  h1 {
+    margin: 0 0 8px;
+    font-size: 2rem;
+    color: #222;
+  }
+
+  p {
+    margin: 0 0 32px;
+    color: #666;
+  }
+
+  asl-google-signin-button {
+    display: flex;
+    justify-content: center;
+  }
+}

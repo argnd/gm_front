@@ -1,0 +1,19 @@
+<div class="home-container">
+  <nav class="navbar">
+    <span class="brand">GM App</span>
+    <div class="user-info">
+      @if (auth.user()) {
+        <img [src]="auth.user()!.photoUrl" [alt]="auth.user()!.name" class="avatar" />
+        <span>{{ auth.user()!.name }}</span>
+      }
+      <button class="signout-btn" (click)="auth.signOut()">Sign out</button>
+    </div>
+  </nav>
+
+  <main class="content">
+    <h1>Hello World</h1>
+    @if (auth.user()) {
+      <p>Welcome back, {{ auth.user()!.firstName }}!</p>
+    }
+  </main>
+</div>

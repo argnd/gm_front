@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  // Replace with your Google OAuth Client ID from https://console.cloud.google.com
-  googleClientId: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+  googleClientId: '448081264026-fhijmv5fjshr6v1n97lre3ipbkko6b4c.apps.googleusercontent.com',
+  apiBaseUrl: 'https://argnd-iam-secured-backend-448081264026.us-central1.run.app',
 };

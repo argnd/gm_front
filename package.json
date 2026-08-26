@@ -1,6 +1,8 @@
 {
   "name": "gm-app",
   "version": "0.0.0",
+  "author": "Armel Gandour",
+  "license": "UNLICENSED",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

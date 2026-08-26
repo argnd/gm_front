@@ -15,5 +15,19 @@
     @if (auth.user()) {
       <p>Welcome back, {{ auth.user()!.firstName }}!</p>
     }
+
+    <div class="answer-box">
+      @if (loading()) {
+        <p class="state-msg">Loading...</p>
+      } @else if (error()) {
+        <p class="state-msg error">{{ error() }}</p>
+      } @else if (answer() !== null) {
+        @if (isString(answer())) {
+          <pre>{{ answer() }}</pre>
+        } @else {
+          <pre>{{ answer() | json }}</pre>
+        }
+      }
+    </div>
   </main>
 </div>

@@ -12,8 +12,8 @@ DirectoryIndex index.html
   RewriteRule ^\.well-known/ - [L]
 
   # Canonical host: redirect any other name to the bare domain over https.
-  RewriteCond %{HTTP_HOST} !^argnd\.fr$ [NC]
-  RewriteRule ^(.*)$ https://argnd.fr/$1 [R=301,L]
+  RewriteCond %{HTTP_HOST} !^argnd\.com [NC]
+  RewriteRule ^(.*)$ https://argnd.com/$1 [R=301,L]
 
   # OVH terminates TLS upstream — trust X-Forwarded-Proto.
   RewriteCond %{HTTP:X-Forwarded-Proto} !=https
@@ -21,7 +21,7 @@ DirectoryIndex index.html
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
   # Anti-hotlinking: images served only to requests from this site.
-  RewriteCond %{HTTP_REFERER} ^https?://(?!(www\.)?argnd\.fr/) [NC]
+  RewriteCond %{HTTP_REFERER} ^https?://(?!(www\.)?argnd\.com/) [NC]
   RewriteRule \.(png|jpe?g|gif|webp|avif|svg|ico)$ - [F,NC]
 
   # Serve real files and directories untouched.

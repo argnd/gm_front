@@ -1,37 +1,33 @@
 import { Component, OnDestroy, computed, inject, signal } from '@angular/core';
-import { JsonPipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { AuthService } from '../core/auth.service';
 import { ApiService } from '../core/api.service';
+import { Stat, Turn, AnswerPayload } from '../models/turn.model';
+import { NavbarComponent } from './navbar/navbar.component';
+import { StatsPanelComponent } from './stats-panel/stats-panel.component';
+import { ChatInputComponent } from './chat-input/chat-input.component';
+import { TurnCardComponent } from './turn-card/turn-card.component';
+import { AdventureOverOverlayComponent } from './adventure-over-overlay/adventure-over-overlay.component';
+import { DebugHistoryComponent } from './debug-history/debug-history.component';
 
-type Stat = {
-  name: string;
-  value: number;
-};
-
-type Turn = {
-  text: string;
-  stats: Stat[];
-  answer: string;
-  newstats: Stat[];
-};
-
-type AnswerPayload = {
-  turns: Turn[];
-};
+const STAT_NAMES = ['Health', 'Mana', 'STR', 'AGI', 'INT', 'Gold'] as const;
+const MAX_TURNS = 20;
+const ADVENTURE_OVER_DELAY_MS = 4_000;
 
 @Component({
   selector: 'app-home',
-  imports: [FormsModule, JsonPipe],
+  imports: [
+    NavbarComponent,
+    StatsPanelComponent,
+    ChatInputComponent,
+    TurnCardComponent,
+    AdventureOverOverlayComponent,
+    DebugHistoryComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnDestroy {
-  private static readonly STAT_NAMES = ['Health', 'Mana', 'STR', 'AGI', 'INT', 'Gold'] as const;
-  private static readonly MAX_TURNS = 20;
-  private static readonly ADVENTURE_OVER_DELAY_MS = 4_000;
-
   protected readonly auth = inject(AuthService);
   private readonly api = inject(ApiService);
 
@@ -41,7 +37,7 @@ export class HomeComponent implements OnDestroy {
   protected readonly error = signal<string | null>(null);
   protected readonly halfturns = signal<AnswerPayload[]>([]);
   protected readonly turns = signal<AnswerPayload[]>([]);
-  protected readonly stats = signal<Map<string, number>>(HomeComponent.buildRandomStats());
+  protected readonly stats = signal<Map<string, number>>(buildRandomStats());
   protected readonly adventureOver = signal(false);
 
   protected readonly statsEntries = computed(() =>
@@ -59,7 +55,9 @@ export class HomeComponent implements OnDestroy {
   }
 
   protected submitTurn(): void {
-    const sanitizedText = this.sanitizeText(this.prompt());
+    if (this.controlsDisabled()) return;
+
+    const sanitizedText = sanitizeText(this.prompt());
 
     if (!sanitizedText) {
       this.error.set('Please enter a message before sending.');
@@ -78,7 +76,6 @@ export class HomeComponent implements OnDestroy {
     };
 
     const lastApiResponse = this.turns().at(-1);
-
     const payload: AnswerPayload = {
       turns: lastApiResponse ? [...lastApiResponse.turns, newTurn] : [newTurn],
     };
@@ -97,7 +94,7 @@ export class HomeComponent implements OnDestroy {
           this.updateStats(data);
           this.prompt.set('');
 
-          if (this.turns().length > HomeComponent.MAX_TURNS) {
+          if (this.turns().length > MAX_TURNS) {
             this.triggerAdventureOver();
           }
         },
@@ -115,7 +112,7 @@ export class HomeComponent implements OnDestroy {
   }
 
   protected randomizeStats(): void {
-    this.stats.set(HomeComponent.buildRandomStats());
+    this.stats.set(buildRandomStats());
     this.turns.set([]);
     this.halfturns.set([]);
     this.conversation.set(null);
@@ -135,36 +132,29 @@ export class HomeComponent implements OnDestroy {
       this.conversation.set(null);
       this.adventureOver.set(false);
       this.adventureOverTimer = null;
-    }, HomeComponent.ADVENTURE_OVER_DELAY_MS);
-  }
-
-  private static buildRandomStats(): Map<string, number> {
-    return new Map(
-      HomeComponent.STAT_NAMES.map((name) => [name, Math.floor(Math.random() * 11)]),
-    );
+    }, ADVENTURE_OVER_DELAY_MS);
   }
 
   private updateStats(data: AnswerPayload): void {
     const latestTurn = data.turns.at(-1);
-
-    if (!latestTurn) {
-      return;
-    }
+    if (!latestTurn) return;
 
     const updated = new Map(this.stats());
-
     for (const stat of latestTurn.newstats) {
       updated.set(stat.name, Math.trunc(Number(stat.value)));
     }
-
     this.stats.set(updated);
   }
+}
 
-  private sanitizeText(value: string): string {
-    return value
-      .replace(/[<>]/g, '')
-      .replace(/[\u0000-\u001F\u007F]/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-  }
+function buildRandomStats(): Map<string, number> {
+  return new Map(STAT_NAMES.map((name) => [name, Math.floor(Math.random() * 11)]));
+}
+
+function sanitizeText(value: string): string {
+  return value
+    .replace(/[<>]/g, '')
+    .replace(/[\u0000-\u001F\u007F]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }

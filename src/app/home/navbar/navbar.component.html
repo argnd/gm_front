@@ -1,0 +1,10 @@
+<nav class="navbar">
+  <span class="brand">GM App</span>
+  <div class="user-info">
+    @if (auth.user()) {
+      <img [src]="auth.user()!.photoUrl" [alt]="auth.user()!.name" class="avatar" />
+      <span>{{ auth.user()!.name }}</span>
+    }
+    <button class="signout-btn" (click)="auth.signOut()">Sign out</button>
+  </div>
+</nav>

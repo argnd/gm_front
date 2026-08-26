@@ -1,25 +1,7 @@
 <div class="home-container">
-  <!-- Adventure over overlay -->
-  @if (adventureOver()) {
-    <div class="adventure-over-overlay" role="alert" aria-live="assertive">
-      <div class="adventure-over-card">
-        <span class="adventure-over-icon">⚔️</span>
-        <h2>Adventure Over</h2>
-        <p>Your journey has reached its end. A new one is about to begin…</p>
-      </div>
-    </div>
-  }
+  <app-adventure-over-overlay [visible]="adventureOver()" />
 
-  <nav class="navbar">
-    <span class="brand">GM App</span>
-    <div class="user-info">
-      @if (auth.user()) {
-        <img [src]="auth.user()!.photoUrl" [alt]="auth.user()!.name" class="avatar" />
-        <span>{{ auth.user()!.name }}</span>
-      }
-      <button class="signout-btn" (click)="auth.signOut()">Sign out</button>
-    </div>
-  </nav>
+  <app-navbar />
 
   <main class="content">
     <h1>Hello World</h1>
@@ -27,41 +9,21 @@
       <p>Welcome back, {{ auth.user()!.firstName }}!</p>
     }
 
-    <!-- Stats panel -->
-    <section class="stats-panel">
-      <div class="stats-header">
-        <h2>Current Stats</h2>
-        <button class="reset-btn" (click)="randomizeStats()" [disabled]="controlsDisabled()">
-          🎲 Randomize &amp; Reset
-        </button>
-      </div>
-      <ul class="stats-grid">
-        @for (stat of statsEntries(); track stat.name) {
-          <li class="stat-chip">
-            <span class="stat-chip-name">{{ stat.name }}</span>
-            <span class="stat-chip-value">{{ stat.value }}</span>
-          </li>
-        }
-      </ul>
-    </section>
+    <app-stats-panel
+      [statsEntries]="statsEntries()"
+      [disabled]="controlsDisabled()"
+      (randomize)="randomizeStats()"
+    />
 
-    <!-- Chatbox -->
-    <section class="chatbox">
-      <label class="chatbox-label" for="chat-input">Your action</label>
-      <textarea
-        id="chat-input"
-        class="chatbox-input"
-        [ngModel]="prompt()"
-        (ngModelChange)="updatePrompt($event)"
-        placeholder="Type your next action..."
-        rows="4"
-      ></textarea>
-      <button class="chatbox-submit" (click)="submitTurn()" [disabled]="controlsDisabled()">
-        {{ loading() ? 'Sending...' : 'Send' }}
-      </button>
-    </section>
+    <app-chat-input
+      [prompt]="prompt()"
+      [disabled]="controlsDisabled()"
+      [loading]="loading()"
+      (promptChange)="updatePrompt($event)"
+      (submit)="submitTurn()"
+    />
 
-    <!-- Latest answer -->
+    <!-- Latest answer from the GM -->
     <div class="answer-box">
       @if (loading()) {
         <p class="state-msg">Loading...</p>
@@ -70,33 +32,7 @@
       } @else if (conversation()?.turns?.length) {
         <div class="turns">
           @for (turn of conversation()!.turns; track $index) {
-            <article class="turn-card">
-              <h2>Turn {{ $index + 1 }}</h2>
-              <div class="turn-section">
-                <span class="turn-label">Text</span>
-                <p>{{ turn.text }}</p>
-              </div>
-              <div class="turn-section">
-                <span class="turn-label">Stats</span>
-                <ul class="stat-list">
-                  @for (stat of turn.stats; track stat.name) {
-                    <li><strong>{{ stat.name }}:</strong> {{ stat.value }}</li>
-                  }
-                </ul>
-              </div>
-              <div class="turn-section">
-                <span class="turn-label">Answer</span>
-                <p>{{ turn.answer }}</p>
-              </div>
-              <div class="turn-section">
-                <span class="turn-label">New stats</span>
-                <ul class="stat-list">
-                  @for (stat of turn.newstats; track stat.name) {
-                    <li><strong>{{ stat.name }}:</strong> {{ stat.value }}</li>
-                  }
-                </ul>
-              </div>
-            </article>
+            <app-turn-card [turn]="turn" [index]="$index" />
           }
         </div>
       } @else {
@@ -104,35 +40,6 @@
       }
     </div>
 
-    <!-- History -->
-    <section class="history-box">
-      <details class="history-section">
-        <summary>Halfturns sent ({{ halfturns().length }})</summary>
-        @if (halfturns().length) {
-          @for (payload of halfturns(); track $index) {
-            <article class="history-entry">
-              <h3>Sent #{{ $index + 1 }} — {{ payload.turns.length }} turn(s)</h3>
-              <pre>{{ payload | json }}</pre>
-            </article>
-          }
-        } @else {
-          <p class="state-msg history-empty">No halfturns yet.</p>
-        }
-      </details>
-
-      <details class="history-section">
-        <summary>Turns received ({{ turns().length }})</summary>
-        @if (turns().length) {
-          @for (payload of turns(); track $index) {
-            <article class="history-entry">
-              <h3>Response #{{ $index + 1 }} — {{ payload.turns.length }} turn(s)</h3>
-              <pre>{{ payload | json }}</pre>
-            </article>
-          }
-        } @else {
-          <p class="state-msg history-empty">No turn responses yet.</p>
-        }
-      </details>
-    </section>
+    <app-debug-history [halfturns]="halfturns()" [turns]="turns()" />
   </main>
 </div>

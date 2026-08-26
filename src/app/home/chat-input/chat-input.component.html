@@ -1,0 +1,15 @@
+<section class="chatbox">
+  <label class="chatbox-label" for="chat-input">Your action</label>
+  <textarea
+    id="chat-input"
+    class="chatbox-input"
+    [ngModel]="prompt"
+    (ngModelChange)="promptChange.emit($event)"
+    placeholder="Type your next action..."
+    rows="4"
+    [disabled]="disabled"
+  ></textarea>
+  <button class="chatbox-submit" (click)="submit.emit()" [disabled]="disabled">
+    {{ loading ? 'Sending...' : 'Send' }}
+  </button>
+</section>

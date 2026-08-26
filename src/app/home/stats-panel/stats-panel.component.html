@@ -1,0 +1,16 @@
+<section class="stats-panel">
+  <div class="stats-header">
+    <h2>Current Stats</h2>
+    <button class="reset-btn" (click)="randomize.emit()" [disabled]="disabled">
+      🎲 Randomize &amp; Reset
+    </button>
+  </div>
+  <ul class="stats-grid">
+    @for (stat of statsEntries; track stat.name) {
+      <li class="stat-chip">
+        <span class="stat-chip-name">{{ stat.name }}</span>
+        <span class="stat-chip-value">{{ stat.value }}</span>
+      </li>
+    }
+  </ul>
+</section>

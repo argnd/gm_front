@@ -1,0 +1,29 @@
+<section class="history-box">
+  <details class="history-section">
+    <summary>Halfturns sent ({{ halfturns.length }})</summary>
+    @if (halfturns.length) {
+      @for (payload of halfturns; track $index) {
+        <article class="history-entry">
+          <h3>Sent #{{ $index + 1 }} — {{ payload.turns.length }} turn(s)</h3>
+          <pre>{{ payload | json }}</pre>
+        </article>
+      }
+    } @else {
+      <p class="history-empty">No halfturns yet.</p>
+    }
+  </details>
+
+  <details class="history-section">
+    <summary>Turns received ({{ turns.length }})</summary>
+    @if (turns.length) {
+      @for (payload of turns; track $index) {
+        <article class="history-entry">
+          <h3>Response #{{ $index + 1 }} — {{ payload.turns.length }} turn(s)</h3>
+          <pre>{{ payload | json }}</pre>
+        </article>
+      }
+    } @else {
+      <p class="history-empty">No turn responses yet.</p>
+    }
+  </details>
+</section>

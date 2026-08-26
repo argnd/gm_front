@@ -2,7 +2,7 @@ import { Component, OnDestroy, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { AuthService } from '../core/auth.service';
 import { ApiService } from '../core/api.service';
-import { Stat, Turn, AnswerPayload, extractStatsFromAnswer } from '../models/turn.model';
+import { Stat, Ambiance, DEFAULT_AMBIANCE, Turn, AnswerPayload, extractStatsFromAnswer } from '../models/turn.model';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StatsPanelComponent } from './stats-panel/stats-panel.component';
 import { ChatInputComponent } from './chat-input/chat-input.component';
@@ -38,6 +38,7 @@ export class HomeComponent implements OnDestroy {
   protected readonly halfturns = signal<AnswerPayload[]>([]);
   protected readonly turns = signal<AnswerPayload[]>([]);
   protected readonly stats = signal<Map<string, number>>(buildRandomStats());
+  protected readonly ambiance = signal<Ambiance>(DEFAULT_AMBIANCE);
   protected readonly adventureOver = signal(false);
 
   protected readonly statsEntries = computed(() =>
@@ -69,12 +70,15 @@ export class HomeComponent implements OnDestroy {
     const currentStats: Stat[] = Array.from(this.stats().entries()).map(
       ([name, value]) => ({ name, value }),
     );
+    const currentAmbiance = this.ambiance();
 
     const newTurn: Turn = {
       text: sanitizedText,
       stats: currentStats,
+      ambiance: currentAmbiance,
       answer: '',
-      newstats: currentStats,
+      newstats: null,
+      newAmbiance: null,
     };
 
     const lastApiResponse = this.turns().at(-1);
@@ -116,6 +120,7 @@ export class HomeComponent implements OnDestroy {
 
   protected randomizeStats(): void {
     this.stats.set(buildRandomStats());
+    this.ambiance.set(DEFAULT_AMBIANCE);
     this.turns.set([]);
     this.halfturns.set([]);
     this.conversation.set(null);
@@ -143,10 +148,13 @@ export class HomeComponent implements OnDestroy {
     if (!latestTurn) return;
 
     const updated = new Map(this.stats());
-    for (const stat of latestTurn.newstats) {
+    for (const stat of latestTurn.newstats ?? []) {
       updated.set(stat.name, Math.trunc(Number(stat.value)));
     }
     this.stats.set(updated);
+    if (latestTurn.newAmbiance) {
+      this.ambiance.set(latestTurn.newAmbiance);
+    }
   }
 }
 
@@ -154,11 +162,12 @@ function processPayload(payload: AnswerPayload): AnswerPayload {
   return {
     ...payload,
     turns: payload.turns.map(turn => {
-      const { stats, cleanAnswer } = extractStatsFromAnswer(turn.answer);
+      const { stats, ambiance, cleanAnswer } = extractStatsFromAnswer(turn.answer);
       return {
         ...turn,
         answer: cleanAnswer,
         newstats: stats ?? turn.newstats,
+        newAmbiance: ambiance ?? turn.newAmbiance,
       };
     }),
   };

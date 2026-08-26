@@ -13,4 +13,18 @@
       </li>
     }
   </ul>
+
+  @if (ambianceEntries.length) {
+    <div class="ambiance-section">
+      <h3 class="ambiance-title">Ambiance</h3>
+      <ul class="stats-grid">
+        @for (entry of ambianceEntries; track entry.label) {
+          <li class="stat-chip ambiance-chip">
+            <span class="stat-chip-name">{{ entry.label }}</span>
+            <span class="stat-chip-value">{{ entry.value }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  }
 </section>

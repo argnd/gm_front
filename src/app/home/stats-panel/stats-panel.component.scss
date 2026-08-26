@@ -78,3 +78,26 @@
   color: #333;
   line-height: 1;
 }
+
+.ambiance-section {
+  margin-top: 16px;
+  border-top: 1px solid #e8e0f0;
+  padding-top: 14px;
+}
+
+.ambiance-title {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ambiance-chip {
+  background: #eaf3ea;
+
+  .stat-chip-name {
+    color: #3a7a3a;
+  }
+}

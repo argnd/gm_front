@@ -28,6 +28,15 @@
       </div>
 
       <div class="turn-section">
+        <span class="turn-label">Ambiance</span>
+        <ul class="stat-list">
+          <li><strong>Romance:</strong> {{ turn.ambiance.romance }}</li>
+          <li><strong>Adventure:</strong> {{ turn.ambiance.adventure }}</li>
+          <li><strong>Other:</strong> {{ turn.ambiance.other }}</li>
+        </ul>
+      </div>
+
+      <div class="turn-section">
         <span class="turn-label">Answer</span>
         <p>{{ turn.answer }}</p>
       </div>
@@ -35,11 +44,24 @@
       <div class="turn-section">
         <span class="turn-label">New stats</span>
         <ul class="stat-list">
-          @for (stat of turn.newstats; track stat.name) {
+          @for (stat of (turn.newstats ?? []); track stat.name) {
             <li><strong>{{ stat.name }}:</strong> {{ stat.value }}</li>
+          } @empty {
+            <li class="empty-note">—</li>
           }
         </ul>
       </div>
+
+      @if (turn.newAmbiance) {
+        <div class="turn-section">
+          <span class="turn-label">New ambiance</span>
+          <ul class="stat-list">
+            <li><strong>Romance:</strong> {{ turn.newAmbiance.romance }}</li>
+            <li><strong>Adventure:</strong> {{ turn.newAmbiance.adventure }}</li>
+            <li><strong>Other:</strong> {{ turn.newAmbiance.other }}</li>
+          </ul>
+        </div>
+      }
     </div>
   }
 </article>

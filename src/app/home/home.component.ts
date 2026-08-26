@@ -1,6 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { AuthService } from '../core/auth.service';
-import { ApiService } from '../core/api.service';
+import {Component, inject, OnInit, signal} from '@angular/core';
+import {AuthService} from '../core/auth.service';
+import {ApiService} from '../core/api.service';
 
 type AnswerResponse = {
   message: string;

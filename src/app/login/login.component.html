@@ -1,37 +1,47 @@
-<div class="login-container">
-  <section class="login-card" aria-labelledby="login-title">
-    <div class="eyes" aria-hidden="true">
-      <div class="eye" #eyeSocket>
-        <span class="eye__shine"></span>
-        <span
-          class="eye__pupil"
-          [style.transform]="'translate(' + pupilOffsets[0].x + 'px, ' + pupilOffsets[0].y + 'px)'"
-        ></span>
+<div class="login-page">
+  <div class="login-fx" aria-hidden="true">
+    <span class="vein vein--romance"></span>
+    <span class="vein vein--adventure"></span>
+    <span class="vein vein--other"></span>
+    <span class="grain"></span>
+    <span class="vignette"></span>
+  </div>
+
+  <main class="login-shell">
+    <section class="login-card" aria-labelledby="login-title">
+      <div class="die" aria-hidden="true">
+        <svg viewBox="0 0 100 100" class="die-shape">
+          <polygon points="50,4 89,27 89,73 50,96 11,73 11,27" />
+          <polygon points="50,26 72,64 28,64" />
+          <path
+            d="M50 26V4M72 64l17 9M28 64l-17 9M50 26L11 27M50 26l39 1M72 64l17-37M28 64L11 27M50 96l22-32M50 96L28 64"
+          />
+        </svg>
+        <span class="die-value">20</span>
       </div>
 
-      <div class="eye" #eyeSocket>
-        <span class="eye__shine"></span>
-        <span
-          class="eye__pupil"
-          [style.transform]="'translate(' + pupilOffsets[1].x + 'px, ' + pupilOffsets[1].y + 'px)'"
-        ></span>
+      <p class="login-eyebrow">Maître du Jeu</p>
+      <h1 id="login-title">La table vous attend</h1>
+      <p class="login-lead">
+        Une histoire par partie, vingt tours pour la vivre. L’ambiance et vos statistiques dictent
+        le récit — et la mise en scène.
+      </p>
+
+      <div class="login-action">
+        <asl-google-signin-button
+          type="standard"
+          size="large"
+          shape="pill"
+          theme="filled_black"
+          logo_alignment="left"
+        ></asl-google-signin-button>
       </div>
-    </div>
 
-    <div class="login-copy">
-      <span class="login-copy__eyebrow">GM Front</span>
-      <h1 id="login-title">Bienvenue</h1>
-      <p>Connectez-vous pour retrouver votre espace de travail.</p>
-    </div>
-
-    <div class="login-action">
-      <asl-google-signin-button
-        type="standard"
-        size="large"
-        shape="pill"
-        theme="outline"
-        logo_alignment="left"
-      ></asl-google-signin-button>
-    </div>
-  </section>
+      <ul class="login-axes">
+        <li><span class="axis-dot axis-dot--romance"></span>Romance</li>
+        <li><span class="axis-dot axis-dot--adventure"></span>Aventure</li>
+        <li><span class="axis-dot axis-dot--other"></span>Autre</li>
+      </ul>
+    </section>
+  </main>
 </div>

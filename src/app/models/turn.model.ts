@@ -38,7 +38,11 @@ export type AnswerPayload = {
  *   - Either of the above wrapped in a ```json ... ``` fence
  * Returns the parsed stats, ambiance, and the narrative with the JSON prefix removed.
  */
-export function extractStatsFromAnswer(answer: string): { stats: Stat[] | null; ambiance: Ambiance | null; cleanAnswer: string } {
+export function extractStatsFromAnswer(answer: string): {
+  stats: Stat[] | null;
+  ambiance: Ambiance | null;
+  cleanAnswer: string;
+} {
   const trimmed = answer.trimStart();
   const none = { stats: null, ambiance: null, cleanAnswer: answer };
 
@@ -62,7 +66,9 @@ export function extractStatsFromAnswer(answer: string): { stats: Stat[] | null; 
         const parsed = JSON.parse(trimmed.slice(0, end + 1));
         const result = extractFromParsed(parsed, trimmed.slice(end + 1).trimStart());
         if (result) return result;
-      } catch { /* fall through */ }
+      } catch {
+        /* fall through */
+      }
     }
   }
 

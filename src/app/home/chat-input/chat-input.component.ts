@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ACTION_COPY, ActionCopy } from '../ambiance/ambiance.engine';
 
 @Component({
   selector: 'app-chat-input',
@@ -9,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class ChatInputComponent {
   @Input() prompt = '';
+  @Input() copy: ActionCopy = ACTION_COPY['neutral'];
   @Input() disabled = false;
   @Input() loading = false;
   @Output() promptChange = new EventEmitter<string>();

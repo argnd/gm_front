@@ -17,7 +17,10 @@ export class AuthService {
 
   private sessionTimer: ReturnType<typeof setTimeout> | null = null;
 
-  constructor(private socialAuth: SocialAuthService, private router: Router) {
+  constructor(
+    private socialAuth: SocialAuthService,
+    private router: Router,
+  ) {
     // Restore session synchronously before the guard ever runs
     this.restoreSession();
 
@@ -85,7 +88,3 @@ export class AuthService {
     }
   }
 }
-
-
-
-

@@ -1,76 +1,70 @@
-.history-box {
-  width: 50vw;
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+:host {
+  display: block;
 }
 
-.history-section {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  opacity: 0.55;
+  transition: opacity var(--speed-slow) ease;
 
-  summary {
-    padding: 14px 20px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #444;
+  &:hover,
+  &:focus-within {
+    opacity: 1;
+  }
+}
+
+.history-block {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(13, 18, 32, 0.6);
+
+  > summary {
+    padding: 8px 14px;
+    color: var(--text-dim);
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
     cursor: pointer;
-    user-select: none;
     list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    &::before {
-      content: '▶';
-      font-size: 0.7rem;
-      color: #764ba2;
-      transition: transform 0.2s ease;
-    }
 
     &::-webkit-details-marker {
       display: none;
     }
-  }
 
-  &[open] summary::before {
-    transform: rotate(90deg);
+    &:hover {
+      color: var(--accent);
+    }
   }
 }
 
 .history-entry {
-  padding: 16px 20px;
-  border-top: 1px solid #f0f0f0;
+  padding: 0 14px 12px;
 
   h3 {
-    margin: 0 0 10px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #764ba2;
+    margin-bottom: 6px;
+    color: var(--text-dim);
+    font-size: 0.72rem;
+    font-weight: 600;
   }
 
   pre {
-    margin: 0;
-    background: #1e1e1e;
-    color: #d4d4d4;
-    padding: 16px;
+    max-height: 260px;
+    overflow: auto;
+    padding: 12px;
     border-radius: 8px;
-    font-size: 0.8rem;
-    line-height: 1.5;
+    background: var(--ink-950);
+    color: #9fb0cc;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.55;
     white-space: pre-wrap;
     word-break: break-word;
-    overflow-x: auto;
   }
 }
 
 .history-empty {
-  padding: 12px 20px;
-  border-top: 1px solid #f0f0f0;
-  text-align: center;
-  color: #666;
-  font-size: 1rem;
-  margin: 0;
+  padding: 0 14px 12px;
+  color: var(--text-dim);
+  font-size: 0.74rem;
 }

@@ -1,10 +1,14 @@
 <nav class="navbar">
-  <span class="brand">GM App</span>
-  <div class="user-info">
+  <span class="brand">
+    <span class="brand-mark" aria-hidden="true">GM</span>
+    <span class="brand-name">Maître du Jeu</span>
+  </span>
+
+  <div class="user">
     @if (auth.user()) {
-      <img [src]="auth.user()!.photoUrl" [alt]="auth.user()!.name" class="avatar" />
-      <span>{{ auth.user()!.name }}</span>
+      <img [src]="auth.user()!.photoUrl" [alt]="auth.user()!.name" class="user-avatar" />
+      <span class="user-name">{{ auth.user()!.name }}</span>
     }
-    <button class="signout-btn" (click)="auth.signOut()">Sign out</button>
+    <button class="signout" type="button" (click)="auth.signOut()">Quitter la table</button>
   </div>
 </nav>

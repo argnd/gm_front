@@ -4,4 +4,3 @@ export const environment = {
   apiBaseUrl: 'https://argnd-iam-secured-backend-448081264026.us-central1.run.app',
   // apiBaseUrl: 'http://localhost:8080',
 };
-

@@ -3,12 +3,7 @@
   position: relative;
   isolation: isolate;
   min-height: 100dvh;
-  background: radial-gradient(
-    120% 90% at 50% -10%,
-    #101728 0%,
-    var(--ink-900) 46%,
-    var(--ink-950) 100%
-  );
+  background: radial-gradient(120% 90% at 50% -10%, #101728 0%, #080b14 46%, #05070d 100%);
 }
 
 .login-fx {

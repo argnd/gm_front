@@ -14,6 +14,7 @@ import {
   ACTION_COPY,
   MAX_TURNS,
   STAT_NAMES,
+  STAT_ROLL,
   ambianceClasses,
   ambianceVars,
   dominantKey,
@@ -22,11 +23,11 @@ import {
 import { FxLayerComponent } from './ambiance/fx-layer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StatsPanelComponent } from './stats-panel/stats-panel.component';
-import { AmbianceDebugComponent } from './ambiance-debug/ambiance-debug.component';
+import { ObjectsPanelComponent } from './objects-panel/objects-panel.component';
+import { DebugPanelComponent } from './debug-panel/debug-panel.component';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 import { TurnCardComponent } from './turn-card/turn-card.component';
 import { AdventureOverOverlayComponent } from './adventure-over-overlay/adventure-over-overlay.component';
-import { DebugHistoryComponent } from './debug-history/debug-history.component';
 
 const ADVENTURE_OVER_DELAY_MS = 4_000;
 
@@ -36,11 +37,11 @@ const ADVENTURE_OVER_DELAY_MS = 4_000;
     FxLayerComponent,
     NavbarComponent,
     StatsPanelComponent,
-    AmbianceDebugComponent,
+    ObjectsPanelComponent,
+    DebugPanelComponent,
     ChatInputComponent,
     TurnCardComponent,
     AdventureOverOverlayComponent,
-    DebugHistoryComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -58,11 +59,16 @@ export class HomeComponent implements OnDestroy {
   protected readonly halfturns = signal<AnswerPayload[]>([]);
   protected readonly turns = signal<AnswerPayload[]>([]);
   protected readonly stats = signal<Map<string, number>>(buildRandomStats());
+  protected readonly objects = signal<Map<string, string>>(new Map());
   protected readonly ambiance = signal<Ambiance>(DEFAULT_AMBIANCE);
   protected readonly adventureOver = signal(false);
 
   protected readonly statsEntries = computed(() =>
     Array.from(this.stats().entries()).map(([name, value]) => ({ name, value })),
+  );
+
+  protected readonly objectsEntries = computed(() =>
+    Array.from(this.objects().entries()).map(([name, description]) => ({ name, description })),
   );
 
   protected readonly reversedTurns = computed(() =>
@@ -77,7 +83,7 @@ export class HomeComponent implements OnDestroy {
     ambianceClasses(this.ambiance(), this.statsEntries()),
   );
 
-  protected readonly pageVars = computed(() => ambianceVars(this.ambiance(), this.statsEntries()));
+  protected readonly pageVars = computed(() => ambianceVars(this.ambiance()));
 
   protected readonly signatureStats = computed(() => highStats(this.statsEntries()));
 
@@ -226,7 +232,12 @@ function processPayload(payload: AnswerPayload): AnswerPayload {
 }
 
 function buildRandomStats(): Map<string, number> {
-  return new Map(STAT_NAMES.map((name) => [name, Math.floor(Math.random() * 11)]));
+  return new Map(
+    STAT_NAMES.map((name): [string, number] => {
+      const min = STAT_ROLL.minimums[name] ?? STAT_ROLL.min;
+      return [name, min + Math.floor(Math.random() * (STAT_ROLL.max - min + 1))];
+    }),
+  );
 }
 
 function sanitizeText(value: string): string {

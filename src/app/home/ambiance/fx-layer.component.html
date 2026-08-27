@@ -52,36 +52,12 @@
   <div class="fx-breath"></div>
 }
 
-@if (vitalHigh()) {
-  <div class="fx-vital"></div>
-}
-
 @if (runes().length) {
   <div class="fx-orbit">
     @for (fleck of runes(); track $index) {
       <span class="fx-rune" [style]="fleck.style">{{ fleck.glyph }}</span>
     }
   </div>
-}
-
-@if (strHigh()) {
-  <div class="fx-fault"></div>
-}
-
-@for (fleck of gusts(); track $index) {
-  <span class="fx-gust" [style]="fleck.style"></span>
-}
-
-@if (intHigh()) {
-  <svg class="fx-ley" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <polyline points="6,22 24,38 18,62 40,74 62,58 78,70 94,44" />
-    <polyline points="10,84 30,66 52,80 70,34 88,20" />
-    <polyline points="24,38 52,80" />
-    <polyline points="62,58 70,34" />
-  </svg>
-  @for (fleck of leyNodes(); track $index) {
-    <span class="fx-ley-node" [style]="fleck.style"></span>
-  }
 }
 
 @for (fleck of goldFlakes(); track $index) {

@@ -148,10 +148,6 @@
   }
 }
 
-:host-context(.stat-health-high) .chatbox {
-  border-left: 3px solid color-mix(in srgb, var(--vital) 62%, transparent);
-}
-
 :host-context(.stat-gold-high) .chatbox-trim {
   box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.34);
 }

@@ -17,6 +17,9 @@ export const STAT_HIGH_THRESHOLD = rules.stats.highThreshold;
 export const STAT_LOW_THRESHOLD = rules.stats.lowThreshold;
 export const STAT_SCALE = rules.stats.scale;
 
+export const STAT_ROLL: { min: number; max: number; minimums: Record<string, number> } =
+  rules.statRoll;
+
 export const AMBIANCE_LABELS: Record<AmbianceKey, string> = copy.ambianceLabels;
 
 export const STAT_LABELS: Record<string, string> = copy.statLabels;
@@ -111,15 +114,10 @@ export function ambianceClasses(
     classes[`stat-${statSlug(stat.name)}-high`] = isHighStat(stat.value);
   }
 
-  classes['stat-health-low'] = statValue(stats, 'Health') < STAT_LOW_THRESHOLD;
-
   return classes;
 }
 
-export function ambianceVars(
-  ambiance: Ambiance | null,
-  stats: readonly Stat[],
-): Record<string, string> {
+export function ambianceVars(ambiance: Ambiance | null): Record<string, string> {
   const vars: Record<string, string> = {};
   let dominant = 0;
 
@@ -131,10 +129,6 @@ export function ambianceVars(
   }
 
   vars['--dominant'] = (dominant / AMBIANCE_MAX).toFixed(3);
-
-  for (const stat of stats) {
-    vars[`--stat-${statSlug(stat.name)}`] = clamp01(stat.value / STAT_SCALE).toFixed(3);
-  }
 
   return vars;
 }

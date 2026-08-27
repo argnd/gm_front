@@ -32,26 +32,42 @@
   }
 }
 
-.trail-card {
-  position: sticky;
-  top: 18px;
-  padding: 16px 18px;
+.intro-hint {
+  max-width: 52ch;
+  margin: 14px auto 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--text-dim);
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.trail-band {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 2px 8px;
 }
 
 .trail-track {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin: 14px 0 12px;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
   padding: 0;
   list-style: none;
 }
 
 .trail-step {
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(151, 166, 196, 0.16);
-  transition: background var(--speed-fast) ease;
+  width: 7px;
+  height: 7px;
+  border-radius: 1.5px;
+  transform: rotate(45deg);
+  background: rgba(151, 166, 196, 0.22);
+  transition:
+    background var(--speed-fast) ease,
+    box-shadow var(--speed-fast) ease;
 
   &.is-done {
     background: var(--accent);
@@ -59,20 +75,24 @@
 
   &.is-current {
     background: var(--accent-soft);
-    box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 60%, transparent);
   }
 }
 
 .trail-count {
   color: var(--text-dim);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.06em;
 }
 
 @media (max-width: 900px) {
-  .gm-rail,
-  .trail-card {
+  .gm-rail {
     position: static;
+  }
+
+  .trail-band {
+    gap: 12px;
+    padding: 2px 2px;
   }
 }

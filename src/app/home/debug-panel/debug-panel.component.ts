@@ -1,5 +1,5 @@
-import { Component, ElementRef, computed, inject, input, output } from '@angular/core';
-import { Ambiance, DEFAULT_AMBIANCE, Stat } from '../../models/turn.model';
+import { Component, ElementRef, computed, inject, input, output, signal } from '@angular/core';
+import { Ambiance, AnswerPayload, DEFAULT_AMBIANCE, Stat } from '../../models/turn.model';
 import {
   AMBIANCE_KEYS,
   AMBIANCE_LABELS,
@@ -14,24 +14,30 @@ import {
   isHighStat,
   tierOf,
 } from '../ambiance/ambiance.engine';
+import { DebugHistoryComponent } from '../debug-history/debug-history.component';
 
 const STAT_SLIDER_MAX = 12;
 const PRESET_VALUES = [0, 30, 60, 95] as const;
 
+type DebugTab = 'ambiance' | 'echanges';
+
 @Component({
-  selector: 'app-ambiance-debug',
-  templateUrl: './ambiance-debug.component.html',
-  styleUrl: './ambiance-debug.component.scss',
+  selector: 'app-debug-panel',
+  imports: [DebugHistoryComponent],
+  templateUrl: './debug-panel.component.html',
+  styleUrl: './debug-panel.component.scss',
   host: {
     '(focusout)': 'onFocusOut($event)',
     '(document:pointerdown)': 'onDocumentPointerDown($event)',
   },
 })
-export class AmbianceDebugComponent {
+export class DebugPanelComponent {
   private readonly host = inject(ElementRef<HTMLElement>);
 
   readonly ambiance = input<Ambiance | null>(null);
   readonly stats = input<readonly Stat[]>([]);
+  readonly halfturns = input<AnswerPayload[]>([]);
+  readonly turns = input<AnswerPayload[]>([]);
 
   readonly ambianceChange = output<Ambiance>();
   readonly statsChange = output<Stat[]>();
@@ -46,9 +52,15 @@ export class AmbianceDebugComponent {
   protected readonly statMax = STAT_SLIDER_MAX;
   protected readonly highThreshold = STAT_HIGH_THRESHOLD;
 
+  protected readonly tab = signal<DebugTab>('ambiance');
+
   protected readonly total = computed(() => ambianceTotal(this.current()));
 
   protected readonly remaining = computed(() => AMBIANCE_MAX_TOTAL - this.total());
+
+  protected selectTab(tab: DebugTab): void {
+    this.tab.set(tab);
+  }
 
   protected valueOf(key: AmbianceKey): number {
     return ambianceValue(this.ambiance(), key);

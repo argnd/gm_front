@@ -1,0 +1,50 @@
+:host {
+  display: block;
+}
+
+.panel {
+  padding: 16px 20px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.object-list {
+  margin-top: 10px;
+  list-style: none;
+}
+
+.object {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 0;
+
+  + .object {
+    border-top: 1px solid rgba(151, 166, 196, 0.08);
+  }
+}
+
+.object-name {
+  color: var(--text-soft);
+  font-size: 0.86rem;
+}
+
+.object-value {
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.objects-empty {
+  margin-top: 10px;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  font-style: italic;
+}

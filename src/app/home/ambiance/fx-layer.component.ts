@@ -124,18 +124,6 @@ export class FxLayerComponent {
     })),
   );
 
-  protected readonly gusts = computed(() =>
-    build(this.hasHigh('AGI') ? 6 : 0, 'gust', (rand) => ({
-      style: {
-        top: pct(rand(0) * 0.9),
-        '--peak': (0.16 + rand(1) * 0.22).toFixed(3),
-        width: px(180 + rand(2) * 260),
-        'animation-duration': secs(2.4 + rand(3) * 2.6),
-        'animation-delay': secs(-rand(4) * 6),
-      },
-    })),
-  );
-
   protected readonly goldFlakes = computed(() =>
     build(this.hasHigh('Gold') ? 16 : 0, 'gold', (rand) => ({
       style: {
@@ -151,23 +139,6 @@ export class FxLayerComponent {
       },
     })),
   );
-
-  protected readonly leyNodes = computed(() =>
-    build(this.hasHigh('INT') ? 14 : 0, 'ley', (rand) => ({
-      style: {
-        left: pct(rand(0)),
-        top: pct(rand(1)),
-        'animation-duration': secs(3 + rand(2) * 5),
-        'animation-delay': secs(-rand(3) * 8),
-        width: px(3 + rand(4) * 3),
-        height: px(3 + rand(4) * 3),
-      },
-    })),
-  );
-
-  protected readonly vitalHigh = computed(() => this.hasHigh('Health'));
-  protected readonly strHigh = computed(() => this.hasHigh('STR'));
-  protected readonly intHigh = computed(() => this.hasHigh('INT'));
 
   private tier(key: AmbianceKey): number {
     return tierOf(ambianceValue(this.ambiance(), key));

@@ -1,0 +1,18 @@
+<section class="panel gm-surface">
+  <header class="panel-head">
+    <span class="gm-label">Objets</span>
+  </header>
+
+  @if (objects().length) {
+    <ul class="object-list">
+      @for (object of objects(); track object.name) {
+        <li class="object">
+          <span class="object-name">{{ object.name }}</span>
+          <span class="object-value">{{ object.description }}</span>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="objects-empty">Aucun objet pour l’instant.</p>
+  }
+</section>

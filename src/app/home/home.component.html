@@ -13,6 +13,8 @@
           [disabled]="controlsDisabled()"
           (randomize)="randomizeStats()"
         />
+
+        <app-objects-panel [objects]="objectsEntries()" />
       </aside>
 
       <section class="gm-flow">
@@ -24,6 +26,19 @@
           (promptChange)="updatePrompt($event)"
           (submit)="submitTurn()"
         />
+
+        <div class="trail-band" aria-label="Progression de l’aventure">
+          <ol class="trail-track">
+            @for (done of trailMarkers(); track $index) {
+              <li
+                class="trail-step"
+                [class.is-done]="done"
+                [class.is-current]="$index === turnsPlayed()"
+              ></li>
+            }
+          </ol>
+          <span class="trail-count">{{ turnsPlayed() }} / {{ maxTurns }}</span>
+        </div>
 
         <div class="narrative">
           @if (loading()) {
@@ -39,38 +54,28 @@
               />
             }
           } @else {
-            <p class="state-msg gm-surface">
-              L’histoire n’a pas encore commencé. Décrivez votre première action.
-            </p>
+            <div class="state-msg gm-surface">
+              <p>L’histoire n’a pas encore commencé. Décrivez votre première action.</p>
+              <p class="intro-hint">
+                Votre Maître du Jeu est une intelligence artificielle. Écrivez librement ce que
+                fait votre personnage : elle raconte la suite, en tire les conséquences et fait
+                évoluer vos statistiques, vos objets et l’ambiance au fil du récit. La partie se
+                joue en {{ maxTurns }} tours.
+              </p>
+            </div>
           }
         </div>
-
-        <app-debug-history [halfturns]="halfturns()" [turns]="turns()" />
       </section>
-
-      <aside class="gm-trail">
-        <section class="gm-surface trail-card">
-          <span class="gm-label">Piste</span>
-          <ol class="trail-track">
-            @for (done of trailMarkers(); track $index) {
-              <li
-                class="trail-step"
-                [class.is-done]="done"
-                [class.is-current]="$index === turnsPlayed()"
-              ></li>
-            }
-          </ol>
-          <p class="trail-count">{{ turnsPlayed() }} / {{ maxTurns }}</p>
-        </section>
-      </aside>
     </div>
   </div>
 
   <app-adventure-over-overlay [visible]="adventureOver()" />
 
-  <app-ambiance-debug
+  <app-debug-panel
     [ambiance]="ambiance()"
     [stats]="statsEntries()"
+    [halfturns]="halfturns()"
+    [turns]="turns()"
     (ambianceChange)="overrideAmbiance($event)"
     (statsChange)="overrideStats($event)"
   />

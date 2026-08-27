@@ -5,6 +5,11 @@ export type Stat = {
   value: number;
 };
 
+export type GameObject = {
+  name: string;
+  description: string;
+};
+
 export type Ambiance = {
   romance: number;
   adventure: number;

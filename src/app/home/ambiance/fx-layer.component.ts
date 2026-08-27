@@ -1,4 +1,5 @@
 import { Component, computed, input } from '@angular/core';
+import fx from '../../content/fx.json';
 import { Ambiance, Stat } from '../../models/turn.model';
 import {
   AmbianceKey,
@@ -14,10 +15,10 @@ type Fleck = {
   style: Record<string, string>;
 };
 
-const RUNES = ['ᛉ', 'ᚦ', 'ᛊ', 'ᛃ', 'ᛖ', 'ᛗ'];
-const PETALS_PER_TIER = [0, 9, 17, 26];
-const EMBERS_PER_TIER = [0, 12, 22, 34];
-const MOTES_PER_TIER = [0, 8, 14, 20];
+const RUNES = fx.runes;
+const PETALS_PER_TIER = fx.perTier.petals;
+const EMBERS_PER_TIER = fx.perTier.embers;
+const MOTES_PER_TIER = fx.perTier.motes;
 
 @Component({
   selector: 'app-fx-layer',

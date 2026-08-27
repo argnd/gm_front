@@ -12,6 +12,8 @@ import {
 } from '../models/turn.model';
 import {
   ACTION_COPY,
+  MAX_TURNS,
+  STAT_NAMES,
   ambianceClasses,
   ambianceVars,
   dominantKey,
@@ -26,8 +28,6 @@ import { TurnCardComponent } from './turn-card/turn-card.component';
 import { AdventureOverOverlayComponent } from './adventure-over-overlay/adventure-over-overlay.component';
 import { DebugHistoryComponent } from './debug-history/debug-history.component';
 
-const STAT_NAMES = ['Health', 'Mana', 'STR', 'AGI', 'INT', 'Gold'] as const;
-const MAX_TURNS = 20;
 const ADVENTURE_OVER_DELAY_MS = 4_000;
 
 @Component({
@@ -121,6 +121,8 @@ export class HomeComponent implements OnDestroy {
       answer: '',
       newstats: null,
       newAmbiance: null,
+      diceRolls: null,
+      extra: null,
     };
 
     const lastApiResponse = this.turns().at(-1);

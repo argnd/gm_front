@@ -1,49 +1,29 @@
 import { Ambiance, Stat } from '../../models/turn.model';
+import copy from '../../content/copy.json';
+import rules from '../../content/rules.json';
 
 export type AmbianceKey = 'romance' | 'adventure' | 'other';
 export type Tier = 0 | 1 | 2 | 3;
 
 export const AMBIANCE_KEYS: readonly AmbianceKey[] = ['romance', 'adventure', 'other'];
-export const AMBIANCE_THRESHOLDS = [30, 60, 90] as const;
-export const AMBIANCE_MAX = 100;
-export const AMBIANCE_MAX_TOTAL = 100;
+export const AMBIANCE_THRESHOLDS = rules.ambiance.thresholds as [number, number, number];
+export const AMBIANCE_MAX = rules.ambiance.max;
+export const AMBIANCE_MAX_TOTAL = rules.ambiance.maxTotal;
 
-export const STAT_HIGH_THRESHOLD = 8;
-export const STAT_LOW_THRESHOLD = 3;
-export const STAT_SCALE = 10;
+export const STAT_NAMES: readonly string[] = rules.statNames;
+export const MAX_TURNS = rules.maxTurns;
 
-export const AMBIANCE_LABELS: Record<AmbianceKey, string> = {
-  romance: 'Romance',
-  adventure: 'Aventure',
-  other: 'Autre',
-};
+export const STAT_HIGH_THRESHOLD = rules.stats.highThreshold;
+export const STAT_LOW_THRESHOLD = rules.stats.lowThreshold;
+export const STAT_SCALE = rules.stats.scale;
 
-export const STAT_LABELS: Record<string, string> = {
-  Health: 'Vitalité',
-  Mana: 'Mana',
-  STR: 'Force',
-  AGI: 'Agilité',
-  INT: 'Esprit',
-  Gold: 'Or',
-};
+export const AMBIANCE_LABELS: Record<AmbianceKey, string> = copy.ambianceLabels;
 
-export const STAT_GLYPHS: Record<string, string> = {
-  Health: '❤',
-  Mana: '✦',
-  STR: '⛊',
-  AGI: '➤',
-  INT: '✧',
-  Gold: '◈',
-};
+export const STAT_LABELS: Record<string, string> = copy.statLabels;
 
-export const STAT_SIGNATURES: Record<string, string> = {
-  Health: 'Le souffle bat si fort qu’il résonne dans la pièce.',
-  Mana: 'Des runes tournent lentement autour de vous.',
-  STR: 'Le sol se fend sous votre poids.',
-  AGI: 'L’air se déchire sur votre passage.',
-  INT: 'Des lignes de savoir relient chaque chose.',
-  Gold: 'Une poussière d’or ne retombe jamais tout à fait.',
-};
+export const STAT_GLYPHS: Record<string, string> = copy.statGlyphs;
+
+export const STAT_SIGNATURES: Record<string, string> = copy.statSignatures;
 
 export type ActionCopy = {
   label: string;
@@ -51,28 +31,7 @@ export type ActionCopy = {
   submit: string;
 };
 
-export const ACTION_COPY: Record<AmbianceKey | 'neutral', ActionCopy> = {
-  neutral: {
-    label: 'Votre action',
-    placeholder: 'Que faites-vous ?',
-    submit: 'Jouer',
-  },
-  romance: {
-    label: 'Votre geste',
-    placeholder: 'Que dites-vous, que laissez-vous paraître ?',
-    submit: 'Oser',
-  },
-  adventure: {
-    label: 'Votre manœuvre',
-    placeholder: 'Que tentez-vous, et à quel prix ?',
-    submit: 'Engager',
-  },
-  other: {
-    label: 'Votre choix',
-    placeholder: 'Où va votre attention ?',
-    submit: 'Poursuivre',
-  },
-};
+export const ACTION_COPY: Record<AmbianceKey | 'neutral', ActionCopy> = copy.actionCopy;
 
 export function clamp01(value: number): number {
   if (!Number.isFinite(value)) return 0;

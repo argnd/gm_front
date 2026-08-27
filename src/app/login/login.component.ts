@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, ElementRef, effect, inject, viewChild } from '@angular/core';
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
+import { LoginFx } from './fx/login-fx';
+import { ConstellationField } from './fx/constellation-field';
+import { WispField } from './fx/wisp-field';
+import { ShootingStars } from './fx/shooting-star';
 
 @Component({
   selector: 'app-login',
@@ -7,4 +11,28 @@ import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {}
+export class LoginComponent {
+  private readonly sky = viewChild<ElementRef<HTMLCanvasElement>>('sky');
+  private fxCanvas: HTMLCanvasElement | null = null;
+  private fxTeardown: (() => void) | null = null;
+
+  constructor() {
+    effect(() => {
+      const canvas = this.sky()?.nativeElement ?? null;
+      if (canvas === this.fxCanvas) {
+        return;
+      }
+      this.fxTeardown?.();
+      this.fxCanvas = canvas;
+      this.fxTeardown = canvas
+        ? new LoginFx(canvas, [
+            new WispField(),
+            new ConstellationField(),
+            new ShootingStars(),
+          ]).start()
+        : null;
+    });
+
+    inject(DestroyRef).onDestroy(() => this.fxTeardown?.());
+  }
+}

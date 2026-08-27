@@ -1,0 +1,53 @@
+{
+  "statLabels": {
+    "Health": "Vitalité",
+    "Mana": "Mana",
+    "STR": "Force",
+    "AGI": "Agilité",
+    "INT": "Esprit",
+    "Gold": "Or"
+  },
+  "statGlyphs": {
+    "Health": "❤",
+    "Mana": "✦",
+    "STR": "⛊",
+    "AGI": "➤",
+    "INT": "✧",
+    "Gold": "◈"
+  },
+  "statSignatures": {
+    "Health": "Le souffle bat si fort qu’il résonne dans la pièce.",
+    "Mana": "Des runes tournent lentement autour de vous.",
+    "STR": "Le sol se fend sous votre poids.",
+    "AGI": "L’air se déchire sur votre passage.",
+    "INT": "Des lignes de savoir relient chaque chose.",
+    "Gold": "Une poussière d’or ne retombe jamais tout à fait."
+  },
+  "ambianceLabels": {
+    "romance": "Romance",
+    "adventure": "Aventure",
+    "other": "Autre"
+  },
+  "actionCopy": {
+    "neutral": {
+      "label": "Votre action",
+      "placeholder": "Que faites-vous ?",
+      "submit": "Jouer"
+    },
+    "romance": {
+      "label": "Votre geste",
+      "placeholder": "Que dites-vous, que laissez-vous paraître ?",
+      "submit": "Oser"
+    },
+    "adventure": {
+      "label": "Votre manœuvre",
+      "placeholder": "Que tentez-vous, et à quel prix ?",
+      "submit": "Engager"
+    },
+    "other": {
+      "label": "Votre choix",
+      "placeholder": "Où va votre attention ?",
+      "submit": "Poursuivre"
+    }
+  }
+}

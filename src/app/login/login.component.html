@@ -1,8 +1,37 @@
 <div class="login-container">
-  <div class="login-card">
-    <h1>Welcome</h1>
-    <p>Sign in to continue</p>
-    <asl-google-signin-button type="standard" size="large" shape="rectangular" theme="outline" logo_alignment="left">
-    </asl-google-signin-button>
-  </div>
+  <section class="login-card" aria-labelledby="login-title">
+    <div class="eyes" aria-hidden="true">
+      <div class="eye" #eyeSocket>
+        <span class="eye__shine"></span>
+        <span
+          class="eye__pupil"
+          [style.transform]="'translate(' + pupilOffsets[0].x + 'px, ' + pupilOffsets[0].y + 'px)'"
+        ></span>
+      </div>
+
+      <div class="eye" #eyeSocket>
+        <span class="eye__shine"></span>
+        <span
+          class="eye__pupil"
+          [style.transform]="'translate(' + pupilOffsets[1].x + 'px, ' + pupilOffsets[1].y + 'px)'"
+        ></span>
+      </div>
+    </div>
+
+    <div class="login-copy">
+      <span class="login-copy__eyebrow">GM Front</span>
+      <h1 id="login-title">Bienvenue</h1>
+      <p>Connectez-vous pour retrouver votre espace de travail.</p>
+    </div>
+
+    <div class="login-action">
+      <asl-google-signin-button
+        type="standard"
+        size="large"
+        shape="pill"
+        theme="outline"
+        logo_alignment="left"
+      ></asl-google-signin-button>
+    </div>
+  </section>
 </div>

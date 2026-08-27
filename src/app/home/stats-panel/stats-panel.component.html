@@ -1,30 +1,53 @@
-<section class="stats-panel">
-  <div class="stats-header">
-    <h2>Current Stats</h2>
-    <button class="reset-btn" (click)="randomize.emit()" [disabled]="disabled">
-      🎲 Randomize &amp; Reset
+<section class="panel gm-surface">
+  <header class="panel-head">
+    <span class="gm-label">Fiche de personnage</span>
+    <button class="panel-reset" type="button" (click)="randomize.emit()" [disabled]="disabled">
+      Nouveau tirage
     </button>
-  </div>
-  <ul class="stats-grid">
+  </header>
+
+  <ul class="stat-list">
     @for (stat of statsEntries; track stat.name) {
-      <li class="stat-chip">
-        <span class="stat-chip-name">{{ stat.name }}</span>
-        <span class="stat-chip-value">{{ stat.value }}</span>
+      <li class="stat" [class.is-high]="isHigh(stat.value)">
+        <span class="stat-glyph" aria-hidden="true">{{ glyph(stat.name) }}</span>
+        <span class="stat-name">{{ label(stat.name) }}</span>
+        <span class="stat-value">{{ stat.value }}</span>
+        <span class="stat-bar"
+          ><span class="stat-fill" [style.width]="fill(stat.value)"></span
+        ></span>
       </li>
     }
   </ul>
 
-  @if (ambianceEntries.length) {
-    <div class="ambiance-section">
-      <h3 class="ambiance-title">Ambiance</h3>
-      <ul class="stats-grid">
-        @for (entry of ambianceEntries; track entry.label) {
-          <li class="stat-chip ambiance-chip">
-            <span class="stat-chip-name">{{ entry.label }}</span>
-            <span class="stat-chip-value">{{ entry.value }}</span>
+  @if (ambianceRows.length) {
+    <div class="ambiance">
+      <span class="gm-label">Ambiance</span>
+
+      <ul class="ambiance-list">
+        @for (row of ambianceRows; track row.key) {
+          <li class="ambiance-row" [attr.data-key]="row.key" [attr.data-tier]="row.tier">
+            <span class="ambiance-name">{{ row.label }}</span>
+            <span class="ambiance-value">{{ row.value }}</span>
+            <span class="ambiance-bar">
+              <span class="ambiance-fill" [style.width]="ambianceFill(row.value)"></span>
+              @for (mark of thresholds; track mark) {
+                <span class="ambiance-mark" [style.left]="ambianceFill(mark)"></span>
+              }
+            </span>
           </li>
         }
       </ul>
     </div>
+  }
+
+  @if (signatures.length) {
+    <ul class="signatures">
+      @for (stat of signatures; track stat.name) {
+        <li class="signature">
+          <span class="signature-glyph" aria-hidden="true">{{ glyph(stat.name) }}</span>
+          <span>{{ signature(stat.name) }}</span>
+        </li>
+      }
+    </ul>
   }
 </section>

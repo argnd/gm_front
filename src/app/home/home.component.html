@@ -1,46 +1,77 @@
-<div class="home-container">
-  <app-adventure-over-overlay [visible]="adventureOver()" />
+<div class="gm-page" [class]="pageClasses()" [style]="pageVars()">
+  <app-fx-layer [ambiance]="ambiance()" [stats]="statsEntries()" />
 
-  <app-navbar />
+  <div class="gm-shell">
+    <app-navbar />
 
-  <main class="content">
-    <h1>Hello World</h1>
-    @if (auth.user()) {
-      <p>Welcome back, {{ auth.user()!.firstName }}!</p>
-    }
+    <div class="gm-stage">
+      <aside class="gm-rail">
+        <app-stats-panel
+          [statsEntries]="statsEntries()"
+          [ambiance]="ambiance()"
+          [signatures]="signatureStats()"
+          [disabled]="controlsDisabled()"
+          (randomize)="randomizeStats()"
+        />
+      </aside>
 
-    <app-stats-panel
-      [statsEntries]="statsEntries()"
-      [ambiance]="ambiance()"
-      [disabled]="controlsDisabled()"
-      (randomize)="randomizeStats()"
-    />
+      <section class="gm-flow">
+        <app-chat-input
+          [prompt]="prompt()"
+          [copy]="actionCopy()"
+          [disabled]="controlsDisabled()"
+          [loading]="loading()"
+          (promptChange)="updatePrompt($event)"
+          (submit)="submitTurn()"
+        />
 
-    <app-chat-input
-      [prompt]="prompt()"
-      [disabled]="controlsDisabled()"
-      [loading]="loading()"
-      (promptChange)="updatePrompt($event)"
-      (submit)="submitTurn()"
-    />
-
-    <!-- Latest answer from the GM -->
-    <div class="answer-box">
-      @if (loading()) {
-        <p class="state-msg">Loading...</p>
-      } @else if (error()) {
-        <p class="state-msg error">{{ error() }}</p>
-      } @else if (conversation()?.turns?.length) {
-        <div class="turns">
-          @for (turn of reversedTurns(); track $index) {
-            <app-turn-card [turn]="turn" [index]="reversedTurns().length - 1 - $index" [isLast]="$first" />
+        <div class="narrative">
+          @if (loading()) {
+            <p class="state-msg gm-surface">Le Maître du Jeu écrit…</p>
+          } @else if (error()) {
+            <p class="state-msg state-msg--error">{{ error() }}</p>
+          } @else if (reversedTurns().length) {
+            @for (turn of reversedTurns(); track $index) {
+              <app-turn-card
+                [turn]="turn"
+                [index]="reversedTurns().length - 1 - $index"
+                [isLast]="$first"
+              />
+            }
+          } @else {
+            <p class="state-msg gm-surface">
+              L’histoire n’a pas encore commencé. Décrivez votre première action.
+            </p>
           }
         </div>
-      } @else {
-        <p class="state-msg">Send a message to see the parsed /answer response here.</p>
-      }
-    </div>
 
-    <app-debug-history [halfturns]="halfturns()" [turns]="turns()" />
-  </main>
+        <app-debug-history [halfturns]="halfturns()" [turns]="turns()" />
+      </section>
+
+      <aside class="gm-trail">
+        <section class="gm-surface trail-card">
+          <span class="gm-label">Piste</span>
+          <ol class="trail-track">
+            @for (done of trailMarkers(); track $index) {
+              <li
+                class="trail-step"
+                [class.is-done]="done"
+                [class.is-current]="$index === turnsPlayed()"
+              ></li>
+            }
+          </ol>
+          <p class="trail-count">{{ turnsPlayed() }} / {{ maxTurns }}</p>
+        </section>
+      </aside>
+    </div>
+  </div>
+
+  <app-adventure-over-overlay [visible]="adventureOver()" />
+
+  <app-ambiance-debug
+    [ambiance]="ambiance()"
+    [stats]="statsEntries()"
+    (ambianceChange)="overrideAmbiance($event)"
+    (statsChange)="overrideStats($event)"
+  />
 </div>

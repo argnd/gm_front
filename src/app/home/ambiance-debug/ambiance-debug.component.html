@@ -1,0 +1,76 @@
+<details class="debug">
+  <summary class="debug-summary">
+    <span class="gm-label">Réglages d’ambiance</span>
+    <span class="debug-total" [class.is-full]="remaining() === 0"
+      >{{ total() }} / {{ maxTotal }}</span
+    >
+  </summary>
+
+  <div class="debug-body">
+    @for (key of keys; track key) {
+      <div class="debug-row">
+        <div class="debug-row-head">
+          <label class="debug-name" [attr.for]="'amb-' + key">{{ labels[key] }}</label>
+          @if (budgetFor(key) < ambianceMax) {
+            <span class="debug-cap">max {{ budgetFor(key) }}</span>
+          }
+          <span class="debug-tier">palier {{ tierOf(key) }}</span>
+          <span class="debug-value">{{ valueOf(key) }}</span>
+        </div>
+
+        <input
+          class="debug-slider"
+          type="range"
+          [id]="'amb-' + key"
+          min="0"
+          [max]="ambianceMax"
+          step="1"
+          [value]="valueOf(key)"
+          (input)="onAmbianceInput(key, $event)"
+        />
+
+        <div class="debug-presets">
+          @for (preset of presets; track preset) {
+            <button type="button" (click)="applyPreset(key, preset)">{{ preset }}</button>
+          }
+        </div>
+      </div>
+    }
+
+    <p class="debug-hint">
+      La somme des trois axes ne peut pas dépasser {{ maxTotal }}, comme le vérifie le back. Tirer
+      un curseur s’arrête au budget restant et ne touche pas aux autres axes ; les boutons de
+      palier, eux, redescendent les autres axes proportionnellement pour faire de la place.
+    </p>
+
+    <div class="debug-stats">
+      @for (stat of stats(); track stat.name) {
+        <div class="debug-row debug-row--compact">
+          <div class="debug-row-head">
+            <label class="debug-name" [attr.for]="'stat-' + stat.name">
+              {{ statLabels[stat.name] ?? stat.name }}
+            </label>
+            <span class="debug-value" [class.is-high]="isHigh(stat.value)">{{ stat.value }}</span>
+          </div>
+
+          <input
+            class="debug-slider"
+            type="range"
+            [id]="'stat-' + stat.name"
+            min="0"
+            [max]="statMax"
+            step="1"
+            [value]="stat.value"
+            (input)="onStatInput(stat.name, $event)"
+          />
+        </div>
+      }
+    </div>
+
+    <div class="debug-actions">
+      <button type="button" (click)="resetAmbiance()">Ambiance neutre</button>
+      <button type="button" (click)="liftStats()">Toutes les stats à 9</button>
+      <button type="button" (click)="lowerStats()">Toutes les stats à 3</button>
+    </div>
+  </div>
+</details>

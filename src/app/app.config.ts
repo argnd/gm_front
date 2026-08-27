@@ -2,7 +2,11 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/auth.interceptor';
-import { SOCIAL_AUTH_CONFIG, SocialAuthServiceConfig, GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import {
+  SOCIAL_AUTH_CONFIG,
+  SocialAuthServiceConfig,
+  GoogleLoginProvider,
+} from '@abacritt/angularx-social-login';
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
 

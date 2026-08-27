@@ -1,67 +1,44 @@
-<article class="turn-card" [class.collapsed]="collapsed()">
-  <header class="turn-header" [class.clickable]="!isLast" (click)="!isLast && toggle()">
-    <div class="turn-header-main">
-      <h2>Turn {{ index + 1 }}</h2>
-      @if (!isLast) {
-        <span class="toggle-icon">{{ collapsed() ? '▼' : '▲' }}</span>
-      }
-    </div>
-    @if (collapsed()) {
-      <p class="turn-summary">{{ turn.text }}</p>
+<article class="turn gm-surface" [class.is-collapsed]="collapsed()" [class.is-latest]="isLast">
+  <span class="turn-trim" aria-hidden="true"></span>
+
+  <header
+    class="turn-head"
+    [class.is-clickable]="!isLast"
+    (click)="!isLast && toggle()"
+    [attr.role]="!isLast ? 'button' : null"
+    [attr.tabindex]="!isLast ? 0 : null"
+    [attr.aria-expanded]="!isLast ? !collapsed() : null"
+    (keydown.enter)="!isLast && toggle()"
+    (keydown.space)="!isLast && toggle()"
+  >
+    <span class="gm-label">Tour {{ index + 1 }}</span>
+    @if (!isLast) {
+      <span class="turn-toggle">{{ collapsed() ? 'Déplier' : 'Replier' }}</span>
     }
   </header>
 
+  <p class="turn-action" [class.is-clamped]="collapsed()">{{ turn.text }}</p>
+
   @if (!collapsed()) {
-    <div class="turn-body">
-      <div class="turn-section">
-        <span class="turn-label">Text</span>
-        <p>{{ turn.text }}</p>
-      </div>
+    <div class="turn-answer">{{ turn.answer }}</div>
 
-      <div class="turn-section">
-        <span class="turn-label">Stats</span>
-        <ul class="stat-list">
-          @for (stat of turn.stats; track stat.name) {
-            <li><strong>{{ stat.name }}:</strong> {{ stat.value }}</li>
-          }
-        </ul>
-      </div>
-
-      <div class="turn-section">
-        <span class="turn-label">Ambiance</span>
-        <ul class="stat-list">
-          <li><strong>Romance:</strong> {{ turn.ambiance.romance }}</li>
-          <li><strong>Adventure:</strong> {{ turn.ambiance.adventure }}</li>
-          <li><strong>Other:</strong> {{ turn.ambiance.other }}</li>
-        </ul>
-      </div>
-
-      <div class="turn-section">
-        <span class="turn-label">Answer</span>
-        <p>{{ turn.answer }}</p>
-      </div>
-
-      <div class="turn-section">
-        <span class="turn-label">New stats</span>
-        <ul class="stat-list">
-          @for (stat of (turn.newstats ?? []); track stat.name) {
-            <li><strong>{{ stat.name }}:</strong> {{ stat.value }}</li>
-          } @empty {
-            <li class="empty-note">—</li>
-          }
-        </ul>
-      </div>
-
-      @if (turn.newAmbiance) {
-        <div class="turn-section">
-          <span class="turn-label">New ambiance</span>
-          <ul class="stat-list">
-            <li><strong>Romance:</strong> {{ turn.newAmbiance.romance }}</li>
-            <li><strong>Adventure:</strong> {{ turn.newAmbiance.adventure }}</li>
-            <li><strong>Other:</strong> {{ turn.newAmbiance.other }}</li>
-          </ul>
-        </div>
-      }
-    </div>
+    @if (statDeltas.length || ambianceDeltas.length) {
+      <footer class="turn-deltas">
+        @for (delta of statDeltas; track delta.label) {
+          <span class="delta" [class.is-up]="delta.delta > 0" [class.is-down]="delta.delta < 0">
+            {{ delta.label }} {{ delta.from }} → {{ delta.to }}
+          </span>
+        }
+        @for (delta of ambianceDeltas; track delta.label) {
+          <span
+            class="delta delta--ambiance"
+            [class.is-up]="delta.delta > 0"
+            [class.is-down]="delta.delta < 0"
+          >
+            {{ delta.label }} {{ delta.from }} → {{ delta.to }}
+          </span>
+        }
+      </footer>
+    }
   }
 </article>

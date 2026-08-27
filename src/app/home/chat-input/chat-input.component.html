@@ -1,15 +1,22 @@
-<section class="chatbox">
-  <label class="chatbox-label" for="chat-input">Your action</label>
+<section class="chatbox gm-surface">
+  <span class="chatbox-trim" aria-hidden="true"></span>
+
+  <label class="gm-label" for="chat-input">{{ copy.label }}</label>
+
   <textarea
     id="chat-input"
     class="chatbox-input"
     [ngModel]="prompt"
     (ngModelChange)="promptChange.emit($event)"
-    placeholder="Type your next action..."
+    [placeholder]="copy.placeholder"
     rows="4"
     [disabled]="disabled"
   ></textarea>
-  <button class="chatbox-submit" (click)="submit.emit()" [disabled]="disabled">
-    {{ loading ? 'Sending...' : 'Send' }}
-  </button>
+
+  <div class="chatbox-foot">
+    <span class="chatbox-count">{{ prompt.length }} caractères</span>
+    <button class="chatbox-submit" type="button" (click)="submit.emit()" [disabled]="disabled">
+      {{ loading ? 'Le Maître du Jeu réfléchit…' : copy.submit }}
+    </button>
+  </div>
 </section>

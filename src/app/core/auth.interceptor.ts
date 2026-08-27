@@ -14,7 +14,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       setHeaders: { Authorization: `Bearer ${token}` },
     });
   } else if (req.url.startsWith(environment.apiBaseUrl)) {
-    console.warn('[AuthInterceptor] No token — request will be unauthenticated');
+    console.warn('[AuthInterceptor] No token ï¿½ request will be unauthenticated');
   }
 
   return next(req);

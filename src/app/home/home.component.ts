@@ -2,9 +2,25 @@ import { Component, OnDestroy, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { AuthService } from '../core/auth.service';
 import { ApiService } from '../core/api.service';
-import { Stat, Ambiance, DEFAULT_AMBIANCE, Turn, AnswerPayload, extractStatsFromAnswer } from '../models/turn.model';
+import {
+  Stat,
+  Ambiance,
+  DEFAULT_AMBIANCE,
+  Turn,
+  AnswerPayload,
+  extractStatsFromAnswer,
+} from '../models/turn.model';
+import {
+  ACTION_COPY,
+  ambianceClasses,
+  ambianceVars,
+  dominantKey,
+  highStats,
+} from './ambiance/ambiance.engine';
+import { FxLayerComponent } from './ambiance/fx-layer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StatsPanelComponent } from './stats-panel/stats-panel.component';
+import { AmbianceDebugComponent } from './ambiance-debug/ambiance-debug.component';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 import { TurnCardComponent } from './turn-card/turn-card.component';
 import { AdventureOverOverlayComponent } from './adventure-over-overlay/adventure-over-overlay.component';
@@ -17,8 +33,10 @@ const ADVENTURE_OVER_DELAY_MS = 4_000;
 @Component({
   selector: 'app-home',
   imports: [
+    FxLayerComponent,
     NavbarComponent,
     StatsPanelComponent,
+    AmbianceDebugComponent,
     ChatInputComponent,
     TurnCardComponent,
     AdventureOverOverlayComponent,
@@ -30,6 +48,8 @@ const ADVENTURE_OVER_DELAY_MS = 4_000;
 export class HomeComponent implements OnDestroy {
   protected readonly auth = inject(AuthService);
   private readonly api = inject(ApiService);
+
+  protected readonly maxTurns = MAX_TURNS;
 
   protected readonly prompt = signal('');
   protected readonly conversation = signal<AnswerPayload | null>(null);
@@ -45,9 +65,30 @@ export class HomeComponent implements OnDestroy {
     Array.from(this.stats().entries()).map(([name, value]) => ({ name, value })),
   );
 
-  protected readonly reversedTurns = computed(() => [...(this.conversation()?.turns ?? [])].reverse());
+  protected readonly reversedTurns = computed(() =>
+    [...(this.conversation()?.turns ?? [])].reverse(),
+  );
 
   protected readonly controlsDisabled = computed(() => this.loading() || this.adventureOver());
+
+  protected readonly dominant = computed(() => dominantKey(this.ambiance()) ?? 'neutral');
+
+  protected readonly pageClasses = computed(() =>
+    ambianceClasses(this.ambiance(), this.statsEntries()),
+  );
+
+  protected readonly pageVars = computed(() => ambianceVars(this.ambiance(), this.statsEntries()));
+
+  protected readonly signatureStats = computed(() => highStats(this.statsEntries()));
+
+  protected readonly actionCopy = computed(() => ACTION_COPY[this.dominant()]);
+
+  protected readonly turnsPlayed = computed(() => this.turns().length);
+
+  protected readonly trailMarkers = computed(() => {
+    const played = this.turnsPlayed();
+    return Array.from({ length: MAX_TURNS }, (_, index) => index < played);
+  });
 
   private adventureOverTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -63,13 +104,14 @@ export class HomeComponent implements OnDestroy {
     const sanitizedText = sanitizeText(this.prompt());
 
     if (!sanitizedText) {
-      this.error.set('Please enter a message before sending.');
+      this.error.set('Écrivez une action avant de l’envoyer.');
       return;
     }
 
-    const currentStats: Stat[] = Array.from(this.stats().entries()).map(
-      ([name, value]) => ({ name, value }),
-    );
+    const currentStats: Stat[] = Array.from(this.stats().entries()).map(([name, value]) => ({
+      name,
+      value,
+    }));
     const currentAmbiance = this.ambiance();
 
     const newTurn: Turn = {
@@ -106,7 +148,7 @@ export class HomeComponent implements OnDestroy {
           }
         },
         error: (err) => {
-          this.error.set(err?.message ?? 'Failed to send the message to /answer');
+          this.error.set(err?.message ?? 'Impossible d’envoyer l’action au Maître du Jeu.');
         },
       });
   }
@@ -125,6 +167,14 @@ export class HomeComponent implements OnDestroy {
     this.halfturns.set([]);
     this.conversation.set(null);
     this.error.set(null);
+  }
+
+  protected overrideAmbiance(ambiance: Ambiance): void {
+    this.ambiance.set(ambiance);
+  }
+
+  protected overrideStats(stats: Stat[]): void {
+    this.stats.set(new Map(stats.map((stat) => [stat.name, stat.value])));
   }
 
   private triggerAdventureOver(): void {
@@ -161,7 +211,7 @@ export class HomeComponent implements OnDestroy {
 function processPayload(payload: AnswerPayload): AnswerPayload {
   return {
     ...payload,
-    turns: payload.turns.map(turn => {
+    turns: payload.turns.map((turn) => {
       const { stats, ambiance, cleanAnswer } = extractStatsFromAnswer(turn.answer);
       return {
         ...turn,

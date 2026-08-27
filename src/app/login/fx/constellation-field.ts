@@ -32,14 +32,14 @@ const FIELD = {
 
 const LANTERN = {
   lightRadius: 190,
-  lightBoost: 0.9,
-  linkBoost: 1.8,
+  lightBoost: 0.55,
+  linkBoost: 1.1,
   repelRadius: 80,
   repelStrength: 60,
   followEase: 7,
   fadeEase: 4,
   glowSpan: 360,
-  glowAlpha: 0.1,
+  glowAlpha: 0.06,
 };
 
 type StarPoint = {

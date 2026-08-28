@@ -8,14 +8,7 @@ import {
 import { finalize } from 'rxjs';
 import { AuthService } from '../core/auth.service';
 import { ApiService } from '../core/api.service';
-import {
-  Stat,
-  Ambiance,
-  DEFAULT_AMBIANCE,
-  Turn,
-  AnswerPayload,
-  extractStatsFromAnswer,
-} from '../models/turn.model';
+import { Stat, Ambiance, DEFAULT_AMBIANCE, Turn, AnswerPayload } from '../models/turn.model';
 import {
   ACTION_COPY,
   MAX_TURNS,
@@ -183,9 +176,11 @@ export class HomeComponent implements OnDestroy {
       text: sanitizedText,
       stats: currentStats,
       ambiance: currentAmbiance,
+      objects: this.objectsEntries(),
       answer: '',
       newstats: null,
       newAmbiance: null,
+      newObjects: null,
       diceRolls: null,
       extra: null,
     };
@@ -204,10 +199,9 @@ export class HomeComponent implements OnDestroy {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (data) => {
-          const processed = processPayload(data);
-          this.conversation.set(processed);
-          this.turns.update((prev) => [...prev, processed]);
-          this.updateStats(processed);
+          this.conversation.set(data);
+          this.turns.update((prev) => [...prev, data]);
+          this.updateStats(data);
           this.prompt.set('');
 
           if (this.turns().length > MAX_TURNS) {
@@ -229,6 +223,7 @@ export class HomeComponent implements OnDestroy {
 
   protected randomizeStats(): void {
     this.stats.set(buildRandomStats());
+    this.objects.set(new Map());
     this.ambiance.set(DEFAULT_AMBIANCE);
     this.turns.set([]);
     this.halfturns.set([]);
@@ -272,23 +267,12 @@ export class HomeComponent implements OnDestroy {
     if (latestTurn.newAmbiance) {
       this.ambiance.set(latestTurn.newAmbiance);
     }
+    if (latestTurn.newObjects) {
+      this.objects.set(
+        new Map(latestTurn.newObjects.map((object) => [object.name, object.description])),
+      );
+    }
   }
-}
-
-//todo utiliser la structure de donénes quand le backend sera mis à jour pour renvoyer les stats et ambiance dans le payload de réponse, plutôt que de les extraire du texte de l'answer
-function processPayload(payload: AnswerPayload): AnswerPayload {
-  return {
-    ...payload,
-    turns: payload.turns.map((turn) => {
-      const { stats, ambiance, cleanAnswer } = extractStatsFromAnswer(turn.answer);
-      return {
-        ...turn,
-        answer: cleanAnswer,
-        newstats: stats ?? turn.newstats,
-        newAmbiance: ambiance ?? turn.newAmbiance,
-      };
-    }),
-  };
 }
 
 function buildRandomStats(): Map<string, number> {

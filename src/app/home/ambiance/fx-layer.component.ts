@@ -76,6 +76,22 @@ export class FxLayerComponent {
     })),
   );
 
+  protected readonly fallingMotes = computed(() =>
+    build(this.hasLow('Gold') ? 14 : 0, 'mote', (rand, index) => ({
+      style: {
+        left: pct((index + rand(0)) / 14),
+        top: pct(rand(1) * 0.85),
+        '--drift': px(-30 + rand(2) * 60),
+        '--lift': px(-(70 + rand(3) * 90)),
+        '--peak': (0.25 + rand(4) * 0.2).toFixed(3),
+        width: px(3 + rand(5) * 3),
+        height: px(3 + rand(5) * 3),
+        'animation-duration': secs(16 + rand(6) * 12),
+        'animation-delay': secs(-rand(7) * 24),
+      },
+    })),
+  );
+
   protected readonly fallenRunes = computed(() =>
     build(this.hasLow('Mana') ? RUNES.length : 0, 'fallen', (rand, index) => ({
       glyph: RUNES[index],

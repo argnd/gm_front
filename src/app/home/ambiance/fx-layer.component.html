@@ -21,6 +21,14 @@
     </div>
   }
 
+  @if (fallingMotes().length) {
+    <div class="fx-sink" animate.enter="gm-appear" animate.leave="gm-vanish">
+      @for (mote of fallingMotes(); track $index) {
+        <span class="fx-mote" [style]="mote.style"></span>
+      }
+    </div>
+  }
+
   @if (fallenRunes().length) {
     <div class="fx-fallen" animate.enter="gm-appear" animate.leave="gm-vanish">
       @for (rune of fallenRunes(); track $index) {

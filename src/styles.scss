@@ -237,6 +237,10 @@ body {
   --vignette: 0.5;
 }
 
+.gm-page.stat-gold-low {
+  --border-alpha: 0.45;
+}
+
 @media (max-width: 900px) {
   .gm-page {
     --rail-width: 100% !important;

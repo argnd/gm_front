@@ -85,6 +85,19 @@
   inset: 0;
 }
 
+.fx-sink {
+  position: absolute;
+  inset: 0;
+}
+
+.fx-mote {
+  position: absolute;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--stone) 55%, var(--ink-900));
+  opacity: 0;
+  animation: gm-drift linear infinite;
+}
+
 .fx-rune-fallen {
   position: absolute;
   color: var(--text-dim);

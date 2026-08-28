@@ -1,0 +1,57 @@
+:host {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.firefly-shell {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  width: 4px;
+  height: 4px;
+  opacity: 1;
+  transition-property: transform, opacity;
+  transition-timing-function: ease-in-out, ease;
+
+  &.is-hidden {
+    opacity: 0;
+  }
+}
+
+.firefly {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--fly-color, #deea9e);
+  box-shadow:
+    0 0 calc(12px + 44px * var(--fly-glow, 0)) calc(2px + 8px * var(--fly-glow, 0))
+    color-mix(in srgb, var(--fly-color, #deea9e) 75%, transparent);
+  animation: firefly-flicker 3.4s ease-in-out infinite;
+}
+
+@keyframes firefly-flicker {
+  0%,
+  100% {
+    opacity: calc(0.62 + 0.3 * var(--fly-glow, 0));
+  }
+  48% {
+    opacity: calc(0.85 + 0.15 * var(--fly-glow, 0));
+  }
+  56% {
+    opacity: calc(0.55 + 0.3 * var(--fly-glow, 0));
+  }
+  70% {
+    opacity: calc(0.9 + 0.1 * var(--fly-glow, 0));
+  }
+}
+
+@media (max-width: 1240px) {
+  :host {
+    display: none;
+  }
+}

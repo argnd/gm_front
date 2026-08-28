@@ -1,0 +1,10 @@
+<span
+  class="firefly-shell"
+  [class.is-hidden]="!visible()"
+  [style.transform]="'translate3d(' + x() + 'px, ' + y() + 'px, 0) scale(' + scale() + ')'"
+  [style.transition-duration]="speed() + 'ms, 240ms'"
+  [style.--fly-color]="color()"
+  [style.--fly-glow]="glow()"
+>
+  <span class="firefly"></span>
+</span>

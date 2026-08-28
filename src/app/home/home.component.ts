@@ -28,6 +28,7 @@ import {
   resolveAmbianceState,
 } from './ambiance/ambiance.engine';
 import { FxLayerComponent } from './ambiance/fx-layer.component';
+import { FireflyComponent } from './firefly/firefly.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StatsPanelComponent } from './stats-panel/stats-panel.component';
 import { ObjectsPanelComponent } from './objects-panel/objects-panel.component';
@@ -44,6 +45,7 @@ const ADVENTURE_OVER_DELAY_MS = 4_000;
   imports: [
     NgComponentOutlet,
     FxLayerComponent,
+    FireflyComponent,
     NavbarComponent,
     StatsPanelComponent,
     ObjectsPanelComponent,

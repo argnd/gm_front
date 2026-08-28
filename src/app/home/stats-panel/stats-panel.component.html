@@ -8,7 +8,12 @@
 
   <ul class="stat-list">
     @for (stat of statsEntries; track stat.name) {
-      <li class="stat" [class.is-high]="isHigh(stat.value)" [class.is-low]="isLow(stat.value)">
+      <li
+        class="stat"
+        [class.is-high]="isHigh(stat.value)"
+        [class.is-low]="isLow(stat.value)"
+        [attr.data-stat]="slug(stat.name)"
+      >
         <span class="stat-glyph" aria-hidden="true">{{ glyph(stat.name) }}</span>
         <span class="stat-name">{{ label(stat.name) }}</span>
         <span class="stat-value">{{ stat.value }}</span>

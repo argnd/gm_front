@@ -58,3 +58,11 @@
   opacity: 0.52;
   animation: gm-orbit linear infinite;
 }
+
+:host-context(.stat-health-low)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(115% 90% at 50% 42%, transparent 56%, rgba(255, 107, 107, 0.32) 100%);
+  animation: gm-lifeblood 5.2s ease-in-out infinite;
+}

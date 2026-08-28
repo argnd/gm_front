@@ -17,6 +17,7 @@ import {
   clamp01,
   isHighStat,
   isLowStat,
+  statSlug,
   tierOf,
 } from '../ambiance/ambiance.engine';
 
@@ -66,6 +67,10 @@ export class StatsPanelComponent {
 
   protected glyph(name: string): string {
     return STAT_GLYPHS[name] ?? '◆';
+  }
+
+  protected slug(name: string): string {
+    return statSlug(name);
   }
 
   protected signature(name: string): string {

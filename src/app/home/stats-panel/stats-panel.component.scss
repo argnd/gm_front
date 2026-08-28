@@ -97,6 +97,49 @@
   opacity: 0.5;
 }
 
+:host-context(.stat-health-high) .stat[data-stat='health'] {
+  position: relative;
+  z-index: 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 9px;
+    width: 140px;
+    height: 110px;
+    margin: -55px 0 0 -70px;
+    z-index: -1;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in srgb, var(--vital) 13%, transparent),
+      color-mix(in srgb, var(--vital) 5%, transparent) 42%,
+      transparent 74%
+    );
+    animation: gm-heartbeat 1.6s ease-in-out infinite;
+  }
+
+  .stat-glyph {
+    color: var(--vital);
+    text-shadow: 0 0 12px color-mix(in srgb, var(--vital) 70%, transparent);
+    animation: gm-heartbeat 1.6s ease-in-out infinite;
+  }
+}
+
+:host-context(.stat-health-low) .stat[data-stat='health'] .stat-glyph {
+  --flicker-base: 0.28;
+  --flicker-dim: 0.08;
+  animation: gm-flicker 5.4s linear infinite;
+}
+
+:host-context(.stat-health-low) .panel {
+  border-color: color-mix(in srgb, var(--danger) 26%, var(--line));
+  box-shadow:
+    var(--surface-shadow),
+    inset 0 0 0 1px color-mix(in srgb, var(--danger) 14%, transparent),
+    inset 0 0 30px color-mix(in srgb, var(--danger) 6%, transparent);
+}
+
 .stat-name {
   color: var(--text-soft);
   font-size: 0.86rem;

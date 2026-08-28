@@ -50,6 +50,8 @@ export const STAT_GLYPHS: Record<string, string> = copy.statGlyphs;
 
 export const STAT_SIGNATURES: Record<string, string> = copy.statSignatures;
 
+export const STAT_SIGNATURES_LOW: Record<string, string> = copy.statSignaturesLow;
+
 export type ActionCopy = {
   label: string;
   placeholder: string;
@@ -146,6 +148,14 @@ export function highStats(stats: readonly Stat[]): Stat[] {
   return stats.filter((stat) => isHighStat(stat.value));
 }
 
+export function isLowStat(value: number): boolean {
+  return value < STAT_LOW_THRESHOLD;
+}
+
+export function lowStats(stats: readonly Stat[]): Stat[] {
+  return stats.filter((stat) => isLowStat(stat.value));
+}
+
 export function ambianceClasses(
   ambiance: Ambiance | null,
   stats: readonly Stat[],
@@ -164,6 +174,7 @@ export function ambianceClasses(
 
   for (const stat of stats) {
     classes[`stat-${statSlug(stat.name)}-high`] = isHighStat(stat.value);
+    classes[`stat-${statSlug(stat.name)}-low`] = isLowStat(stat.value);
   }
 
   return classes;

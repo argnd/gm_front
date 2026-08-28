@@ -70,6 +70,25 @@
       background: linear-gradient(90deg, var(--accent), var(--accent-soft));
     }
   }
+
+  &.is-low {
+    .stat-name {
+      color: var(--text-dim);
+    }
+
+    .stat-value {
+      color: color-mix(in srgb, var(--danger) 62%, var(--text-dim));
+    }
+
+    .stat-glyph {
+      color: var(--text-dim);
+      opacity: 0.28;
+    }
+
+    .stat-fill {
+      background: color-mix(in srgb, var(--danger) 45%, transparent);
+    }
+  }
 }
 
 .stat-glyph {
@@ -194,4 +213,13 @@
 .signature-glyph {
   color: var(--accent);
   font-style: normal;
+}
+
+.signature--low {
+  color: color-mix(in srgb, var(--danger) 24%, var(--text-dim));
+
+  .signature-glyph {
+    color: var(--text-dim);
+    opacity: 0.55;
+  }
 }

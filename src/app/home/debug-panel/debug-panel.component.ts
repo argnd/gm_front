@@ -12,6 +12,7 @@ import {
   ambianceTotal,
   ambianceValue,
   isHighStat,
+  isLowStat,
   tierOf,
 } from '../ambiance/ambiance.engine';
 import { DebugHistoryComponent } from '../debug-history/debug-history.component';
@@ -74,6 +75,10 @@ export class DebugPanelComponent {
     return isHighStat(value);
   }
 
+  protected isLow(value: number): boolean {
+    return isLowStat(value);
+  }
+
   protected budgetFor(key: AmbianceKey): number {
     const current = this.current();
     const others = AMBIANCE_KEYS.filter((other) => other !== key).reduce(
@@ -128,6 +133,10 @@ export class DebugPanelComponent {
 
   protected lowerStats(): void {
     this.setAllStats(3);
+  }
+
+  protected drainStats(): void {
+    this.setAllStats(1);
   }
 
   protected onFocusOut(event: FocusEvent): void {

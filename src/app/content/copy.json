@@ -23,6 +23,14 @@
     "INT": "Des lignes de savoir relient chaque chose.",
     "Gold": "Une poussière d’or ne retombe jamais tout à fait."
   },
+  "statSignaturesLow": {
+    "Health": "Chaque pas coûte un peu de souffle.",
+    "Mana": "Les runes se sont tues, une à une.",
+    "STR": "Le moindre fardeau pèse comme une montagne.",
+    "AGI": "L’air s’épaissit autour de vos gestes.",
+    "INT": "Un brouillard s’attarde sur chaque pensée.",
+    "Gold": "Votre bourse ne pèse plus que son cuir."
+  },
   "ambianceLabels": {
     "romance": "Romance",
     "adventure": "Aventure",

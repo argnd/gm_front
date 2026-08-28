@@ -8,7 +8,7 @@
 
   <ul class="stat-list">
     @for (stat of statsEntries; track stat.name) {
-      <li class="stat" [class.is-high]="isHigh(stat.value)">
+      <li class="stat" [class.is-high]="isHigh(stat.value)" [class.is-low]="isLow(stat.value)">
         <span class="stat-glyph" aria-hidden="true">{{ glyph(stat.name) }}</span>
         <span class="stat-name">{{ label(stat.name) }}</span>
         <span class="stat-value">{{ stat.value }}</span>
@@ -40,12 +40,18 @@
     </div>
   }
 
-  @if (signatures.length) {
+  @if (signatures.length || lowSignatures.length) {
     <ul class="signatures">
       @for (stat of signatures; track stat.name) {
         <li class="signature">
           <span class="signature-glyph" aria-hidden="true">{{ glyph(stat.name) }}</span>
           <span>{{ signature(stat.name) }}</span>
+        </li>
+      }
+      @for (stat of lowSignatures; track stat.name) {
+        <li class="signature signature--low">
+          <span class="signature-glyph" aria-hidden="true">{{ glyph(stat.name) }}</span>
+          <span>{{ signatureLow(stat.name) }}</span>
         </li>
       }
     </ul>

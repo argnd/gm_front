@@ -72,7 +72,12 @@
               <label class="debug-name" [attr.for]="'stat-' + stat.name">
                 {{ statLabels[stat.name] ?? stat.name }}
               </label>
-              <span class="debug-value" [class.is-high]="isHigh(stat.value)">{{ stat.value }}</span>
+              <span
+                class="debug-value"
+                [class.is-high]="isHigh(stat.value)"
+                [class.is-low]="isLow(stat.value)"
+                >{{ stat.value }}</span
+              >
             </div>
 
             <input
@@ -93,6 +98,7 @@
         <button type="button" (click)="resetAmbiance()">Ambiance neutre</button>
         <button type="button" (click)="liftStats()">Toutes les stats à 9</button>
         <button type="button" (click)="lowerStats()">Toutes les stats à 3</button>
+        <button type="button" (click)="drainStats()">Toutes les stats à 1</button>
       </div>
     } @else {
       <app-debug-history [halfturns]="halfturns()" [turns]="turns()" />

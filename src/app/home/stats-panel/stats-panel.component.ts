@@ -12,9 +12,11 @@ import {
   STAT_LABELS,
   STAT_SCALE,
   STAT_SIGNATURES,
+  STAT_SIGNATURES_LOW,
   ambianceValue,
   clamp01,
   isHighStat,
+  isLowStat,
   tierOf,
 } from '../ambiance/ambiance.engine';
 
@@ -35,6 +37,7 @@ export class StatsPanelComponent {
   @Input() statsEntries: Stat[] = [];
   @Input() ambiance: Ambiance | null = null;
   @Input() signatures: Stat[] = [];
+  @Input() lowSignatures: Stat[] = [];
   @Input() disabled = false;
   @Output() randomize = new EventEmitter<void>();
 
@@ -69,6 +72,10 @@ export class StatsPanelComponent {
     return STAT_SIGNATURES[name] ?? '';
   }
 
+  protected signatureLow(name: string): string {
+    return STAT_SIGNATURES_LOW[name] ?? '';
+  }
+
   protected fill(value: number): string {
     return `${(clamp01(value / STAT_SCALE) * 100).toFixed(1)}%`;
   }
@@ -79,5 +86,9 @@ export class StatsPanelComponent {
 
   protected isHigh(value: number): boolean {
     return isHighStat(value);
+  }
+
+  protected isLow(value: number): boolean {
+    return isLowStat(value);
   }
 }

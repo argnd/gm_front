@@ -25,6 +25,7 @@ import {
   ambianceVars,
   dominantKey,
   highStats,
+  lowStats,
   resolveAmbianceState,
 } from './ambiance/ambiance.engine';
 import { FxLayerComponent } from './ambiance/fx-layer.component';
@@ -106,6 +107,8 @@ export class HomeComponent implements OnDestroy {
   protected readonly pageVars = computed(() => ambianceVars(this.ambiance()));
 
   protected readonly signatureStats = computed(() => highStats(this.statsEntries()));
+
+  protected readonly lowSignatureStats = computed(() => lowStats(this.statsEntries()));
 
   protected readonly actionCopy = computed(() => ACTION_COPY[this.dominant()]);
 

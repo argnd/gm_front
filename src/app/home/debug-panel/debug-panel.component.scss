@@ -133,6 +133,10 @@
   &.is-high {
     color: var(--accent);
   }
+
+  &.is-low {
+    color: color-mix(in srgb, var(--danger) 62%, var(--text-dim));
+  }
 }
 
 .debug-slider {

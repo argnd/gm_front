@@ -15,4 +15,6 @@
   } @else {
     <p class="objects-empty">Aucun objet pour l’instant.</p>
   }
+
+  <ng-container *ngComponentOutlet="decor(); inputs: { slot: 'objects', stage: decorStage() }" />
 </section>

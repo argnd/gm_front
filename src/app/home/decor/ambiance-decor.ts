@@ -7,7 +7,12 @@ export type AmbianceDecorSlot =
   | 'foot'
   | 'field-bloom-left'
   | 'field-bloom-right'
-  | 'answer';
+  | 'answer'
+  | 'navbar'
+  | 'stats'
+  | 'objects'
+  | 'trail'
+  | 'overlay';
 
 export const AMBIANCE_DECOR: Partial<Record<AmbianceKey | 'neutral', Type<unknown>>> = {
   neutral: NeutralDecorComponent,

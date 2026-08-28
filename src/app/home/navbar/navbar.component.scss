@@ -92,16 +92,6 @@
   }
 }
 
-:host-context(.amb-dominant-adventure.amb-adventure-3) .navbar {
-  border-bottom-color: rgba(255, 160, 74, 0.28);
-}
-
-:host-context(.amb-dominant-other.amb-other-3) .navbar {
-  border-bottom-color: transparent;
-  background: transparent;
-  backdrop-filter: none;
-}
-
 @media (max-width: 620px) {
   .user-name {
     display: none;

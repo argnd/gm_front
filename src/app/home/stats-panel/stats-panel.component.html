@@ -50,4 +50,6 @@
       }
     </ul>
   }
+
+  <ng-container *ngComponentOutlet="decor(); inputs: { slot: 'stats', stage: decorStage() }" />
 </section>

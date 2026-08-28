@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, Type, input } from '@angular/core';
+import { NgComponentOutlet } from '@angular/common';
 import { Stat, Ambiance } from '../../models/turn.model';
 import {
   AMBIANCE_KEYS,
@@ -25,6 +26,7 @@ type AmbianceRow = {
 
 @Component({
   selector: 'app-stats-panel',
+  imports: [NgComponentOutlet],
   templateUrl: './stats-panel.component.html',
   styleUrl: './stats-panel.component.scss',
 })
@@ -34,6 +36,9 @@ export class StatsPanelComponent {
   @Input() signatures: Stat[] = [];
   @Input() disabled = false;
   @Output() randomize = new EventEmitter<void>();
+
+  readonly decor = input<Type<unknown> | null>(null);
+  readonly decorStage = input(0);
 
   protected readonly thresholds = AMBIANCE_THRESHOLDS;
   protected readonly ambianceMax = AMBIANCE_MAX;

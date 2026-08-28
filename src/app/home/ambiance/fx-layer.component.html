@@ -4,54 +4,6 @@
   <span class="fx-dust" [style]="fleck.style"></span>
 }
 
-@if (romanceTier() >= 1) {
-  @for (fleck of petals(); track $index) {
-    <span class="fx-petal" [style]="fleck.style"></span>
-  }
-}
-
-@if (romanceTier() >= 2) {
-  <div class="fx-warmth fx-warmth--left"></div>
-  <div class="fx-warmth fx-warmth--right"></div>
-}
-
-@if (romanceTier() >= 3) {
-  <div class="fx-veil fx-veil--left"></div>
-  <div class="fx-veil fx-veil--right"></div>
-}
-
-@if (adventureTier() >= 1) {
-  @for (fleck of embers(); track $index) {
-    <span class="fx-ember" [style]="fleck.style"></span>
-  }
-}
-
-@if (adventureTier() >= 2) {
-  <div class="fx-map"></div>
-  @for (fleck of streaks(); track $index) {
-    <span class="fx-streak" [style]="fleck.style"></span>
-  }
-}
-
-@if (adventureTier() >= 3) {
-  <div class="fx-storm"></div>
-  <div class="fx-compass"></div>
-}
-
-@if (otherTier() >= 1) {
-  <div class="fx-paper"></div>
-}
-
-@if (otherTier() >= 2) {
-  @for (fleck of motes(); track $index) {
-    <span class="fx-mote" [style]="fleck.style"></span>
-  }
-}
-
-@if (otherTier() >= 3) {
-  <div class="fx-breath"></div>
-}
-
 @if (runes().length) {
   <div class="fx-orbit">
     @for (fleck of runes(); track $index) {

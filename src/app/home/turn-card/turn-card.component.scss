@@ -123,31 +123,6 @@
   }
 }
 
-:host-context(.amb-dominant-romance.amb-romance-3) {
-  .turn-answer::first-letter {
-    float: left;
-    margin: 6px 10px 0 0;
-    color: var(--romance-accent-soft);
-    font-size: 3.1rem;
-    line-height: 0.82;
-  }
-}
-
-:host-context(.amb-dominant-adventure.amb-adventure-2) .turn-head {
-  border-bottom-color: rgba(255, 205, 147, 0.28);
-}
-
-:host-context(.amb-dominant-other.amb-other-3) {
-  .turn-deltas {
-    border-top-color: transparent;
-    opacity: 0.6;
-  }
-
-  .turn-toggle {
-    border-color: transparent;
-  }
-}
-
 :host-context(.stat-gold-high) .turn-trim {
   box-shadow:
     inset 0 0 0 1px rgba(242, 193, 78, 0.4),

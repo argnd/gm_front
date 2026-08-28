@@ -1,4 +1,5 @@
 import { Component, OnDestroy, computed, inject, signal } from '@angular/core';
+import { NgComponentOutlet } from '@angular/common';
 import { AMBIANCE_DECOR } from './decor/ambiance-decor';
 import { finalize } from 'rxjs';
 import { AuthService } from '../core/auth.service';
@@ -36,6 +37,7 @@ const ADVENTURE_OVER_DELAY_MS = 4_000;
 @Component({
   selector: 'app-home',
   imports: [
+    NgComponentOutlet,
     FxLayerComponent,
     NavbarComponent,
     StatsPanelComponent,

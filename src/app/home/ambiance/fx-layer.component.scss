@@ -17,6 +17,32 @@
   transition: opacity 600ms ease;
 }
 
+.fx-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(115% 90% at 50% 42%, transparent 38%, #000 100%);
+  opacity: var(--vignette, 0.42);
+  transition: opacity 600ms ease;
+}
+
+.fx-dust,
+.fx-gold {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  animation: gm-drift linear infinite;
+}
+
+.fx-dust {
+  background: rgba(233, 237, 247, 0.75);
+}
+
+.fx-gold {
+  border-radius: 1px;
+  background: var(--gold);
+  box-shadow: 0 0 10px rgba(242, 193, 78, 0.85);
+}
+
 .fx-orbit {
   position: absolute;
   top: 50%;
@@ -32,184 +58,3 @@
   opacity: 0.52;
   animation: gm-orbit linear infinite;
 }
-
-.fx-vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(115% 90% at 50% 42%, transparent 38%, #000 100%);
-  opacity: var(--vignette, 0.42);
-  transition: opacity 600ms ease;
-}
-
-.fx-dust,
-.fx-mote,
-.fx-gold {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0;
-  animation: gm-drift linear infinite;
-}
-
-.fx-gold {
-  border-radius: 1px;
-  background: var(--gold);
-  box-shadow: 0 0 10px rgba(242, 193, 78, 0.85);
-}
-
-.fx-dust {
-  background: rgba(233, 237, 247, 0.75);
-}
-
-.fx-mote {
-  background: rgba(200, 219, 241, 0.9);
-  box-shadow: 0 0 8px rgba(200, 219, 241, 0.5);
-}
-
-.fx-petal {
-  position: absolute;
-  top: 0;
-  border-radius: 60% 8% 60% 8%;
-  background: linear-gradient(140deg, var(--romance-accent-soft), var(--romance-accent));
-  opacity: 0;
-  animation: gm-fall linear infinite;
-}
-
-.fx-warmth {
-  position: absolute;
-  width: 46vw;
-  height: 46vw;
-  border-radius: 50%;
-  filter: blur(90px);
-  background: radial-gradient(circle, rgba(255, 111, 159, 0.5), transparent 68%);
-  --min-opacity: calc(0.18 + 0.2 * var(--romance-band, 0));
-  --max-opacity: calc(0.4 + 0.3 * var(--romance-band, 0));
-  animation: gm-breathe 9s ease-in-out infinite;
-}
-
-.fx-warmth--left {
-  top: -14vw;
-  left: -14vw;
-}
-
-.fx-warmth--right {
-  right: -12vw;
-  bottom: -16vw;
-  animation-delay: -4.5s;
-}
-
-.fx-veil {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 26vw;
-  --min-opacity: 0.5;
-  --max-opacity: 0.82;
-  animation: gm-breathe 15s ease-in-out infinite;
-}
-
-.fx-veil--left {
-  left: 0;
-  background: linear-gradient(90deg, rgba(77, 18, 41, 0.95), rgba(77, 18, 41, 0));
-}
-
-.fx-veil--right {
-  right: 0;
-  background: linear-gradient(270deg, rgba(77, 18, 41, 0.95), rgba(77, 18, 41, 0));
-  animation-delay: -7s;
-}
-
-.fx-ember {
-  position: absolute;
-  bottom: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, #ffdaa2 0%, var(--adventure-accent) 52%, transparent 72%);
-  box-shadow: 0 0 9px rgba(255, 160, 74, 0.7);
-  opacity: 0;
-  animation: gm-rise linear infinite;
-}
-
-.fx-map {
-  position: absolute;
-  inset: -20%;
-  opacity: calc(0.09 + 0.13 * var(--adventure-band, 0));
-  background-image:
-    repeating-radial-gradient(
-      circle at 28% 62%,
-      transparent 0 26px,
-      rgba(255, 205, 147, 0.5) 26px 27px
-    ),
-    repeating-radial-gradient(
-      circle at 76% 26%,
-      transparent 0 34px,
-      rgba(255, 205, 147, 0.32) 34px 35px
-    );
-  animation: gm-sweep 44s ease-in-out infinite alternate;
-}
-
-.fx-streak {
-  position: absolute;
-  left: 0;
-  opacity: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--adventure-accent-soft), transparent);
-  animation: gm-streak linear infinite;
-}
-
-.fx-storm {
-  position: absolute;
-  inset: -30%;
-  opacity: 0.15;
-  background: repeating-linear-gradient(
-    72deg,
-    transparent 0 12px,
-    rgba(255, 205, 147, 0.35) 12px 13px
-  );
-  animation: gm-sweep 3.6s linear infinite alternate;
-}
-
-.fx-compass {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 78vmin;
-  height: 78vmin;
-  margin: -39vmin 0 0 -39vmin;
-  border: 1px solid rgba(255, 160, 74, 0.22);
-  border-radius: 50%;
-  opacity: 0.55;
-  animation: gm-spin 90s linear infinite;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 12%;
-    border: 1px dashed rgba(255, 205, 147, 0.18);
-    border-radius: 50%;
-  }
-
-  &::after {
-    inset: 30%;
-    border-style: solid;
-  }
-}
-
-.fx-paper {
-  position: absolute;
-  inset: 0;
-  opacity: calc(0.07 + 0.09 * var(--other-band, 0));
-  background-image:
-    repeating-linear-gradient(0deg, rgba(200, 219, 241, 0.16) 0 1px, transparent 1px 4px),
-    repeating-linear-gradient(90deg, rgba(200, 219, 241, 0.1) 0 1px, transparent 1px 5px);
-}
-
-.fx-breath {
-  position: absolute;
-  inset: -25%;
-  filter: blur(60px);
-  background: radial-gradient(45% 40% at 50% 50%, rgba(143, 178, 220, 0.3), transparent 70%);
-  --min-opacity: 0.3;
-  --max-opacity: 0.62;
-  animation: gm-breathe 18s ease-in-out infinite;
-}
-

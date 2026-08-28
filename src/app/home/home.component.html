@@ -1,8 +1,8 @@
 <div class="gm-page" [class]="pageClasses()" [style]="pageVars()">
-  <app-fx-layer [ambiance]="ambiance()" [stats]="statsEntries()" />
+  <app-fx-layer [stats]="statsEntries()" />
 
   <div class="gm-shell">
-    <app-navbar />
+    <app-navbar [decor]="decorComponent()" [decorStage]="floralStage()" />
 
     <div class="gm-stage">
       <aside class="gm-rail">
@@ -11,10 +11,16 @@
           [ambiance]="ambiance()"
           [signatures]="signatureStats()"
           [disabled]="controlsDisabled()"
+          [decor]="decorComponent()"
+          [decorStage]="floralStage()"
           (randomize)="randomizeStats()"
         />
 
-        <app-objects-panel [objects]="objectsEntries()" />
+        <app-objects-panel
+          [objects]="objectsEntries()"
+          [decor]="decorComponent()"
+          [decorStage]="floralStage()"
+        />
       </aside>
 
       <section class="gm-flow">
@@ -40,9 +46,15 @@
             }
           </ol>
           <span class="trail-count">{{ turnsPlayed() }} / {{ maxTurns }}</span>
+          <ng-container
+            *ngComponentOutlet="decorComponent(); inputs: { slot: 'trail', stage: floralStage() }"
+          />
         </div>
 
         <div class="narrative">
+          <ng-container
+            *ngComponentOutlet="decorComponent(); inputs: { slot: 'answer', stage: floralStage() }"
+          />
           @if (loading()) {
             <p class="state-msg gm-surface">Le Maître du Jeu écrit…</p>
           } @else if (error()) {
@@ -53,8 +65,6 @@
                 [turn]="turn"
                 [index]="reversedTurns().length - 1 - $index"
                 [isLast]="$first"
-                [decor]="decorComponent()"
-                [decorStage]="$first ? floralStage() : 0"
               />
             }
           } @else {
@@ -73,7 +83,11 @@
     </div>
   </div>
 
-  <app-adventure-over-overlay [visible]="adventureOver()" />
+  <app-adventure-over-overlay
+    [visible]="adventureOver()"
+    [decor]="decorComponent()"
+    [decorStage]="floralStage()"
+  />
 
   <app-debug-panel
     [ambiance]="ambiance()"

@@ -195,16 +195,3 @@
   color: var(--accent);
   font-style: normal;
 }
-
-:host-context(.amb-dominant-other.amb-other-2) .stat + .stat {
-  border-top-color: transparent;
-}
-
-:host-context(.amb-dominant-other.amb-other-3) .panel {
-  opacity: 0.72;
-  transition: opacity var(--speed-slow) ease;
-
-  &:hover {
-    opacity: 1;
-  }
-}

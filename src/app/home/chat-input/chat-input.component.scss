@@ -250,56 +250,6 @@
   }
 }
 
-:host-context(.amb-dominant-romance.amb-romance-2) .chatbox-input {
-  font-family: var(--narrative-font);
-  font-size: 1.02rem;
-}
-
-:host-context(.amb-dominant-romance.amb-romance-3) .chatbox-input {
-  border-color: rgba(255, 177, 203, 0.28);
-  background: rgba(28, 16, 24, 0.9);
-}
-
-:host-context(.amb-dominant-adventure.amb-adventure-2) {
-  .chatbox-input {
-    border-radius: 4px;
-  }
-
-  .chatbox-submit {
-    border-radius: 4px;
-  }
-}
-
-:host-context(.amb-dominant-adventure.amb-adventure-3) {
-  .chatbox-input {
-    font-family: var(--font-mono);
-    border-radius: 0;
-  }
-
-  .chatbox-submit {
-    border-radius: 0;
-    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
-  }
-}
-
-:host-context(.amb-dominant-other.amb-other-2) .chatbox-input {
-  border-color: transparent;
-  background: rgba(13, 18, 32, 0.72);
-}
-
-:host-context(.amb-dominant-other.amb-other-3) {
-  .chatbox-input {
-    border-color: rgba(151, 166, 196, 0.18);
-    background: rgba(8, 11, 20, 0.7);
-  }
-
-  .chatbox-submit {
-    background: transparent;
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-}
-
 :host-context(.stat-gold-high) .chatbox-trim {
   box-shadow:
     inset 0 0 0 1px rgba(242, 193, 78, 0.34),

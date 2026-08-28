@@ -1,14 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 import fx from '../../content/fx.json';
-import { Ambiance, Stat } from '../../models/turn.model';
-import {
-  AmbianceKey,
-  ambianceValue,
-  bandProgress,
-  isHighStat,
-  statValue,
-  tierOf,
-} from './ambiance.engine';
+import { Stat } from '../../models/turn.model';
+import { isHighStat, statValue } from './ambiance.engine';
 
 type Fleck = {
   glyph?: string;
@@ -16,9 +9,6 @@ type Fleck = {
 };
 
 const RUNES = fx.runes;
-const PETALS_PER_TIER = fx.perTier.petals;
-const EMBERS_PER_TIER = fx.perTier.embers;
-const MOTES_PER_TIER = fx.perTier.motes;
 
 @Component({
   selector: 'app-fx-layer',
@@ -27,12 +17,7 @@ const MOTES_PER_TIER = fx.perTier.motes;
   host: { class: 'gm-fx', 'aria-hidden': 'true' },
 })
 export class FxLayerComponent {
-  readonly ambiance = input<Ambiance | null>(null);
   readonly stats = input<readonly Stat[]>([]);
-
-  protected readonly romanceTier = computed(() => this.tier('romance'));
-  protected readonly adventureTier = computed(() => this.tier('adventure'));
-  protected readonly otherTier = computed(() => this.tier('other'));
 
   protected readonly dust = computed(() =>
     build(11, 'dust', (rand) => ({
@@ -49,68 +34,6 @@ export class FxLayerComponent {
       },
     })),
   );
-
-  protected readonly petals = computed(() => {
-    const tier = this.romanceTier();
-    const peak = 0.3 + this.band('romance') * 0.4;
-    return build(PETALS_PER_TIER[tier], 'petal', (rand) => ({
-      style: {
-        left: pct(rand(0)),
-        '--drift': px(-90 + rand(1) * 180),
-        '--peak': (peak * (0.55 + rand(2) * 0.45)).toFixed(3),
-        width: px(7 + rand(3) * 9),
-        height: px(9 + rand(4) * 11),
-        'animation-duration': secs(11 + rand(5) * 12),
-        'animation-delay': secs(-rand(6) * 20),
-      },
-    }));
-  });
-
-  protected readonly embers = computed(() => {
-    const tier = this.adventureTier();
-    const peak = 0.35 + this.band('adventure') * 0.45;
-    return build(EMBERS_PER_TIER[tier], 'ember', (rand) => ({
-      style: {
-        left: pct(rand(0)),
-        '--drift': px(-70 + rand(1) * 140),
-        '--peak': (peak * (0.5 + rand(2) * 0.5)).toFixed(3),
-        width: px(2 + rand(3) * 4),
-        height: px(2 + rand(3) * 4),
-        'animation-duration': secs(7 + rand(4) * 9),
-        'animation-delay': secs(-rand(5) * 14),
-      },
-    }));
-  });
-
-  protected readonly streaks = computed(() =>
-    build(this.adventureTier() >= 2 ? 6 : 0, 'streak', (rand) => ({
-      style: {
-        top: pct(rand(0)),
-        '--peak': (0.12 + rand(1) * 0.2).toFixed(3),
-        width: px(120 + rand(2) * 220),
-        'animation-duration': secs(5 + rand(3) * 6),
-        'animation-delay': secs(-rand(4) * 12),
-      },
-    })),
-  );
-
-  protected readonly motes = computed(() => {
-    const tier = this.otherTier();
-    const peak = 0.16 + this.band('other') * 0.2;
-    return build(MOTES_PER_TIER[tier], 'mote', (rand) => ({
-      style: {
-        left: pct(rand(0)),
-        top: pct(rand(1)),
-        '--drift': px(-60 + rand(2) * 120),
-        '--lift': px(80 + rand(3) * 160),
-        '--peak': (peak * (0.5 + rand(4) * 0.5)).toFixed(3),
-        width: px(3 + rand(5) * 4),
-        height: px(3 + rand(5) * 4),
-        'animation-duration': secs(22 + rand(6) * 20),
-        'animation-delay': secs(-rand(7) * 30),
-      },
-    }));
-  });
 
   protected readonly runes = computed(() =>
     build(this.hasHigh('Mana') ? RUNES.length : 0, 'rune', (rand, index) => ({
@@ -139,14 +62,6 @@ export class FxLayerComponent {
       },
     })),
   );
-
-  private tier(key: AmbianceKey): number {
-    return tierOf(ambianceValue(this.ambiance(), key));
-  }
-
-  private band(key: AmbianceKey): number {
-    return bandProgress(ambianceValue(this.ambiance(), key));
-  }
 
   private hasHigh(name: string): boolean {
     return isHighStat(statValue(this.stats(), name));

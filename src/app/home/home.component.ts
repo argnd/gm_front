@@ -29,6 +29,7 @@ import {
   resolveAmbianceState,
 } from './ambiance/ambiance.engine';
 import { FxLayerComponent } from './ambiance/fx-layer.component';
+import { PlayFieldDirective } from './ambiance/play-field.directive';
 import { FireflyComponent } from './firefly/firefly.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StatsPanelComponent } from './stats-panel/stats-panel.component';
@@ -46,6 +47,7 @@ const ADVENTURE_OVER_DELAY_MS = 4_000;
   imports: [
     NgComponentOutlet,
     FxLayerComponent,
+    PlayFieldDirective,
     FireflyComponent,
     NavbarComponent,
     StatsPanelComponent,
@@ -75,6 +77,11 @@ export class HomeComponent implements OnDestroy {
   protected readonly objects = signal<Map<string, string>>(new Map());
   protected readonly ambiance = signal<Ambiance>(DEFAULT_AMBIANCE);
   protected readonly adventureOver = signal(false);
+  protected readonly debugSurfaceOpacity = signal(100);
+  protected readonly debugBorderOpacity = signal(100);
+  protected readonly debugShadowOpacity = signal(100);
+  protected readonly debugFieldDim = signal(25);
+  protected readonly debugFieldFeather = signal(40);
 
   protected readonly statsEntries = computed(() =>
     Array.from(this.stats().entries()).map(([name, value]) => ({ name, value })),
@@ -268,6 +275,7 @@ export class HomeComponent implements OnDestroy {
   }
 }
 
+//todo utiliser la structure de donénes quand le backend sera mis à jour pour renvoyer les stats et ambiance dans le payload de réponse, plutôt que de les extraire du texte de l'answer
 function processPayload(payload: AnswerPayload): AnswerPayload {
   return {
     ...payload,

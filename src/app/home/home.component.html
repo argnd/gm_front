@@ -1,4 +1,13 @@
-<div class="gm-page" [class]="pageClasses()" [style]="pageVars()">
+<div
+  class="gm-page"
+  [class]="pageClasses()"
+  [style]="pageVars()"
+  [style.--surface-alpha]="debugSurfaceOpacity() === 100 ? null : debugSurfaceOpacity() / 100"
+  [style.--border-alpha]="debugBorderOpacity() === 100 ? null : debugBorderOpacity() / 100"
+  [style.--shadow-alpha]="debugShadowOpacity() === 100 ? null : debugShadowOpacity() / 100"
+  [style.--field-dim]="debugFieldDim() === 25 ? null : debugFieldDim() / 100"
+  [style.--field-feather]="debugFieldFeather() === 40 ? null : debugFieldFeather() + 'px'"
+>
   <app-fx-layer [stats]="statsEntries()" [decor]="decorComponent()" [decorData]="decorData()" />
 
   <div class="gm-shell">
@@ -8,6 +17,7 @@
       <aside class="gm-rail">
         <app-firefly [ambiance]="ambiance()" />
         <app-stats-panel
+          gmPlayField
           [statsEntries]="statsEntries()"
           [ambiance]="ambiance()"
           [signatures]="signatureStats()"
@@ -19,6 +29,7 @@
         />
 
         <app-objects-panel
+          gmPlayField
           [objects]="objectsEntries()"
           [decor]="decorComponent()"
           [decorData]="decorData()"
@@ -27,6 +38,7 @@
 
       <section class="gm-flow">
         <app-chat-input
+          gmPlayField
           [prompt]="prompt()"
           [copy]="actionCopy()"
           [dominant]="dominant()"
@@ -53,6 +65,7 @@
         </div>
 
         <app-rolls-panel
+          gmPlayField
           [rolls]="rollEntries()"
           [decor]="decorComponent()"
           [decorData]="decorData()"
@@ -67,19 +80,20 @@
         <div class="narrative">
           <ng-container *ngComponentOutlet="decorComponent(); inputs: decorInputs('answer')" />
           @if (loading()) {
-            <p class="state-msg gm-surface">Le Maître du Jeu écrit…</p>
+            <p class="state-msg gm-surface" gmPlayField>Le Maître du Jeu écrit…</p>
           } @else if (error()) {
             <p class="state-msg state-msg--error">{{ error() }}</p>
           } @else if (reversedTurns().length) {
             @for (turn of reversedTurns(); track $index) {
               <app-turn-card
+                gmPlayField
                 [turn]="turn"
                 [index]="reversedTurns().length - 1 - $index"
                 [isLast]="$first"
               />
             }
           } @else {
-            <div class="state-msg gm-surface">
+            <div class="state-msg gm-surface" gmPlayField>
               <p>L’histoire n’a pas encore commencé. Décrivez votre première action.</p>
               <p class="intro-hint">
                 Votre Maître du Jeu est une intelligence artificielle. Écrivez librement ce que
@@ -108,5 +122,10 @@
     [turns]="turns()"
     (ambianceChange)="overrideAmbiance($event)"
     (statsChange)="overrideStats($event)"
+    (surfaceOpacityChange)="debugSurfaceOpacity.set($event)"
+    (borderOpacityChange)="debugBorderOpacity.set($event)"
+    (shadowOpacityChange)="debugShadowOpacity.set($event)"
+    (fieldDimChange)="debugFieldDim.set($event)"
+    (fieldFeatherChange)="debugFieldFeather.set($event)"
   />
 </div>

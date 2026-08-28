@@ -74,7 +74,7 @@ export function extractStatsFromAnswer(answer: string): {
   cleanAnswer: string;
 } {
   const trimmed = answer.trimStart();
-  const none = { stats: null, ambiance: null, cleanAnswer: answer };
+  const none = {stats: null, ambiance: null, cleanAnswer: answer};
 
   // Support ```json ... ``` fenced code block
   const fenceMatch = trimmed.match(/^```json\s*([\s\S]*?)\s*```\s*/);
@@ -126,7 +126,7 @@ function extractFromParsed(
   cleanAnswer: string,
 ): { stats: Stat[] | null; ambiance: Ambiance | null; cleanAnswer: string } | null {
   if (Array.isArray(parsed)) {
-    return { stats: parsed as Stat[], ambiance: null, cleanAnswer };
+    return {stats: parsed as Stat[], ambiance: null, cleanAnswer};
   }
   if (parsed && typeof parsed === 'object' && 'stats' in parsed) {
     const obj = parsed as Record<string, unknown>;

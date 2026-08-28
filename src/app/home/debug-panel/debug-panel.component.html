@@ -20,6 +20,15 @@
       <button
         type="button"
         role="tab"
+        [class.is-active]="tab() === 'rendu'"
+        [attr.aria-selected]="tab() === 'rendu'"
+        (click)="selectTab('rendu')"
+      >
+        Rendu
+      </button>
+      <button
+        type="button"
+        role="tab"
         [class.is-active]="tab() === 'echanges'"
         [attr.aria-selected]="tab() === 'echanges'"
         (click)="selectTab('echanges')"
@@ -29,6 +38,21 @@
     </div>
 
     @if (tab() === 'ambiance') {
+      <div class="debug-state">
+        <label class="debug-name" for="amb-state">État</label>
+        <select
+          id="amb-state"
+          class="debug-select"
+          [value]="currentState()"
+          (change)="onStateSelect($event)"
+        >
+          @for (preset of statePresets; track preset.key) {
+            <option [value]="preset.key">{{ preset.label }}</option>
+          }
+        </select>
+        <span class="debug-state-key">{{ currentState() }}</span>
+      </div>
+
       @for (key of keys; track key) {
         <div class="debug-row">
           <div class="debug-row-head">
@@ -72,6 +96,10 @@
               <label class="debug-name" [attr.for]="'stat-' + stat.name">
                 {{ statLabels[stat.name] ?? stat.name }}
               </label>
+              <span class="debug-stat-set">
+                <button type="button" (click)="setStat(stat.name, 1)">1</button>
+                <button type="button" (click)="setStat(stat.name, 9)">9</button>
+              </span>
               <span
                 class="debug-value"
                 [class.is-high]="isHigh(stat.value)"
@@ -99,6 +127,118 @@
         <button type="button" (click)="liftStats()">Toutes les stats à 9</button>
         <button type="button" (click)="lowerStats()">Toutes les stats à 3</button>
         <button type="button" (click)="drainStats()">Toutes les stats à 1</button>
+      </div>
+    } @else if (tab() === 'rendu') {
+      <div class="debug-render">
+        <div class="debug-row debug-row--compact">
+          <div class="debug-row-head">
+            <label class="debug-name" for="render-opacity">Opacité des surfaces</label>
+            <span class="debug-value">{{ surfaceOpacity() }}%</span>
+          </div>
+          <input
+            class="debug-slider"
+            id="render-opacity"
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            [value]="surfaceOpacity()"
+            (input)="onSurfaceOpacity($event)"
+          />
+          <div class="debug-presets">
+            <button type="button" (click)="applySurfaceOpacity(0)">0</button>
+            <button type="button" (click)="applySurfaceOpacity(45)">45</button>
+            <button type="button" (click)="applySurfaceOpacity(100)">100</button>
+          </div>
+        </div>
+
+        <div class="debug-row debug-row--compact">
+          <div class="debug-row-head">
+            <label class="debug-name" for="render-border">Opacité des bordures</label>
+            <span class="debug-value">{{ borderOpacity() }}%</span>
+          </div>
+          <input
+            class="debug-slider"
+            id="render-border"
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            [value]="borderOpacity()"
+            (input)="onBorderOpacity($event)"
+          />
+          <div class="debug-presets">
+            <button type="button" (click)="applyBorderOpacity(0)">0</button>
+            <button type="button" (click)="applyBorderOpacity(50)">50</button>
+            <button type="button" (click)="applyBorderOpacity(100)">100</button>
+          </div>
+        </div>
+
+        <div class="debug-row debug-row--compact">
+          <div class="debug-row-head">
+            <label class="debug-name" for="render-shadow">Ombre des surfaces</label>
+            <span class="debug-value">{{ shadowOpacity() }}%</span>
+          </div>
+          <input
+            class="debug-slider"
+            id="render-shadow"
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            [value]="shadowOpacity()"
+            (input)="onShadowOpacity($event)"
+          />
+          <div class="debug-presets">
+            <button type="button" (click)="applyShadowOpacity(0)">0</button>
+            <button type="button" (click)="applyShadowOpacity(50)">50</button>
+            <button type="button" (click)="applyShadowOpacity(100)">100</button>
+          </div>
+        </div>
+
+        <div class="debug-row debug-row--compact">
+          <div class="debug-row-head">
+            <label class="debug-name" for="render-dim">Plancher sous les champs</label>
+            <span class="debug-value">{{ fieldDim() }}%</span>
+          </div>
+          <input
+            class="debug-slider"
+            id="render-dim"
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            [value]="fieldDim()"
+            (input)="onFieldDim($event)"
+          />
+          <div class="debug-presets">
+            <button type="button" (click)="applyFieldDim(0)">0</button>
+            <button type="button" (click)="applyFieldDim(50)">50</button>
+            <button type="button" (click)="applyFieldDim(100)">100</button>
+          </div>
+        </div>
+
+        <div class="debug-row debug-row--compact">
+          <div class="debug-row-head">
+            <label class="debug-name" for="render-feather">Fondu d’approche</label>
+            <span class="debug-value">{{ fieldFeather() }}px</span>
+          </div>
+          <input
+            class="debug-slider"
+            id="render-feather"
+            type="range"
+            min="0"
+            max="120"
+            step="4"
+            [value]="fieldFeather()"
+            (input)="onFieldFeather($event)"
+          />
+          <div class="debug-presets">
+            <button type="button" (click)="applyFieldFeather(0)">0</button>
+            <button type="button" (click)="applyFieldFeather(50)">50</button>
+            <button type="button" (click)="applyFieldFeather(100)">100</button>
+          </div>
+        </div>
       </div>
     } @else {
       <app-debug-history [halfturns]="halfturns()" [turns]="turns()" />

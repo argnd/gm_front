@@ -1,33 +1,53 @@
 <div class="fx-felt"></div>
 
-@for (fleck of dust(); track $index) {
-  <span class="fx-dust" [style]="fleck.style"></span>
-}
+<div class="fx-weather">
+  @for (fleck of dust(); track $index) {
+    <span class="fx-dust" [style]="fleck.style"></span>
+  }
 
-@if (runes().length) {
-  <div class="fx-orbit" animate.enter="gm-appear" animate.leave="gm-vanish">
-    @for (fleck of runes(); track $index) {
-      <span class="fx-rune" [style]="fleck.style">{{ fleck.glyph }}</span>
-    }
-  </div>
-}
+  @if (runes().length) {
+    <div class="fx-orbit" animate.enter="gm-appear" animate.leave="gm-vanish">
+      @for (fleck of runes(); track $index) {
+        <span class="fx-rune" [style]="fleck.style">{{ fleck.glyph }}</span>
+      }
+    </div>
+  }
 
-@if (goldFlakes().length) {
-  <div class="fx-fall" animate.enter="gm-appear" animate.leave="gm-vanish">
-    @for (fleck of goldFlakes(); track $index) {
-      <span class="fx-gold" [style]="fleck.style"></span>
-    }
-  </div>
-}
+  @if (goldFlakes().length) {
+    <div class="fx-fall" animate.enter="gm-appear" animate.leave="gm-vanish">
+      @for (fleck of goldFlakes(); track $index) {
+        <span class="fx-gold" [style]="fleck.style"></span>
+      }
+    </div>
+  }
 
-@if (fallenRunes().length) {
-  <div class="fx-fallen" animate.enter="gm-appear" animate.leave="gm-vanish">
-    @for (rune of fallenRunes(); track $index) {
-      <span class="fx-rune-fallen" [style]="rune.style">{{ rune.glyph }}</span>
-    }
-  </div>
-}
+  @if (fallenRunes().length) {
+    <div class="fx-fallen" animate.enter="gm-appear" animate.leave="gm-vanish">
+      @for (rune of fallenRunes(); track $index) {
+        <span class="fx-rune-fallen" [style]="rune.style">{{ rune.glyph }}</span>
+      }
+    </div>
+  }
 
-<ng-container *ngComponentOutlet="decor(); inputs: decorInputs('fx')" />
+  <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('fx')" />
+</div>
+
+<svg class="fx-mask" width="0" height="0" aria-hidden="true">
+  <defs>
+    <mask id="gm-field-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="10000" height="10000">
+      <rect class="fx-mask-bg" x="0" y="0" width="10000" height="10000" />
+      @for (rect of fieldRects(); track $index) {
+        <rect
+          class="fx-mask-field"
+          [attr.x]="rect.x"
+          [attr.y]="rect.y"
+          [attr.width]="rect.w"
+          [attr.height]="rect.h"
+          rx="14"
+        />
+      }
+    </mask>
+  </defs>
+</svg>
 
 <div class="fx-vignette"></div>

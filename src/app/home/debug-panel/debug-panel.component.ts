@@ -7,12 +7,14 @@ import {
   AMBIANCE_MAX_TOTAL,
   AMBIANCE_THRESHOLDS,
   AmbianceKey,
+  AmbianceState,
   STAT_HIGH_THRESHOLD,
   STAT_LABELS,
   ambianceTotal,
   ambianceValue,
   isHighStat,
   isLowStat,
+  resolveAmbianceState,
   tierOf,
 } from '../ambiance/ambiance.engine';
 import { DebugHistoryComponent } from '../debug-history/debug-history.component';
@@ -20,7 +22,60 @@ import { DebugHistoryComponent } from '../debug-history/debug-history.component'
 const STAT_SLIDER_MAX = 12;
 const PRESET_VALUES = [0, 29, 59, 89] as const;
 
-type DebugTab = 'ambiance' | 'echanges';
+type DebugTab = 'ambiance' | 'rendu' | 'echanges';
+
+type StatePreset = { key: AmbianceState; label: string; ambiance: Ambiance };
+
+const STATE_PRESETS: StatePreset[] = [
+  { key: 'neutral', label: 'Neutre', ambiance: { romance: 10, adventure: 10, other: 10 } },
+  { key: 'romance-1', label: '1R', ambiance: { romance: 45, adventure: 10, other: 10 } },
+  { key: 'adventure-1', label: '1A', ambiance: { romance: 10, adventure: 45, other: 10 } },
+  { key: 'other-1', label: '1O', ambiance: { romance: 10, adventure: 10, other: 45 } },
+  { key: 'romance-2', label: '2R', ambiance: { romance: 65, adventure: 10, other: 10 } },
+  { key: 'adventure-2', label: '2A', ambiance: { romance: 10, adventure: 65, other: 10 } },
+  { key: 'other-2', label: '2O', ambiance: { romance: 10, adventure: 10, other: 65 } },
+  { key: 'romance-3', label: '3R', ambiance: { romance: 90, adventure: 5, other: 5 } },
+  { key: 'adventure-3', label: '3A', ambiance: { romance: 5, adventure: 90, other: 5 } },
+  { key: 'other-3', label: '3O', ambiance: { romance: 5, adventure: 5, other: 90 } },
+  {
+    key: 'romance-1-adventure-1',
+    label: '1R + 1A',
+    ambiance: { romance: 40, adventure: 35, other: 10 },
+  },
+  { key: 'romance-1-other-1', label: '1R + 1O', ambiance: { romance: 40, adventure: 10, other: 35 } },
+  {
+    key: 'adventure-1-other-1',
+    label: '1A + 1O',
+    ambiance: { romance: 10, adventure: 40, other: 35 },
+  },
+  {
+    key: 'romance-1-adventure-1-other-1',
+    label: '1R + 1A + 1O',
+    ambiance: { romance: 33, adventure: 33, other: 33 },
+  },
+  {
+    key: 'romance-2-adventure-1',
+    label: '2R + 1A',
+    ambiance: { romance: 60, adventure: 35, other: 5 },
+  },
+  { key: 'romance-2-other-1', label: '2R + 1O', ambiance: { romance: 60, adventure: 5, other: 35 } },
+  {
+    key: 'adventure-2-romance-1',
+    label: '2A + 1R',
+    ambiance: { romance: 35, adventure: 60, other: 5 },
+  },
+  {
+    key: 'adventure-2-other-1',
+    label: '2A + 1O',
+    ambiance: { romance: 5, adventure: 60, other: 35 },
+  },
+  { key: 'other-2-romance-1', label: '2O + 1R', ambiance: { romance: 35, adventure: 5, other: 60 } },
+  {
+    key: 'other-2-adventure-1',
+    label: '2O + 1A',
+    ambiance: { romance: 5, adventure: 35, other: 60 },
+  },
+];
 
 @Component({
   selector: 'app-debug-panel',
@@ -42,6 +97,11 @@ export class DebugPanelComponent {
 
   readonly ambianceChange = output<Ambiance>();
   readonly statsChange = output<Stat[]>();
+  readonly surfaceOpacityChange = output<number>();
+  readonly borderOpacityChange = output<number>();
+  readonly shadowOpacityChange = output<number>();
+  readonly fieldDimChange = output<number>();
+  readonly fieldFeatherChange = output<number>();
 
   protected readonly keys = AMBIANCE_KEYS;
   protected readonly labels = AMBIANCE_LABELS;
@@ -54,6 +114,16 @@ export class DebugPanelComponent {
   protected readonly highThreshold = STAT_HIGH_THRESHOLD;
 
   protected readonly tab = signal<DebugTab>('ambiance');
+
+  protected readonly statePresets = STATE_PRESETS;
+
+  protected readonly currentState = computed(() => resolveAmbianceState(this.ambiance()));
+
+  protected readonly surfaceOpacity = signal(100);
+  protected readonly borderOpacity = signal(100);
+  protected readonly shadowOpacity = signal(100);
+  protected readonly fieldDim = signal(25);
+  protected readonly fieldFeather = signal(40);
 
   protected readonly total = computed(() => ambianceTotal(this.current()));
 
@@ -137,6 +207,63 @@ export class DebugPanelComponent {
 
   protected drainStats(): void {
     this.setAllStats(1);
+  }
+
+  protected onStateSelect(event: Event): void {
+    const key = (event.target as HTMLSelectElement).value;
+    const preset = STATE_PRESETS.find((entry) => entry.key === key);
+    if (preset) this.ambianceChange.emit({ ...preset.ambiance });
+  }
+
+  protected setStat(name: string, value: number): void {
+    this.statsChange.emit(
+      this.stats().map((stat) => (stat.name === name ? { name, value } : { ...stat })),
+    );
+  }
+
+  protected onSurfaceOpacity(event: Event): void {
+    this.applySurfaceOpacity(Math.round(readNumber(event)));
+  }
+
+  protected applySurfaceOpacity(value: number): void {
+    this.surfaceOpacity.set(value);
+    this.surfaceOpacityChange.emit(value);
+  }
+
+  protected onBorderOpacity(event: Event): void {
+    this.applyBorderOpacity(Math.round(readNumber(event)));
+  }
+
+  protected applyBorderOpacity(value: number): void {
+    this.borderOpacity.set(value);
+    this.borderOpacityChange.emit(value);
+  }
+
+  protected onShadowOpacity(event: Event): void {
+    this.applyShadowOpacity(Math.round(readNumber(event)));
+  }
+
+  protected applyShadowOpacity(value: number): void {
+    this.shadowOpacity.set(value);
+    this.shadowOpacityChange.emit(value);
+  }
+
+  protected onFieldDim(event: Event): void {
+    this.applyFieldDim(Math.round(readNumber(event)));
+  }
+
+  protected applyFieldDim(value: number): void {
+    this.fieldDim.set(value);
+    this.fieldDimChange.emit(value);
+  }
+
+  protected onFieldFeather(event: Event): void {
+    this.applyFieldFeather(Math.round(readNumber(event)));
+  }
+
+  protected applyFieldFeather(value: number): void {
+    this.fieldFeather.set(value);
+    this.fieldFeatherChange.emit(value);
   }
 
   protected onFocusOut(event: FocusEvent): void {

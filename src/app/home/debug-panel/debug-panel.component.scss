@@ -139,6 +139,69 @@
   }
 }
 
+.debug-state {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  .debug-name {
+    flex: none;
+  }
+}
+
+.debug-select {
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-sunken);
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--accent);
+  }
+}
+
+.debug-state-key {
+  overflow: hidden;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.debug-stat-set {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+
+  button {
+    padding: 1px 7px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-dim);
+    font: inherit;
+    font-size: 0.68rem;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+  }
+}
+
+.debug-render {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .debug-slider {
   width: 100%;
   height: 18px;

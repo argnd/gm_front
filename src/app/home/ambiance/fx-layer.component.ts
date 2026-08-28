@@ -1,8 +1,9 @@
-import { Component, Type, computed, input } from '@angular/core';
+import { Component, Type, computed, inject, input } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import fx from '../../content/fx.json';
 import { Stat } from '../../models/turn.model';
 import { isHighStat, isLowStat, statValue } from './ambiance.engine';
+import { FieldMaskService } from './field-mask.service';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
 type Fleck = {
@@ -21,6 +22,8 @@ const RUNES = fx.runes;
 })
 export class FxLayerComponent {
   readonly stats = input<readonly Stat[]>([]);
+
+  protected readonly fieldRects = inject(FieldMaskService).rects;
 
   readonly decor = input<Type<unknown> | null>(null);
   readonly decorData = input<AmbianceDecorData>(EMPTY_DECOR_DATA);

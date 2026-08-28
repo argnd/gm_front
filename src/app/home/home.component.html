@@ -21,6 +21,8 @@
         <app-chat-input
           [prompt]="prompt()"
           [copy]="actionCopy()"
+          [dominant]="dominant()"
+          [stage]="floralStage()"
           [disabled]="controlsDisabled()"
           [loading]="loading()"
           (promptChange)="updatePrompt($event)"
@@ -51,6 +53,8 @@
                 [turn]="turn"
                 [index]="reversedTurns().length - 1 - $index"
                 [isLast]="$first"
+                [decor]="decorComponent()"
+                [decorStage]="$first ? floralStage() : 0"
               />
             }
           } @else {

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, computed, inject, signal } from '@angular/core';
+import { AMBIANCE_DECOR } from './decor/ambiance-decor';
 import { finalize } from 'rxjs';
 import { AuthService } from '../core/auth.service';
 import { ApiService } from '../core/api.service';
@@ -16,6 +17,7 @@ import {
   STAT_NAMES,
   STAT_ROLL,
   ambianceClasses,
+  ambianceTotal,
   ambianceVars,
   dominantKey,
   highStats,
@@ -88,6 +90,12 @@ export class HomeComponent implements OnDestroy {
   protected readonly signatureStats = computed(() => highStats(this.statsEntries()));
 
   protected readonly actionCopy = computed(() => ACTION_COPY[this.dominant()]);
+
+  protected readonly floralStage = computed(() =>
+    Math.max(0, Math.min(3, Math.floor(ambianceTotal(this.ambiance()) / 10) - 5)),
+  );
+
+  protected readonly decorComponent = computed(() => AMBIANCE_DECOR[this.dominant()] ?? null);
 
   protected readonly turnsPlayed = computed(() => this.turns().length);
 

@@ -3,6 +3,6 @@
   "maxTurns": 20,
   "defaultAmbiance": { "romance": 10, "adventure": 10, "other": 10 },
   "ambiance": { "thresholds": [30, 60, 90], "max": 100, "maxTotal": 100 },
-  "stats": { "highThreshold": 8, "lowThreshold": 3, "scale": 10 },
+  "stats": { "highThreshold": 8, "lowThreshold": 2, "scale": 10 },
   "statRoll": { "min": 1, "max": 10, "minimums": { "Health": 5 } }
 }

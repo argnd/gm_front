@@ -36,6 +36,8 @@ export type ActionCopy = {
 
 export const ACTION_COPY: Record<AmbianceKey | 'neutral', ActionCopy> = copy.actionCopy;
 
+export const ACTION_HINTS: Record<AmbianceKey | 'neutral', string[]> = copy.actionHints;
+
 export function clamp01(value: number): number {
   if (!Number.isFinite(value)) return 0;
   return Math.min(1, Math.max(0, value));

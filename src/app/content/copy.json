@@ -28,6 +28,33 @@
     "adventure": "Aventure",
     "other": "Autre"
   },
+  "actionHints": {
+    "neutral": [
+      "Pousser la porte de l’auberge…",
+      "Interroger le tavernier sur les rumeurs…",
+      "Examiner la carte trouvée dans le coffre…",
+      "Suivre le sentier qui s’enfonce dans les bois…",
+      "Tendre l’oreille vers la table voisine…"
+    ],
+    "romance": [
+      "Soutenir son regard un instant de trop…",
+      "Glisser un mot plié dans sa main…",
+      "L’inviter à marcher sous les lanternes…",
+      "Avouer ce qui aurait dû rester tu…"
+    ],
+    "adventure": [
+      "Escalader la falaise avant la nuit…",
+      "Dégainer et faire face…",
+      "Franchir le pont suspendu malgré le vent…",
+      "Traquer la créature jusqu’à son antre…"
+    ],
+    "other": [
+      "Déchiffrer les runes du vieux grimoire…",
+      "Marchander l’amulette au bazar…",
+      "Méditer près de la source claire…",
+      "Cartographier les ruines silencieuses…"
+    ]
+  },
   "actionCopy": {
     "neutral": {
       "label": "Votre action",

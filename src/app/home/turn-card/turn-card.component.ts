@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges, signal } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, Type, input, signal } from '@angular/core';
+import { NgComponentOutlet } from '@angular/common';
 import { Turn } from '../../models/turn.model';
 import { AMBIANCE_KEYS, AMBIANCE_LABELS, STAT_LABELS } from '../ambiance/ambiance.engine';
 
@@ -11,6 +12,7 @@ type Delta = {
 
 @Component({
   selector: 'app-turn-card',
+  imports: [NgComponentOutlet],
   templateUrl: './turn-card.component.html',
   styleUrl: './turn-card.component.scss',
 })
@@ -18,6 +20,9 @@ export class TurnCardComponent implements OnChanges {
   @Input({ required: true }) turn!: Turn;
   @Input() index = 0;
   @Input() isLast = false;
+
+  readonly decor = input<Type<unknown> | null>(null);
+  readonly decorStage = input(0);
 
   collapsed = signal(true);
 

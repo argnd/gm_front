@@ -2,7 +2,7 @@ import { Component, Type, computed, input } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import fx from '../../content/fx.json';
 import { Stat } from '../../models/turn.model';
-import { isHighStat, statValue } from './ambiance.engine';
+import { isHighStat, isLowStat, statValue } from './ambiance.engine';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
 type Fleck = {
@@ -49,7 +49,7 @@ export class FxLayerComponent {
     build(this.hasHigh('Mana') ? RUNES.length : 0, 'rune', (rand, index) => ({
       glyph: RUNES[index],
       style: {
-        '--radius': px(150 + rand(0) * 150),
+        '--radius': px(300 + rand(0) * 260),
         'animation-duration': secs(34 + rand(1) * 26),
         'animation-delay': secs(-index * 6),
         'font-size': px(20 + rand(2) * 16),
@@ -73,8 +73,25 @@ export class FxLayerComponent {
     })),
   );
 
+  protected readonly fallenRunes = computed(() =>
+    build(this.hasLow('Mana') ? RUNES.length : 0, 'fallen', (rand, index) => ({
+      glyph: RUNES[index],
+      style: {
+        left: pct((index + 0.1 + rand(0) * 0.8) / RUNES.length),
+        bottom: px(5 + rand(1) * 14),
+        '--tilt': `${Math.round(-80 + rand(2) * 160)}deg`,
+        'font-size': px(13 + rand(3) * 9),
+        opacity: (0.14 + rand(4) * 0.16).toFixed(3),
+      },
+    })),
+  );
+
   private hasHigh(name: string): boolean {
     return isHighStat(statValue(this.stats(), name));
+  }
+
+  private hasLow(name: string): boolean {
+    return isLowStat(statValue(this.stats(), name));
   }
 }
 

@@ -64,6 +64,17 @@
   inset: 0;
 }
 
+.fx-fallen {
+  position: absolute;
+  inset: 0;
+}
+
+.fx-rune-fallen {
+  position: absolute;
+  color: var(--text-dim);
+  transform: rotate(var(--tilt, 0deg));
+}
+
 :host::after {
   content: '';
   position: absolute;

@@ -20,6 +20,14 @@
   </div>
 }
 
+@if (fallenRunes().length) {
+  <div class="fx-fallen" animate.enter="gm-appear" animate.leave="gm-vanish">
+    @for (rune of fallenRunes(); track $index) {
+      <span class="fx-rune-fallen" [style]="rune.style">{{ rune.glyph }}</span>
+    }
+  </div>
+}
+
 <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('fx')" />
 
 <div class="fx-vignette"></div>

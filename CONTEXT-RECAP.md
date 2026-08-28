@@ -1,7 +1,7 @@
 # GM (Maître du Jeu) — Prompt de reprise de contexte
 
 > Colle ce document en début de session pour reprendre le travail là où il en est.
-> Dernière mise à jour : 2026-08-28.
+> Dernière mise à jour : 2026-08-28 (fin de session « état neutre »).
 
 ## Le projet
 
@@ -60,14 +60,18 @@ paliers est une ambiance à part entière, pas une superposition.
   propres paliers/seuils** depuis l'ambiance brute (ex. `stage` computed du neutre) — aucune
   formule d'évolution dans le home.
 - **Slots** (chaque zone rend le composant d'état via `NgComponentOutlet` + `decorInputs(slot)`) :
-  `head`, `foot`, `field-bloom-left`, `field-bloom-right` (pupitre), `answer` (zone récit),
-  `navbar`, `stats`, `objects`, `rolls`, `trail`, `overlay`, `fx` (couche gm-fx).
+  `head`, `foot`, `field-bloom-left`, `field-bloom-right` (pupitre), `answer` et `answer-end`
+  (zone récit — haut-droit et bas-droit intérieur), `navbar`, `stats`, `objects`, `rolls`,
+  `trail`, `overlay`, `fx` (couche gm-fx).
 - **Règles d'or** : les animations d'état doivent être *détruites* entre états (swap de registre,
   `@if`, compteurs à zéro) — jamais masquées. Hôtes de décor `display: none` par défaut, seuls
   les slots stylés s'affichent (sinon ils cassent les flex parents). **Aucune logique dans le
   constructeur d'un composant d'état** (il est instancié ~1× par slot). **La mise en page de la
   base ne doit jamais dépendre d'un hôte de décor** (présent ou absent, la géométrie tient —
-  ex. le bouton Jouer porte son propre `margin-left: auto`).
+  ex. le bouton Jouer porte son propre `margin-left: auto`). **Ordre de peinture** : un décor qui
+  survole des surfaces doit être déclaré APRÈS elles dans le DOM (ou porter un z-index) — les
+  cartes `.gm-surface` sont positionnées et recouvrent sinon tout décor déclaré avant elles
+  (piège rencontré deux fois : luciole, rosette du récit).
 
 ## État d'avancement
 
@@ -92,19 +96,39 @@ scintillement 2 ondes désaccordées, lanterne du curseur adoucie avec répulsio
   pool `actionHints` par famille), champ haut (min 168px, autogrow 340px), Entrée=envoyer,
   focus auto, ligne d'horizon gemmée, bouton avec dé roulant, sceau d'envoi, liseré respirant.
 - **Décor neutre** (`decor/neutral-decor.component.*`) : flore filaire pilotée par `--accent`.
-  Spec validée : seuil = tous axes < 30 ; évolution par palier sur la somme (multiples de 10) ;
-  base (prairie « cycle de l'éclosion » : graine→pousse→bouton→entrouverte→rosette→bouquet, sur
-  sinusoïde, crescendo vers « Jouer » + rameau d'en-tête) ≤ 50 ; +1 fleur à 60 (coin haut-gauche
-  du champ), 70 (marge haut-droite de la zone récit), 80 (coin haut-droit du champ, miroir).
+  Le « cycle de l'éclosion » est DISPERSÉ dans l'interface (validé après itérations) : graine au
+  bas de la fiche (slot stats), jeune pousse sur Objets, bouton clos sur Jets de dés, fleur
+  entrouverte en fin de piste, rameau couché en tête du pupitre, rosette épanouie au bas-droit
+  INTÉRIEUR de la zone d'histoire (slot answer-end, suit la dernière carte), bouquet au pied du
+  pupitre près de « Jouer » ; le bandeau du pied reste aéré (pousse lointaine à gauche, graine
+  centre-droit, bouquet). Éclosions par palier (somme, multiples de 10) : +1 fleur à 60 (coin
+  haut-gauche du champ), 70 (marge haut-droite du récit, slot answer), 80 (coin haut-droit du
+  champ, miroir). Seuil global : tous axes < 30.
+- **Pollen** (cas `fx` du décor neutre) : grains jaune-vert 2-4 px montant lentement (keyframe
+  global gm-drift), seuil somme ≥ 20, évolution linéaire 8 → 22 grains (somme 20 → 87),
+  répartition stratifiée avec léger biais gauche (`(index+rand)/count` puissance 1.25).
+- **Luciole** (`home/firefly/`, élément du SOCLE — toujours affichée, hors registre d'états) :
+  cœur 4 px, halo 12+44×glow px (double au max), teinte = moyenne pondérée linéaire de la base
+  jaune-vert (poids 1−somme/100) et des 3 hues d'axes (poids valeur/100), scintillement propre.
+  Vit dans la marge gauche de la fiche (ancrée au rail), errance à dominante horizontale avec
+  profondeur z (scale 0.55–1.2), amplitudes croissant vers la gauche de l'écran (60 → 250 px,
+  portée ≤ 280 px bornée au viewport). Ruée rare (cooldown 20 s puis 12 %/cycle) : fondu 240 ms
+  → téléportation dans la marge sombre À DROITE du pupitre (zone mesurée à l'exécution,
+  y 16–170) → 2-5 sauts nerveux (240–460 ms, pauses 90–330 ms) → flottement 0,4–1,1 s → fondu
+  retour. Deux couches DOM (coquille position/fondu, cœur halo/scintillement), z-index 4 pour
+  survoler les surfaces, masquée < 1240 px. Timers nettoyés par DestroyRef.
+- **Panneau debug** : presets d'ambiance à 0 / 29 / 59 / 89 (juste sous les seuils de palier).
 - **Purge totale** des anciennes animations d'ambiance (mixins de paliers, blocs amb-dominant,
   couches fx pétales/braises/motes/etc., :host-context amb, keyframes orphelins). Conservé :
   socle (poussière 11 grains, feutre, vignette), animations **Mana** (runes en orbite + rune en
   coin de carte) et **Or** (flocons + liserés shimmer) comme bases de déclinaison, classes
   stat-*-high, keyframes gm-drift/breathe/orbit/shimmer/fade-up/spin.
 
-**Prochaines étapes** : continuer l'état neutre (l'utilisateur veut y ajouter des éléments), puis
-les états un à un. Proposition Romance-1 sur la table (non validée) : pétales épars (linéaire,
-seuil 30) + rougeur d'horizon (linéaire, seuil 40).
+**Prochaines étapes** : l'état neutre est bien fourni (flore dispersée + pollen + luciole —
+trois mécaniques d'évolution : palier / linéaire / socle caméléon). Suite : compléter le neutre
+si demandé (idée en réserve : signet végétal de la fiche), puis les états un à un. Proposition
+Romance-1 sur la table (non validée) : pétales épars (linéaire, seuil 30) + rougeur d'horizon
+(linéaire, seuil 40).
 
 ## Vérifications d'usage
 

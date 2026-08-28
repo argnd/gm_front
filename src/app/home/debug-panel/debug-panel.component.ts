@@ -17,7 +17,7 @@ import {
 import { DebugHistoryComponent } from '../debug-history/debug-history.component';
 
 const STAT_SLIDER_MAX = 12;
-const PRESET_VALUES = [0, 30, 60, 95] as const;
+const PRESET_VALUES = [0, 29, 59, 89] as const;
 
 type DebugTab = 'ambiance' | 'echanges';
 

@@ -8,6 +8,7 @@ export type AmbianceDecorSlot =
   | 'field-bloom-left'
   | 'field-bloom-right'
   | 'answer'
+  | 'answer-end'
   | 'navbar'
   | 'stats'
   | 'objects'

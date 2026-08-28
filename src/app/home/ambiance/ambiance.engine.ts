@@ -5,6 +5,28 @@ import rules from '../../content/rules.json';
 export type AmbianceKey = 'romance' | 'adventure' | 'other';
 export type Tier = 0 | 1 | 2 | 3;
 
+export type AmbianceState =
+  | 'neutral'
+  | 'romance-1'
+  | 'adventure-1'
+  | 'other-1'
+  | 'romance-2'
+  | 'adventure-2'
+  | 'other-2'
+  | 'romance-3'
+  | 'adventure-3'
+  | 'other-3'
+  | 'romance-1-adventure-1'
+  | 'romance-1-other-1'
+  | 'adventure-1-other-1'
+  | 'romance-1-adventure-1-other-1'
+  | 'romance-2-adventure-1'
+  | 'romance-2-other-1'
+  | 'adventure-2-romance-1'
+  | 'adventure-2-other-1'
+  | 'other-2-romance-1'
+  | 'other-2-adventure-1';
+
 export const AMBIANCE_KEYS: readonly AmbianceKey[] = ['romance', 'adventure', 'other'];
 export const AMBIANCE_THRESHOLDS = rules.ambiance.thresholds as [number, number, number];
 export const AMBIANCE_MAX = rules.ambiance.max;
@@ -80,6 +102,33 @@ export function dominantKey(ambiance: Ambiance | null): AmbianceKey | null {
   return bestValue >= AMBIANCE_THRESHOLDS[0] ? best : null;
 }
 
+export function resolveAmbianceState(ambiance: Ambiance | null): AmbianceState {
+  const entries = AMBIANCE_KEYS.map((key) => {
+    const value = ambianceValue(ambiance, key);
+    return { key, value, tier: tierOf(value) };
+  }).sort(
+    (a, b) => b.value - a.value || AMBIANCE_KEYS.indexOf(a.key) - AMBIANCE_KEYS.indexOf(b.key),
+  );
+
+  const [first, second] = entries;
+
+  if (first.tier === 0) return 'neutral';
+  if (first.tier === 3) return `${first.key}-3`;
+  if (first.tier === 2) {
+    if (second.tier >= 1) {
+      return `${first.key}-2-${second.key}-1` as AmbianceState;
+    }
+    return `${first.key}-2`;
+  }
+
+  const active = AMBIANCE_KEYS.filter(
+    (key) => entries.find((entry) => entry.key === key)!.tier >= 1,
+  );
+  if (active.length === 1) return `${active[0]}-1`;
+  if (active.length === 2) return `${active[0]}-1-${active[1]}-1` as AmbianceState;
+  return 'romance-1-adventure-1-other-1';
+}
+
 export function statSlug(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 }
@@ -104,6 +153,7 @@ export function ambianceClasses(
   const dominant = dominantKey(ambiance);
   const classes: Record<string, boolean> = {
     'amb-neutral': dominant === null,
+    [`amb-state-${resolveAmbianceState(ambiance)}`]: true,
   };
 
   for (const key of AMBIANCE_KEYS) {

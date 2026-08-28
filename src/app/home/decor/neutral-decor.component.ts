@@ -1,4 +1,6 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
+import { Ambiance, Stat } from '../../models/turn.model';
+import { ambianceTotal } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot } from './ambiance-decor';
 
 @Component({
@@ -12,5 +14,12 @@ import { AmbianceDecorSlot } from './ambiance-decor';
 })
 export class NeutralDecorComponent {
   readonly slot = input.required<AmbianceDecorSlot>();
-  readonly stage = input(0);
+  readonly ambiance = input<Ambiance | null>(null);
+  readonly stats = input<readonly Stat[]>([]);
+
+  protected readonly stage = computed(() => {
+    const value = this.ambiance();
+    if (!value) return 0;
+    return Math.max(0, Math.min(3, Math.floor(ambianceTotal(value) / 10) - 5));
+  });
 }

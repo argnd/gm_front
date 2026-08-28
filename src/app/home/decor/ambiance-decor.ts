@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
-import { AmbianceKey } from '../ambiance/ambiance.engine';
-import { NeutralDecorComponent } from './neutral-decor.component';
+import { Ambiance, Stat } from '../../models/turn.model';
+import { AmbianceState } from '../ambiance/ambiance.engine';
 
 export type AmbianceDecorSlot =
   | 'head'
@@ -11,9 +11,18 @@ export type AmbianceDecorSlot =
   | 'navbar'
   | 'stats'
   | 'objects'
+  | 'rolls'
   | 'trail'
-  | 'overlay';
+  | 'overlay'
+  | 'fx';
 
-export const AMBIANCE_DECOR: Partial<Record<AmbianceKey | 'neutral', Type<unknown>>> = {
-  neutral: NeutralDecorComponent,
+export type AmbianceDecorData = {
+  ambiance: Ambiance | null;
+  stats: readonly Stat[];
+};
+
+export const EMPTY_DECOR_DATA: AmbianceDecorData = { ambiance: null, stats: [] };
+
+export const AMBIANCE_DECOR: Partial<Record<AmbianceState, () => Promise<Type<unknown>>>> = {
+  neutral: () => import('./neutral-decor.component').then((m) => m.NeutralDecorComponent),
 };

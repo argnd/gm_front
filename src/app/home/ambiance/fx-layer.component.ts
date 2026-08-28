@@ -1,7 +1,9 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, Type, computed, input } from '@angular/core';
+import { NgComponentOutlet } from '@angular/common';
 import fx from '../../content/fx.json';
 import { Stat } from '../../models/turn.model';
 import { isHighStat, statValue } from './ambiance.engine';
+import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
 type Fleck = {
   glyph?: string;
@@ -12,12 +14,20 @@ const RUNES = fx.runes;
 
 @Component({
   selector: 'app-fx-layer',
+  imports: [NgComponentOutlet],
   templateUrl: './fx-layer.component.html',
   styleUrl: './fx-layer.component.scss',
   host: { class: 'gm-fx', 'aria-hidden': 'true' },
 })
 export class FxLayerComponent {
   readonly stats = input<readonly Stat[]>([]);
+
+  readonly decor = input<Type<unknown> | null>(null);
+  readonly decorData = input<AmbianceDecorData>(EMPTY_DECOR_DATA);
+
+  protected decorInputs(slot: AmbianceDecorSlot): Record<string, unknown> {
+    return { slot, ...this.decorData() };
+  }
 
   protected readonly dust = computed(() =>
     build(11, 'dust', (rand) => ({

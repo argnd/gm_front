@@ -1,0 +1,82 @@
+:host {
+  display: block;
+}
+
+.panel {
+  padding: 16px 20px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.roll-list {
+  margin-top: 10px;
+  list-style: none;
+}
+
+.roll {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: baseline;
+  gap: 10px;
+  padding: 7px 0;
+  font-family: var(--font-display);
+
+  + .roll {
+    border-top: 1px solid rgba(151, 166, 196, 0.08);
+  }
+
+  &.is-success .roll-total {
+    color: var(--vital);
+    text-shadow: 0 0 10px color-mix(in srgb, var(--vital) 40%, transparent);
+  }
+
+  &.is-failure .roll-total {
+    color: var(--danger);
+    text-shadow: 0 0 10px color-mix(in srgb, var(--danger) 40%, transparent);
+  }
+}
+
+.roll-dice {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.roll-total {
+  color: var(--text);
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.roll-label {
+  overflow: hidden;
+  color: var(--text-soft);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roll-turn {
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.rolls-empty {
+  margin-top: 10px;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  font-style: italic;
+}

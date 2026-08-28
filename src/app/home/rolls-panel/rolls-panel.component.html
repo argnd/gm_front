@@ -1,0 +1,26 @@
+<section class="panel gm-surface">
+  <header class="panel-head">
+    <span class="gm-label">Jets de dés</span>
+  </header>
+
+  @if (rolls().length) {
+    <ul class="roll-list">
+      @for (entry of rolls(); track $index) {
+        <li
+          class="roll"
+          [class.is-success]="entry.roll.success === true"
+          [class.is-failure]="entry.roll.success === false"
+        >
+          <span class="roll-dice">{{ entry.roll.dice }}</span>
+          <span class="roll-total">{{ entry.roll.total }}</span>
+          <span class="roll-label">{{ entry.roll.label }}</span>
+          <span class="roll-turn">T{{ entry.turn }}</span>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="rolls-empty">Aucun jet pour l’instant.</p>
+  }
+
+  <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('rolls')" />
+</section>

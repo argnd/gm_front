@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges, Type, input, signal } from 
 import { NgComponentOutlet } from '@angular/common';
 import { Turn } from '../../models/turn.model';
 import { AMBIANCE_KEYS, AMBIANCE_LABELS, STAT_LABELS } from '../ambiance/ambiance.engine';
+import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
 type Delta = {
   label: string;
@@ -22,7 +23,11 @@ export class TurnCardComponent implements OnChanges {
   @Input() isLast = false;
 
   readonly decor = input<Type<unknown> | null>(null);
-  readonly decorStage = input(0);
+  readonly decorData = input<AmbianceDecorData>(EMPTY_DECOR_DATA);
+
+  protected decorInputs(slot: AmbianceDecorSlot): Record<string, unknown> {
+    return { slot, ...this.decorData() };
+  }
 
   collapsed = signal(true);
 

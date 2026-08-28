@@ -15,7 +15,7 @@
       />
     </svg>
     <label class="chatbox-ask" for="chat-input">{{ copy().placeholder }}</label>
-    <ng-container *ngComponentOutlet="decor(); inputs: { slot: 'head', stage: stage() }" />
+    <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('head')" />
   </header>
 
   <div class="chatbox-field">
@@ -38,10 +38,8 @@
         {{ currentHint() }}
       </span>
     }
-    <ng-container *ngComponentOutlet="decor(); inputs: { slot: 'field-bloom-left', stage: stage() }" />
-    <ng-container
-      *ngComponentOutlet="decor(); inputs: { slot: 'field-bloom-right', stage: stage() }"
-    />
+    <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('field-bloom-left')" />
+    <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('field-bloom-right')" />
   </div>
 
   <div class="chatbox-flourish" aria-hidden="true">
@@ -61,7 +59,7 @@
     <span class="chatbox-count" [class.is-visible]="prompt().length > 0"
       >{{ prompt().length }} caractères</span
     >
-    <ng-container *ngComponentOutlet="decor(); inputs: { slot: 'foot', stage: stage() }" />
+    <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('foot')" />
     <button class="chatbox-submit" type="button" (click)="emitSubmit()" [disabled]="disabled()">
       @if (loading()) {
         <svg class="chatbox-die chatbox-die--rolling" viewBox="0 0 100 100" aria-hidden="true">

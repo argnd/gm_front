@@ -1,15 +1,21 @@
-import { Component, Input, Type, input } from '@angular/core';
+import { Component, Type, input } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
+import { DiceRoll } from '../../models/turn.model';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
+export type RollEntry = {
+  roll: DiceRoll;
+  turn: number;
+};
+
 @Component({
-  selector: 'app-adventure-over-overlay',
+  selector: 'app-rolls-panel',
   imports: [NgComponentOutlet],
-  templateUrl: './adventure-over-overlay.component.html',
-  styleUrl: './adventure-over-overlay.component.scss',
+  templateUrl: './rolls-panel.component.html',
+  styleUrl: './rolls-panel.component.scss',
 })
-export class AdventureOverOverlayComponent {
-  @Input() visible = false;
+export class RollsPanelComponent {
+  readonly rolls = input<readonly RollEntry[]>([]);
 
   readonly decor = input<Type<unknown> | null>(null);
   readonly decorData = input<AmbianceDecorData>(EMPTY_DECOR_DATA);

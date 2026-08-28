@@ -1,8 +1,8 @@
 <div class="gm-page" [class]="pageClasses()" [style]="pageVars()">
-  <app-fx-layer [stats]="statsEntries()" />
+  <app-fx-layer [stats]="statsEntries()" [decor]="decorComponent()" [decorData]="decorData()" />
 
   <div class="gm-shell">
-    <app-navbar [decor]="decorComponent()" [decorStage]="floralStage()" />
+    <app-navbar [decor]="decorComponent()" [decorData]="decorData()" />
 
     <div class="gm-stage">
       <aside class="gm-rail">
@@ -12,14 +12,14 @@
           [signatures]="signatureStats()"
           [disabled]="controlsDisabled()"
           [decor]="decorComponent()"
-          [decorStage]="floralStage()"
+          [decorData]="decorData()"
           (randomize)="randomizeStats()"
         />
 
         <app-objects-panel
           [objects]="objectsEntries()"
           [decor]="decorComponent()"
-          [decorStage]="floralStage()"
+          [decorData]="decorData()"
         />
       </aside>
 
@@ -28,7 +28,8 @@
           [prompt]="prompt()"
           [copy]="actionCopy()"
           [dominant]="dominant()"
-          [stage]="floralStage()"
+          [decor]="decorComponent()"
+          [decorData]="decorData()"
           [disabled]="controlsDisabled()"
           [loading]="loading()"
           (promptChange)="updatePrompt($event)"
@@ -46,15 +47,23 @@
             }
           </ol>
           <span class="trail-count">{{ turnsPlayed() }} / {{ maxTurns }}</span>
-          <ng-container
-            *ngComponentOutlet="decorComponent(); inputs: { slot: 'trail', stage: floralStage() }"
-          />
+          <ng-container *ngComponentOutlet="decorComponent(); inputs: decorInputs('trail')" />
+        </div>
+
+        <app-rolls-panel
+          [rolls]="rollEntries()"
+          [decor]="decorComponent()"
+          [decorData]="decorData()"
+        />
+
+        <div class="flow-divider" aria-hidden="true">
+          <span class="flow-divider-line"></span>
+          <span class="flow-divider-gem"></span>
+          <span class="flow-divider-line flow-divider-line--end"></span>
         </div>
 
         <div class="narrative">
-          <ng-container
-            *ngComponentOutlet="decorComponent(); inputs: { slot: 'answer', stage: floralStage() }"
-          />
+          <ng-container *ngComponentOutlet="decorComponent(); inputs: decorInputs('answer')" />
           @if (loading()) {
             <p class="state-msg gm-surface">Le Maître du Jeu écrit…</p>
           } @else if (error()) {
@@ -86,7 +95,7 @@
   <app-adventure-over-overlay
     [visible]="adventureOver()"
     [decor]="decorComponent()"
-    [decorStage]="floralStage()"
+    [decorData]="decorData()"
   />
 
   <app-debug-panel

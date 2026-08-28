@@ -5,7 +5,7 @@
       <h2>L’aventure s’achève</h2>
       <p>Votre histoire a trouvé sa fin. Une autre s’apprête à commencer…</p>
 
-      <ng-container *ngComponentOutlet="decor(); inputs: { slot: 'overlay', stage: decorStage() }" />
+      <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('overlay')" />
     </div>
   </div>
 }

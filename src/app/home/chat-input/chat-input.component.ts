@@ -2,6 +2,7 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  Type,
   afterNextRender,
   computed,
   effect,
@@ -14,7 +15,7 @@ import {
 import { NgComponentOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ACTION_COPY, ACTION_HINTS, ActionCopy, AmbianceKey } from '../ambiance/ambiance.engine';
-import { AMBIANCE_DECOR } from '../decor/ambiance-decor';
+import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
 const HINT_ROTATION_MS = 6000;
 const HINT_FADE_MS = 450;
@@ -31,7 +32,8 @@ export class ChatInputComponent {
   readonly prompt = input('');
   readonly copy = input<ActionCopy>(ACTION_COPY['neutral']);
   readonly dominant = input<AmbianceKey | 'neutral'>('neutral');
-  readonly stage = input(0);
+  readonly decor = input<Type<unknown> | null>(null);
+  readonly decorData = input<AmbianceDecorData>(EMPTY_DECOR_DATA);
   readonly disabled = input(false);
   readonly loading = input(false);
 
@@ -50,7 +52,9 @@ export class ChatInputComponent {
     return hints[this.hintIndex() % hints.length];
   });
 
-  protected readonly decor = computed(() => AMBIANCE_DECOR[this.dominant()] ?? null);
+  protected decorInputs(slot: AmbianceDecorSlot): Record<string, unknown> {
+    return { slot, ...this.decorData() };
+  }
 
   private wasLoading = false;
 

@@ -1,6 +1,7 @@
 import { Component, Type, inject, input } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { AuthService } from '../../core/auth.service';
+import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
 @Component({
   selector: 'app-navbar',
@@ -12,5 +13,9 @@ export class NavbarComponent {
   protected readonly auth = inject(AuthService);
 
   readonly decor = input<Type<unknown> | null>(null);
-  readonly decorStage = input(0);
+  readonly decorData = input<AmbianceDecorData>(EMPTY_DECOR_DATA);
+
+  protected decorInputs(slot: AmbianceDecorSlot): Record<string, unknown> {
+    return { slot, ...this.decorData() };
+  }
 }

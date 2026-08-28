@@ -12,5 +12,5 @@
     <button class="signout" type="button" (click)="auth.signOut()">Quitter la table</button>
   </div>
 
-  <ng-container *ngComponentOutlet="decor(); inputs: { slot: 'navbar', stage: decorStage() }" />
+  <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('navbar')" />
 </nav>

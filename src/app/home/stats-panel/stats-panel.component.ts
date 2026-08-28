@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, Type, input } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { Stat, Ambiance } from '../../models/turn.model';
+import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 import {
   AMBIANCE_KEYS,
   AMBIANCE_LABELS,
@@ -38,7 +39,11 @@ export class StatsPanelComponent {
   @Output() randomize = new EventEmitter<void>();
 
   readonly decor = input<Type<unknown> | null>(null);
-  readonly decorStage = input(0);
+  readonly decorData = input<AmbianceDecorData>(EMPTY_DECOR_DATA);
+
+  protected decorInputs(slot: AmbianceDecorSlot): Record<string, unknown> {
+    return { slot, ...this.decorData() };
+  }
 
   protected readonly thresholds = AMBIANCE_THRESHOLDS;
   protected readonly ambianceMax = AMBIANCE_MAX;

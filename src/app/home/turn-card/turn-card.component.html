@@ -19,7 +19,7 @@
 
   <p class="turn-action" [class.is-clamped]="collapsed()">{{ turn.text }}</p>
 
-  <ng-container *ngComponentOutlet="decor(); inputs: { slot: 'answer', stage: decorStage() }" />
+  <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('answer')" />
 
   @if (!collapsed()) {
     <div class="turn-answer">{{ turn.answer }}</div>

@@ -13,6 +13,32 @@
   gap: 16px;
 }
 
+.flow-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 10px;
+}
+
+.flow-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-strong));
+
+  &--end {
+    background: linear-gradient(270deg, transparent, var(--line-strong));
+  }
+}
+
+.flow-divider-gem {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 1.5px;
+  transform: rotate(45deg);
+  background: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
 .state-msg {
   padding: var(--surface-pad);
   color: var(--text-soft);

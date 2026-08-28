@@ -16,4 +16,6 @@
   <span class="fx-gold" [style]="fleck.style"></span>
 }
 
+<ng-container *ngComponentOutlet="decor(); inputs: decorInputs('fx')" />
+
 <div class="fx-vignette"></div>

@@ -1,6 +1,10 @@
-import { Component, OnDestroy, computed, inject, signal } from '@angular/core';
+import { Component, OnDestroy, Type, computed, effect, inject, signal } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
-import { AMBIANCE_DECOR } from './decor/ambiance-decor';
+import {
+  AMBIANCE_DECOR,
+  AmbianceDecorData,
+  AmbianceDecorSlot,
+} from './decor/ambiance-decor';
 import { finalize } from 'rxjs';
 import { AuthService } from '../core/auth.service';
 import { ApiService } from '../core/api.service';
@@ -18,15 +22,16 @@ import {
   STAT_NAMES,
   STAT_ROLL,
   ambianceClasses,
-  ambianceTotal,
   ambianceVars,
   dominantKey,
   highStats,
+  resolveAmbianceState,
 } from './ambiance/ambiance.engine';
 import { FxLayerComponent } from './ambiance/fx-layer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StatsPanelComponent } from './stats-panel/stats-panel.component';
 import { ObjectsPanelComponent } from './objects-panel/objects-panel.component';
+import { RollsPanelComponent } from './rolls-panel/rolls-panel.component';
 import { DebugPanelComponent } from './debug-panel/debug-panel.component';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 import { TurnCardComponent } from './turn-card/turn-card.component';
@@ -42,6 +47,7 @@ const ADVENTURE_OVER_DELAY_MS = 4_000;
     NavbarComponent,
     StatsPanelComponent,
     ObjectsPanelComponent,
+    RollsPanelComponent,
     DebugPanelComponent,
     ChatInputComponent,
     TurnCardComponent,
@@ -75,6 +81,14 @@ export class HomeComponent implements OnDestroy {
     Array.from(this.objects().entries()).map(([name, description]) => ({ name, description })),
   );
 
+  protected readonly rollEntries = computed(() => {
+    const last = this.turns().at(-1);
+    if (!last) return [];
+    return last.turns
+      .flatMap((turn, index) => (turn.diceRolls ?? []).map((roll) => ({ roll, turn: index + 1 })))
+      .reverse();
+  });
+
   protected readonly reversedTurns = computed(() =>
     [...(this.conversation()?.turns ?? [])].reverse(),
   );
@@ -93,11 +107,34 @@ export class HomeComponent implements OnDestroy {
 
   protected readonly actionCopy = computed(() => ACTION_COPY[this.dominant()]);
 
-  protected readonly floralStage = computed(() =>
-    Math.max(0, Math.min(3, Math.floor(ambianceTotal(this.ambiance()) / 10) - 5)),
-  );
+  protected readonly ambianceState = computed(() => resolveAmbianceState(this.ambiance()));
 
-  protected readonly decorComponent = computed(() => AMBIANCE_DECOR[this.dominant()] ?? null);
+  protected readonly decorComponent = signal<Type<unknown> | null>(null);
+
+  protected readonly decorData = computed<AmbianceDecorData>(() => ({
+    ambiance: this.ambiance(),
+    stats: this.statsEntries(),
+  }));
+
+  constructor() {
+    effect(() => {
+      const state = this.ambianceState();
+      const loader = AMBIANCE_DECOR[state];
+      if (!loader) {
+        this.decorComponent.set(null);
+        return;
+      }
+      loader().then((component) => {
+        if (this.ambianceState() === state) {
+          this.decorComponent.set(component);
+        }
+      });
+    });
+  }
+
+  protected decorInputs(slot: AmbianceDecorSlot): Record<string, unknown> {
+    return { slot, ...this.decorData() };
+  }
 
   protected readonly turnsPlayed = computed(() => this.turns().length);
 

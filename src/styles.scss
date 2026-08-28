@@ -1,3 +1,9 @@
+@property --fx-gate {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
 :root {
   --ink-950: #0a0e18;
   --ink-900: #0e1322;
@@ -123,6 +129,8 @@ body {
   --motion-scale: 1;
   --speed-fast: calc(160ms * var(--motion-scale));
   --speed-slow: calc(320ms * var(--motion-scale));
+  --fx-in: calc(640ms * var(--motion-scale));
+  --fx-out: calc(420ms * var(--motion-scale));
 
   position: relative;
   isolation: isolate;
@@ -223,6 +231,23 @@ body {
     --stage-align: stretch !important;
     --stage-columns: minmax(0, 1fr) !important;
     --stage-areas: 'rail' 'flow' !important;
+  }
+}
+
+.gm-appear {
+  animation: gm-fade var(--fx-in) ease both;
+}
+
+.gm-vanish {
+  animation: gm-fade var(--fx-out) ease reverse both;
+}
+
+@keyframes gm-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -327,11 +352,11 @@ body {
   0%,
   100% {
     transform: scale(1.05);
-    opacity: 0.35;
+    opacity: calc(0.35 * var(--fx-gate, 1));
   }
   50% {
     transform: scale(1);
-    opacity: 0.85;
+    opacity: calc(0.85 * var(--fx-gate, 1));
   }
 }
 

@@ -59,11 +59,13 @@
     .stat-name,
     .stat-value {
       color: var(--accent);
+      transition-duration: var(--fx-in);
     }
 
     .stat-glyph {
       opacity: 1;
       text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 60%, transparent);
+      transition-duration: var(--fx-in);
     }
 
     .stat-fill {
@@ -74,15 +76,18 @@
   &.is-low {
     .stat-name {
       color: var(--text-dim);
+      transition-duration: var(--fx-in);
     }
 
     .stat-value {
       color: color-mix(in srgb, var(--danger) 62%, var(--text-dim));
+      transition-duration: var(--fx-in);
     }
 
     .stat-glyph {
       color: var(--text-dim);
       opacity: 0.28;
+      transition-duration: var(--fx-in);
     }
 
     .stat-fill {
@@ -95,9 +100,13 @@
   color: var(--accent);
   font-size: 0.9rem;
   opacity: 0.5;
+  transition:
+    color var(--fx-out) ease,
+    text-shadow var(--fx-out) ease,
+    opacity var(--fx-out) ease;
 }
 
-:host-context(.stat-health-high) .stat[data-stat='health'] {
+.stat[data-stat='health'] {
   position: relative;
   z-index: 0;
 
@@ -116,6 +125,16 @@
       color-mix(in srgb, var(--vital) 5%, transparent) 42%,
       transparent 74%
     );
+    opacity: var(--fx-gate);
+    --fx-gate: 0;
+    transition: --fx-gate var(--fx-out) ease;
+  }
+}
+
+:host-context(.stat-health-high) .stat[data-stat='health'] {
+  &::before {
+    --fx-gate: 1;
+    transition-duration: var(--fx-in);
     animation: gm-heartbeat 1.6s ease-in-out infinite;
   }
 
@@ -143,6 +162,7 @@
 .stat-name {
   color: var(--text-soft);
   font-size: 0.86rem;
+  transition: color var(--fx-out) ease;
 }
 
 .stat-value {
@@ -150,6 +170,7 @@
   font-size: 0.95rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+  transition: color var(--fx-out) ease;
 }
 
 .stat-bar,

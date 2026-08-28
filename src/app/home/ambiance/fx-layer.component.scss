@@ -59,10 +59,23 @@
   animation: gm-orbit linear infinite;
 }
 
-:host-context(.stat-health-low)::after {
+.fx-fall {
+  position: absolute;
+  inset: 0;
+}
+
+:host::after {
   content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(115% 90% at 50% 42%, transparent 56%, rgba(255, 107, 107, 0.32) 100%);
-  animation: gm-lifeblood 5.2s ease-in-out infinite;
+  --fx-gate: 0;
+  animation: gm-lifeblood 5.2s ease-in-out infinite paused;
+  transition: --fx-gate var(--fx-out) ease;
+}
+
+:host-context(.stat-health-low)::after {
+  --fx-gate: 1;
+  transition-duration: var(--fx-in);
+  animation-play-state: running;
 }

@@ -5,15 +5,19 @@
 }
 
 @if (runes().length) {
-  <div class="fx-orbit">
+  <div class="fx-orbit" animate.enter="gm-appear" animate.leave="gm-vanish">
     @for (fleck of runes(); track $index) {
       <span class="fx-rune" [style]="fleck.style">{{ fleck.glyph }}</span>
     }
   </div>
 }
 
-@for (fleck of goldFlakes(); track $index) {
-  <span class="fx-gold" [style]="fleck.style"></span>
+@if (goldFlakes().length) {
+  <div class="fx-fall" animate.enter="gm-appear" animate.leave="gm-vanish">
+    @for (fleck of goldFlakes(); track $index) {
+      <span class="fx-gold" [style]="fleck.style"></span>
+    }
+  </div>
 }
 
 <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('fx')" />

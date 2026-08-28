@@ -22,7 +22,9 @@
   opacity: 0.5;
   animation: chatbox-breathe 5.5s ease-in-out infinite;
   pointer-events: none;
-  transition: opacity var(--speed-slow) ease;
+  transition:
+    opacity var(--speed-slow) ease,
+    box-shadow var(--fx-out) ease;
 }
 
 .chatbox.is-focused .chatbox-trim {
@@ -252,6 +254,7 @@
 }
 
 :host-context(.stat-gold-high) .chatbox-trim {
+  transition-duration: var(--speed-slow), var(--fx-in);
   box-shadow:
     inset 0 0 0 1px rgba(242, 193, 78, 0.34),
     0 0 26px color-mix(in srgb, var(--accent) 9%, transparent);

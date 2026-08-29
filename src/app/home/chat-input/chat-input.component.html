@@ -30,7 +30,7 @@
       [disabled]="disabled()"
       (focus)="focused.set(true)"
       (blur)="focused.set(false)"
-      (keydown)="onKeydown($event)"
+      enterkeyhint="enter"
       (input)="autoGrow($event)"
     ></textarea>
     @if (!prompt()) {

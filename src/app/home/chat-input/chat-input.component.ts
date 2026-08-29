@@ -93,14 +93,6 @@ export class ChatInputComponent {
     });
   }
 
-  protected onKeydown(event: KeyboardEvent): void {
-    if (event.key !== 'Enter' || event.shiftKey) {
-      return;
-    }
-    event.preventDefault();
-    this.emitSubmit();
-  }
-
   protected emitSubmit(): void {
     if (this.disabled()) {
       return;

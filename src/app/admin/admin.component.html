@@ -1,0 +1,49 @@
+<section class="panel gm-surface">
+  <header class="panel-head">
+    <span class="gm-label">Utilisateurs</span>
+    <button class="panel-reset" type="button" (click)="load()" [disabled]="loading()">
+      Rafraîchir
+    </button>
+  </header>
+
+  @if (loading()) {
+    <p class="state">Chargement…</p>
+  } @else if (error()) {
+    <p class="state state--error">{{ error() }}</p>
+  } @else if (!users().length) {
+    <p class="state">Aucun utilisateur.</p>
+  } @else {
+    <div class="table-wrap">
+      <table class="users">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Nom</th>
+            <th>Formule</th>
+            <th>Rôle</th>
+            <th>Statut</th>
+            <th>Créé le</th>
+            <th>Vu le</th>
+            <th class="num">Tokens du jour</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users(); track user.id) {
+            <tr>
+              <td>{{ user.id }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.displayName || '—' }}</td>
+              <td>{{ user.accountLevel }}</td>
+              <td>{{ user.role }}</td>
+              <td [class.is-suspended]="user.status === 'SUSPENDED'">{{ user.status }}</td>
+              <td>{{ user.createdAt ? (user.createdAt | date: 'dd/MM/yy HH:mm') : '—' }}</td>
+              <td>{{ user.lastSeenAt ? (user.lastSeenAt | date: 'dd/MM/yy HH:mm') : '—' }}</td>
+              <td class="num">{{ user.tokensUsedToday | number }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

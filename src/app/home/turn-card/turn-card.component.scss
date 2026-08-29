@@ -112,6 +112,39 @@
     border-color var(--speed-fast) ease;
 }
 
+.turn-head-actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.turn-listen {
+  padding: 2px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    color var(--speed-fast) ease,
+    border-color var(--speed-fast) ease;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  &.is-speaking {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+}
+
 .turn-action {
   margin-top: 10px;
   color: var(--text-soft);

@@ -17,6 +17,7 @@ import {
   resolveAmbianceState,
   tierOf,
 } from '../ambiance/ambiance.engine';
+import { SpeechService } from '../../core/speech.service';
 import { DebugHistoryComponent } from '../debug-history/debug-history.component';
 
 const STAT_SLIDER_MAX = 12;
@@ -89,6 +90,8 @@ const STATE_PRESETS: StatePreset[] = [
 })
 export class DebugPanelComponent {
   private readonly host = inject(ElementRef<HTMLElement>);
+
+  protected readonly speech = inject(SpeechService);
 
   readonly ambiance = input<Ambiance | null>(null);
   readonly stats = input<readonly Stat[]>([]);
@@ -264,6 +267,18 @@ export class DebugPanelComponent {
   protected applyFieldFeather(value: number): void {
     this.fieldFeather.set(value);
     this.fieldFeatherChange.emit(value);
+  }
+
+  protected onVoiceSelect(event: Event): void {
+    this.speech.setVoice((event.target as HTMLSelectElement).value);
+  }
+
+  protected onSpeechRate(event: Event): void {
+    this.applySpeechRate(readNumber(event));
+  }
+
+  protected applySpeechRate(value: number): void {
+    this.speech.setRate(value);
   }
 
   protected onFocusOut(event: FocusEvent): void {

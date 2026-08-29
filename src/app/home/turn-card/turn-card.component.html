@@ -12,9 +12,23 @@
     (keydown.space)="!isLast && toggle()"
   >
     <span class="gm-label">Tour {{ index + 1 }}</span>
-    @if (!isLast) {
-      <span class="turn-toggle">{{ collapsed() ? 'Déplier' : 'Replier' }}</span>
-    }
+    <span class="turn-head-actions">
+      @if (!collapsed() && turn.answer && speech.available()) {
+        <button
+          class="turn-listen"
+          type="button"
+          [class.is-speaking]="speech.speakingId() === speechId"
+          (click)="toggleSpeech($event)"
+          (keydown.enter)="$event.stopPropagation()"
+          (keydown.space)="$event.stopPropagation()"
+        >
+          {{ speech.speakingId() === speechId ? 'Stop' : 'Écouter' }}
+        </button>
+      }
+      @if (!isLast) {
+        <span class="turn-toggle">{{ collapsed() ? 'Déplier' : 'Replier' }}</span>
+      }
+    </span>
   </header>
 
   <p class="turn-action" [class.is-clamped]="collapsed()">{{ turn.text }}</p>

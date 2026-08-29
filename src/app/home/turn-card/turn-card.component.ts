@@ -1,5 +1,16 @@
-import { Component, Input, OnChanges, SimpleChanges, Type, input, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  Type,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
+import { SpeechService } from '../../core/speech.service';
 import { Turn } from '../../models/turn.model';
 import { AMBIANCE_KEYS, AMBIANCE_LABELS, STAT_LABELS } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
@@ -30,6 +41,21 @@ export class TurnCardComponent implements OnChanges {
   }
 
   collapsed = signal(true);
+
+  protected readonly speech = inject(SpeechService);
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => this.speech.stopIf(this.speechId));
+  }
+
+  protected get speechId(): string {
+    return `turn-${this.index}`;
+  }
+
+  protected toggleSpeech(event: Event): void {
+    event.stopPropagation();
+    this.speech.toggle(this.speechId, this.turn.answer);
+  }
 
   get statDeltas(): Delta[] {
     const after = this.turn.newstats;
@@ -70,5 +96,8 @@ export class TurnCardComponent implements OnChanges {
 
   toggle(): void {
     this.collapsed.update((v) => !v);
+    if (this.collapsed()) {
+      this.speech.stopIf(this.speechId);
+    }
   }
 }

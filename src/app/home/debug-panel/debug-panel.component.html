@@ -239,6 +239,50 @@
             <button type="button" (click)="applyFieldFeather(100)">100</button>
           </div>
         </div>
+
+        <div class="debug-speech">
+          @if (speech.available()) {
+            <div class="debug-state">
+              <label class="debug-name" for="speech-voice">Voix de lecture</label>
+              <select
+                id="speech-voice"
+                class="debug-select"
+                [value]="speech.voiceName() ?? ''"
+                (change)="onVoiceSelect($event)"
+              >
+                @for (voice of speech.voices(); track voice.name) {
+                  <option [value]="voice.name">{{ voice.name }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="debug-row debug-row--compact">
+              <div class="debug-row-head">
+                <label class="debug-name" for="speech-rate">Vitesse de lecture</label>
+                <span class="debug-value">{{ speech.rate() }}×</span>
+              </div>
+              <input
+                class="debug-slider"
+                id="speech-rate"
+                type="range"
+                min="0.5"
+                max="2"
+                step="0.1"
+                [value]="speech.rate()"
+                (input)="onSpeechRate($event)"
+              />
+              <div class="debug-presets">
+                <button type="button" (click)="applySpeechRate(0.8)">0.8</button>
+                <button type="button" (click)="applySpeechRate(1)">1</button>
+                <button type="button" (click)="applySpeechRate(1.5)">1.5</button>
+              </div>
+            </div>
+          } @else {
+            <p class="debug-hint">
+              Aucune voix française locale détectée : la lecture des tours est désactivée.
+            </p>
+          }
+        </div>
       </div>
     } @else {
       <app-debug-history [halfturns]="halfturns()" [turns]="turns()" />

@@ -11,6 +11,9 @@ import {
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
 
+// One Tap only on touch devices (bottom sheet): on desktop the white card clashes with the theme
+const oneTapEnabled = SILENT_AUTH_ENABLED && window.matchMedia('(pointer: coarse)').matches;
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -25,7 +28,7 @@ export const appConfig: ApplicationConfig = {
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(environment.googleClientId, {
-              oneTapEnabled: SILENT_AUTH_ENABLED,
+              oneTapEnabled,
             }),
           },
         ],

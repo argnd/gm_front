@@ -1,0 +1,642 @@
+[
+  {
+    "theme": "Fantasy sombre",
+    "title": "L'apprenti herboriste du marais noir",
+    "content": "Je suis Edern, jeune herboriste banni de mon village après avoir été accusé d'avoir empoisonné le fils du meunier.\nJe vis dans une cabane de tourbe au bord du Marais Noir, là où les brumes cachent autant de remèdes que de créatures affamées.\n\nJ'ai une serpe d'os, une lanterne fendue, trois fioles de baume, une corde humide et la lettre inachevée de ma soeur.\nLes villageois me croient coupable, mais je sais qu'autre chose rôde dans les roseaux.\n\nMon objectif est de : prouver mon innocence en retrouvant la véritable source du poison avant que les villageois ne viennent brûler ma cabane."
+  },
+  {
+    "theme": "Romance de cour",
+    "title": "La dame de compagnie et le bal d'hiver",
+    "content": "Je vis dans le palais glacé de Valcroix, entre salons dorés, couloirs interdits et rumeurs murmurées derrière les éventails.\nJe suis Alix, dame de compagnie discrète au service d'une duchesse aussi brillante que cruelle.\n\nJ'ai une robe modeste mais élégante, une clé volée des appartements de l'aile est, un flacon de parfum ambré et un billet signé d'une main que je reconnaîtrais entre mille.\nChaque regard au bal peut être une promesse, un piège, ou les deux à la fois.\n\nMon objectif est de : découvrir si la personne qui m'écrit en secret cherche à me sauver, à me séduire ou à m'utiliser avant le grand bal d'hiver."
+  },
+  {
+    "theme": "Survie en montagne",
+    "title": "Le dernier passeur du col",
+    "content": "La neige remonte déjà sur les sentiers du col des Corneilles, et chaque bourrasque me rappelle que la montagne ne pardonne pas.\nJe suis Mael, passeur habitué à guider contre argent ceux qui fuient la guerre au sud.\nJe vis dans un refuge de pierre battu par le vent, trop haut pour être accueillant et trop isolé pour être sûr.\n\nJ'ai une hachette d'alpiniste, un manteau de peau, une carte incomplète, deux rations sèches et une cloche de mule fendue.\n\nMon objectif est de : conduire une enfant inconnue de l'autre côté du col avant que les soldats qui la traquent ne me retrouvent."
+  },
+  {
+    "theme": "Enquête gothique",
+    "title": "Le médecin des morts récents",
+    "content": "Je suis Bastien, médecin de province spécialisé malgré moi dans les morts trop étranges pour être naturelles.\nQuand les familles craignent un scandale plus qu'un deuil, elles viennent frapper à ma porte avant l'aube.\nJe vis dans une maison haute adossée au cimetière de Saint-Lys, où le silence des tombes pèse parfois moins lourd que celui des vivants.\n\nJ'ai une trousse de chirurgie, un carnet de notes taché d'encre, un pistolet à un coup, un chapelet brisé et une bague prise sur un cadavre qui n'aurait jamais dû en porter.\n\nMon objectif est de : identifier ce qui relève du meurtre, du mensonge ou du surnaturel dans la série de décès qui terrorise la ville."
+  },
+  {
+    "theme": "Piraterie",
+    "title": "La cartographe du navire mutin",
+    "content": "Je suis Ysée, cartographe embarquée de force sur un navire pirate après le sac de mon port natal.\nJe vis à bord de L'Insoumise, entre la cale humide, les hamacs qui grincent et l'horizon sans pardon de la mer intérieure.\n\nJ'ai un sextant cabossé, un couteau de marin, une carte marine griffonnée, une boussole instable et une bague en cuivre qui appartenait à mon père.\nL'équipage sent la poudre, la peur et la trahison bien avant qu'un seul mot de mutinerie soit prononcé.\n\nMon objectif est de : survivre assez longtemps pour retrouver une île introuvable avant que l'équipage ne se déchire dans une mutinerie sanglante."
+  },
+  {
+    "theme": "Conte romantique",
+    "title": "La fleuriste de la ruelle aux lanternes",
+    "content": "Dans la ruelle aux Lanternes, la pluie sent le thé fumé et les adieux trop longtemps retenus.\nJe suis Ninon, fleuriste sans fortune connue pour composer des bouquets capables de raviver des souvenirs oubliés.\nJe vis dans une boutique étroite de la ville basse, entre pétales rares, eau teintée et confidences glissées à voix basse.\n\nJ'ai un panier de fleurs rares, un sécateur d'argent, une boîte à musique muette, quelques pièces de cuivre et une écharpe laissée par un inconnu blessé.\n\nMon objectif est de : retrouver cet inconnu avant l'aube, parce qu'il a emporté sans le savoir la seule piste vers la vérité sur mes parents."
+  },
+  {
+    "theme": "Exploration antique",
+    "title": "Le pilleur de tombe repenti",
+    "content": "Je vis dans un camp de fouilles dressé devant les ruines ensablées d'Iram la Creuse, où chaque pierre déplacée semble réveiller une mémoire hostile.\nJe suis Cassian, ancien pilleur de tombes qui prétend désormais travailler pour la connaissance plutôt que pour l'or.\n\nJ'ai un marteau de terrain, une gourde presque vide, un rouleau de croquis, un médaillon trouvé dans une crypte scellée et une mule trop nerveuse pour approcher des colonnes.\nMes anciens complices rôdent encore autour des dunes, et ils me connaissent assez pour deviner mes intentions.\n\nMon objectif est de : atteindre la chambre centrale avant eux afin d'empêcher qu'ils ne libèrent ce qui dort sous la cité."
+  },
+  {
+    "theme": "Politique et guerre",
+    "title": "L'émissaire au drapeau blanc",
+    "content": "Je suis Séverin, émissaire d'un royaume épuisé envoyé négocier une paix que personne ne souhaite vraiment.\nJe vis depuis des semaines entre camps retranchés, salles de conseil glaciales et routes couvertes de boue où les messagers disparaissent sans laisser de trace.\n\nJ'ai un sceau royal, un cheval fatigué, une dague de cérémonie, des provisions pour deux jours et une copie incomplète d'un traité plus dangereux qu'il n'en a l'air.\nChaque camp me salue avec politesse, mais tous semblent déjà calculer à quel moment il deviendra utile de me faire taire.\n\nMon objectif est de : parvenir à un accord sans me faire assassiner par ceux qui profitent encore de la guerre."
+  },
+  {
+    "theme": "Mystère urbain",
+    "title": "Le veilleur du quartier noyé",
+    "content": "Je vis dans les rues basses de Brumeterre, entre maisons penchées, passerelles branlantes et canaux noirs où flottent parfois des choses qui ne devraient pas avoir de visage.\nJe suis Corin, veilleur de nuit payé pour patrouiller un quartier que la ville préfère oublier à chaque montée des eaux.\n\nJ'ai une perche ferrée, une lampe à huile, un chien borgne, un sifflet d'alarme et la clé rouillée d'une porte murée sous l'ancien hospice.\nQuand la cloche du pont sonne trois fois après minuit, même les ivrognes se taisent.\n\nMon objectif est de : comprendre pourquoi des habitants disparaissent sans bruit à cette heure-là."
+  },
+  {
+    "theme": "Fantastique académique",
+    "title": "L'étudiante de l'aile interdite",
+    "content": "Je suis Eloane, étudiante en langues anciennes admise à l'Académie d'Astrée malgré mes origines modestes et les regards qui vont avec.\nJe vis dans une chambre étroite sous les combles de l'académie, entourée de bibliothèques scellées, de professeurs ambitieux et de couloirs où certaines portes changent de place la nuit.\n\nJ'ai un grimoire emprunté sans autorisation, une plume de corbeau, une chandelle bleue, une bourse presque vide et un fragment de tablette que personne n'a réussi à traduire.\nUn crime vient d'être commis dans la salle des archives, et je sens déjà les soupçons se tourner vers moi.\n\nMon objectif est de : percer le secret de l'aile interdite avant qu'un rival ne m'accuse ouvertement."
+  },
+  {
+    "theme": "Romance épistolaire",
+    "title": "Les lettres de la pension Saint-Éloi",
+    "content": "Je suis Margot, institutrice récemment engagée dans une pension de jeunes filles tenue par une directrice aussi pieuse qu'inflexible.\nJe vis dans une petite chambre sous les toits de la pension Saint-Éloi, entre l'odeur de l'encre, les cloches du couvent voisin et le bruit discret des confidences derrière les portes.\n\nJ'ai un paquet de lettres anonymes nouées d'un ruban bleu, un miroir terni, une broche héritée de ma mère et un trousseau de clés confié pour mes rondes du soir.\nÀ chaque nouvelle lettre, quelqu'un semble me voir mieux que je ne me montre moi-même.\n\nMon objectif est de : découvrir qui m'écrit avec autant de tendresse et pourquoi cette personne en sait tant sur moi."
+  },
+  {
+    "theme": "Drame sentimental",
+    "title": "Le café des rendez-vous manqués",
+    "content": "Au-dessus de mon petit café presque vide, je vis dans deux pièces modestes qui sentent le café froid, le linge propre et les souvenirs que je n'arrive pas à jeter.\nJe suis Lucien, propriétaire fatigué d'un lieu qui a connu des jours plus heureux.\n\nJ'ai un carnet d'ardoises où je note les habitudes de mes clients, une montre arrêtée, quelques bouteilles de bon vin cachées pour les grandes occasions et une lettre jamais envoyée à la seule personne que j'ai vraiment aimée.\nDepuis peu, cette personne revient chaque jeudi s'asseoir près de la fenêtre sans jamais me parler franchement.\n\nMon objectif est de : comprendre ce qu'elle attend de moi avant que le silence entre nous ne devienne définitif."
+  },
+  {
+    "theme": "Vie quotidienne romantique",
+    "title": "La couturière et le voisin du dessus",
+    "content": "Je suis Héloïse, couturière appliquée connue pour réparer les robes des autres alors que je n'ai jamais eu le temps de penser à la mienne.\nJe vis dans un immeuble ancien de la rue des Tisserands, entre l'atelier du rez-de-chaussée, l'escalier qui craque et les airs de violon qui descendent chaque soir de l'appartement du dessus.\n\nJ'ai une boîte d'épingles, un mètre de couturière, une robe inachevée, une théière ébréchée et un bouton doré tombé de la veste de mon voisin.\nJe ne sais pas encore si ses attentions discrètes relèvent de la politesse, de la solitude ou d'un attachement naissant.\n\nMon objectif est de : comprendre ce qu'il cherche vraiment à me dire avant que l'occasion ne nous échappe."
+  },
+  {
+    "theme": "Chronique de village",
+    "title": "Le retour au bord de la rivière",
+    "content": "Je vis chez ma tante dans une demeure basse au bord de la rivière, entourée de potagers, de linge au vent et de regards curieux qui se souviennent très bien de mon départ.\nJe suis Jeanne, revenue dans mon village natal après plusieurs années passées en ville à servir dans une maison bourgeoise.\n\nJ'ai une malle de vêtements simples, quelques économies cousues dans une doublure, un service à thé fêlé et un médaillon contenant le portrait d'un homme que personne ici ne connaît.\nLe village veut des explications, ma tante veut la paix, et moi je ne sais pas encore ce que je suis venue retrouver.\n\nMon objectif est de : reconstruire une vie paisible sans révéler trop vite pourquoi je suis partie ni pourquoi je pense encore à celui que j'ai laissé derrière moi."
+  },
+  {
+    "theme": "Romance mélancolique",
+    "title": "La maison d'été fermée depuis trop longtemps",
+    "content": "Je suis Adrien, héritier sans enthousiasme d'une maison d'été familiale restée fermée depuis la mort de ma grand-mère.\nJe vis depuis peu dans cette demeure au bord du lac, avec ses pièces silencieuses, ses volets gonflés d'humidité et le jardin envahi de roses redevenues sauvages.\n\nJ'ai un trousseau de vieilles clés, un carnet de recettes écrit à la main, une barque à demi réparée et une photographie découpée où il manque le visage de quelqu'un.\nSur l'autre rive vit une femme qui semble connaître mon histoire mieux que moi.\n\nMon objectif est de : comprendre quel lien unissait ma grand-mère à cette femme et pourquoi sa présence me trouble autant."
+  },
+  {
+    "theme": "Romance de saison",
+    "title": "L'auberge pendant la saison des pluies",
+    "content": "Je vis dans une auberge provinciale aux boiseries sombres, entre les fourneaux encore chauds, les rideaux battus par la pluie et les confidences qui naissent quand les routes deviennent impraticables.\nJe suis Salomé, gérante d'une maison qui accueille moins de voyageurs que de silences depuis la fin de l'été.\n\nJ'ai un registre de réservations, une bouteille de liqueur de mûre, un parapluie cassé, un tablier brodé par ma soeur et la chambre du fond que je n'ouvre jamais.\nUn voyageur vient de s'installer pour quelques jours, et il regarde cette maison comme s'il y avait vécu avant moi.\n\nMon objectif est de : décider si je dois lui faire confiance ou protéger les secrets que cette auberge garde depuis trop longtemps."
+  },
+  {
+    "theme": "Lecture passive",
+    "title": "Raconte-moi, je suivrai",
+    "content": "Je veux juste lire.\nToutes mes réponses seront simplement : suivant.\nRaconte-moi l'histoire de ton choix, choisis toi-même le cadre, le ton, les personnages et les rebondissements.\nJe veux me laisser porter par un récit fluide, immersif et cohérent, sans avoir à construire moi-même l'univers ou l'intrigue.\n\nMon objectif est de : vivre une histoire prenante où je n'ai qu'à avancer scène après scène en répondant suivant."
+  },
+  {
+    "theme": "Romance adulte",
+    "title": "La chambre aux rideaux clos",
+    "content": "Je veux une histoire plus explicite, centrée sur la tension sensuelle, le désir avoué et l'attirance entre adultes consentants.\nJe vis depuis peu dans une pension élégante où les murs sont fins, les regards longs, et les rendez-vous discrets plus éloquents que les promesses.\n\nJ'ai une clef qui n'est pas censée être en ma possession, une tenue choisie avec trop de soin pour être innocente, un billet froissé glissé sous ma porte et assez de lucidité pour savoir que je joue avec quelque chose de dangereux.\nJe veux une intrigue intime, charnelle et émotionnelle, où la séduction, l'attente, les aveux et les conséquences comptent autant que les gestes eux-mêmes.\n\nMon objectif est de : vivre une romance adulte plus explicite, intense et consentie, où le désir tient une place centrale dans l'histoire."
+  },
+  {
+    "theme": "Fantasy sylvestre",
+    "title": "La garde-chasse des bois noyés",
+    "content": "Je suis Liora, garde-chasse exilée chargée de surveiller une forêt que les cartes officielles refusent déjà de nommer.\nJe vis dans une tour de guet couverte de mousse au bord des Bois Noyés, là où les arbres boivent la lumière et recrachent des murmures.\n\nJ'ai un arc court, un manteau huilé, trois collets vides, une pierre de veille et le journal détrempé de mon prédécesseur.\nChaque nuit, des traces humaines apparaissent trop loin dans le marécage pour appartenir à de simples promeneurs.\n\nMon objectif est de : retrouver qui pénètre dans la forêt avant que les bois ne réclament un nouveau disparu."
+  },
+  {
+    "theme": "Science-fiction orbitale",
+    "title": "Le technicien du dôme fissuré",
+    "content": "Je suis Nils, technicien de maintenance sur une station agricole en orbite basse autour d'une lune sans ciel.\nJe vis dans le dôme Cérès-7, entre cultures sous verre, alarmes basses et couloirs où l'air sent toujours un peu l'ozone brûlé.\n\nJ'ai une clé magnétique, un kit de soudure, deux filtres de rechange, un communicateur brouillé et un plan technique annoté à la main.\nUne fissure revient sans cesse au même endroit malgré toutes les réparations, comme si quelqu'un voulait forcer le dôme à céder.\n\nMon objectif est de : découvrir s'il s'agit d'un sabotage avant que la prochaine panne ne condamne toute la serre."
+  },
+  {
+    "theme": "Polar portuaire",
+    "title": "La plongeuse du quai 9",
+    "content": "Je suis Dana, plongeuse de récupération payée pour repêcher ce que le port préfère ne pas déclarer.\nJe vis dans une chambre humide au-dessus d'un bar de dockers, avec vue sur le quai 9 et ses cargaisons déchargées de nuit.\n\nJ'ai une combinaison usée, un couteau à lame courte, une lampe étanche, une dette trop lourde et une chevalière trouvée au fond de l'eau.\nDepuis trois jours, les mêmes hommes reviennent sonder le bassin après minuit sans prévenir la capitainerie.\n\nMon objectif est de : comprendre ce qu'ils cherchent avant qu'ils ne décident que je sais déjà trop de choses."
+  },
+  {
+    "theme": "Western crépusculaire",
+    "title": "Le joueur de cartes de Mesa Roja",
+    "content": "Je suis Tomas, ancien convoyeur devenu joueur de cartes pour oublier les pistes que je n'ai pas réussi à protéger.\nJe vis de table en table dans les saloons poussiéreux de Mesa Roja, là où chaque sourire cache un revolver ou une rancune.\n\nJ'ai un jeu de cartes marqué, une gourde de mauvais whisky, un cheval boiteux, une montre en argent et la photo pliée d'un frère disparu.\nUn étranger vient de miser sur ma table avec des jetons frappés du sceau d'une compagnie supposée ruinée.\n\nMon objectif est de : remonter jusqu'à ceux qui ont fait disparaître mon frère avant qu'ils ne quittent le territoire."
+  },
+  {
+    "theme": "Steampunk",
+    "title": "L'horlogère du pont de cuivre",
+    "content": "Je suis Iris, horlogère de quartier connue pour réparer les automates que les riches préfèrent jeter plutôt que comprendre.\nJe vis dans un atelier suspendu au-dessus du pont de Cuivre, entre engrenages, vapeur tiède et vitres toujours tachées de suie.\n\nJ'ai une loupe de précision, un tournevis aimanté, une clé de remontage, un carnet de commandes falsifié et un automate muet retrouvé devant ma porte.\nSon mécanisme contient un plan minuscule qui mène vers une aile condamnée de l'usine royale.\n\nMon objectif est de : découvrir qui a caché ce message dans la machine avant que les inspecteurs ne remontent jusqu'à moi."
+  },
+  {
+    "theme": "Horreur rurale",
+    "title": "Le sonneur de la chapelle vide",
+    "content": "Je suis Abel, sonneur de cloches dans un hameau qui ne reçoit plus de prêtre depuis des années mais continue pourtant d'enterrer ses morts.\nJe vis dans une maison de pierre accolée à la vieille chapelle, au milieu des champs plats et des brouillards qui ne se lèvent jamais tout à fait.\n\nJ'ai une lanterne jaune, un trousseau de clés noires, un fusil de chasse, un missel rongé et des traces de boue devant ma porte chaque matin.\nLa cloche se met à sonner seule les nuits où personne n'est censé mourir.\n\nMon objectif est de : découvrir qui monte au clocher avant que le village ne me tienne pour responsable du prochain enterrement."
+  },
+  {
+    "theme": "Fantasy désertique",
+    "title": "La messagère des dunes blanches",
+    "content": "Je suis Samira, messagère à dos de lézard des sables entre des oasis qui n'échangent plus que des nouvelles mauvaises.\nJe traverse les Dunes Blanches avec pour seuls repères des balises de pierre, des os polis et le souvenir changeant des pistes anciennes.\n\nJ'ai une lance légère, une gourde tressée, un voile de sel, deux sceaux intacts et un anneau qu'un mourant a glissé dans ma paume.\nL'une des lettres que je transporte semble assez dangereuse pour déclencher une guerre de puits.\n\nMon objectif est de : remettre le bon message à la bonne personne avant que plusieurs clans ne me coupent la route."
+  },
+  {
+    "theme": "Cyberpunk",
+    "title": "Le coursier des toits de Néon-Est",
+    "content": "Je suis Kade, coursier clandestin spécialisé dans les livraisons qui ne doivent apparaître dans aucun registre.\nJe vis sur les toits de Néon-Est, entre serres publicitaires, câbles tremblants et drones qui ratissent la nuit comme si elle leur appartenait.\n\nJ'ai des gants d'escalade, un masque filtrant, une puce de dérivation, trois crédits de secours et une capsule scellée dont je ne connais pas le contenu.\nLe client qui devait la récupérer a été effacé des caméras avant même mon arrivée au point de rendez-vous.\n\nMon objectif est de : trouver à qui appartient vraiment la capsule avant que la mégacorp ne la récupère par la force."
+  },
+  {
+    "theme": "Renaissance brisée",
+    "title": "Le copiste du palais effondré",
+    "content": "Je suis Matteo, copiste modeste employé à reproduire des traités que les puissants n'ont pas intérêt à voir circuler.\nJe vis dans une aile à demi effondrée du palais des Archives, parmi la poussière de plâtre, les fresques fendues et les pas trop discrets des espions.\n\nJ'ai un coffret d'encres, une plume d'oie, un cachet brisé, un couteau de table et une page unique arrachée à un testament princier.\nLe document original a disparu la nuit même où l'on m'a demandé d'en faire une copie parfaite.\n\nMon objectif est de : comprendre qui veut falsifier l'héritage avant que mon nom ne soit mêlé à la fraude."
+  },
+  {
+    "theme": "Romance citadine",
+    "title": "Le libraire du passage couvert",
+    "content": "Je suis Noé, libraire discret installé dans un passage couvert que la pluie rend presque hors du temps.\nJe vis au-dessus de ma boutique, entre piles de romans, bouilloire sifflante et lettres oubliées dans les livres d'occasion.\n\nJ'ai un escabeau branlant, une caisse de volumes annotés, un parapluie trop vieux, quelques roses séchées et un ticket de théâtre glissé dans un recueil de poèmes.\nLa personne qui a laissé ce ticket revient chaque semaine feuilleter le même rayon sans jamais m'adresser plus de deux phrases.\n\nMon objectif est de : trouver le courage de percer ce mystère avant qu'elle ne disparaisse une fois de plus dans la foule."
+  },
+  {
+    "theme": "Exploration jungle",
+    "title": "La botaniste du fleuve rouge",
+    "content": "Je suis Amaya, botaniste engagée pour inventorier une vallée où les cartes se terminent en blanc.\nJe vis sur une péniche amarrée au Fleuve Rouge, entre caisses de prélèvements, moustiquaires trouées et chants d'oiseaux que personne dans l'équipe ne reconnaît.\n\nJ'ai un carnet ciré, une machette courte, des fioles de sève, une radio capricieuse et une graine noire qui pulse légèrement au creux de ma main.\nL'expédition officielle parle de recherche, mais certains collègues fouillent la jungle comme s'ils cherchaient autre chose.\n\nMon objectif est de : découvrir ce qu'ils sont venus prendre avant que la vallée ne se referme sur nous."
+  },
+  {
+    "theme": "Post-apocalyptique",
+    "title": "La récupératrice des serres cassées",
+    "content": "Je suis Véra, récupératrice dans une ville froide qui survit grâce à des serres éventrées et des accords précaires.\nJe vis dans un ancien kiosque de tram transformé en abri, à l'orée du quartier des Verrières où le givre pousse même à l'intérieur des murs.\n\nJ'ai un chariot grinçant, un coupe-boulon, deux piles, un manteau doublé et la moitié d'un plan menant vers un réservoir enterré.\nLes bandes du nord commencent elles aussi à chercher cet endroit, et elles ne négocient jamais deux fois.\n\nMon objectif est de : atteindre le réservoir avant eux pour offrir de l'eau au quartier qui me protège."
+  },
+  {
+    "theme": "Mythologique",
+    "title": "Le pâtre du mont aux dieux",
+    "content": "Je suis Elio, pâtre de montagne habitué aux chèvres entêtées et aux orages soudains, pas aux voix qui me répondent depuis les pierres.\nJe vis sur les pentes du mont Aurion, là où les anciens déposaient jadis leurs offrandes avant que le sanctuaire ne soit abandonné.\n\nJ'ai une houlette noueuse, un couteau de berger, du fromage sec, un médaillon votif et une couronne d'herbes trouvée sur l'autel en ruine.\nDepuis l'équinoxe, une présence semble guider mon troupeau vers une faille que personne n'ose approcher.\n\nMon objectif est de : comprendre quel dieu réclame mon attention avant qu'il ne la prenne lui-même."
+  },
+  {
+    "theme": "Espionnage diplomatique",
+    "title": "La traductrice de l'ambassade grise",
+    "content": "Je suis Mila, traductrice recrutée pour sa discrétion bien plus que pour son talent.\nJe vis dans les appartements de service de l'ambassade grise, entre couloirs cirés, bureaux verrouillés et dîners où chacun pèse ses mots comme une arme.\n\nJ'ai des carnets codés, une paire de gants clairs, un laissez-passer temporaire, une oreillette interdite et un toast officiel portant un message invisible.\nDeux délégations préparent un accord de paix, mais les textes qu'on me soumet ne disent jamais exactement la même chose.\n\nMon objectif est de : découvrir qui falsifie les traductions avant qu'un incident diplomatique n'enflamme la frontière."
+  },
+  {
+    "theme": "Urbain magique",
+    "title": "Le boulanger des aurores tardives",
+    "content": "Je suis Rémi, boulanger de l'aube dans un quartier où les nuits semblent parfois durer plus longtemps pour certaines fenêtres que pour d'autres.\nJe vis derrière ma boutique, entre levains chauds, farine au sol et petits enchantements domestiques qu'on tait pour ne pas attirer l'administration.\n\nJ'ai une pelle à pain, un tablier brûlé, une boîte de sel bénit, un carnet de commandes et une miche qui refuse de refroidir depuis hier.\nUne cliente inconnue vient chaque matin demander le même pain exact, puis disparaît avant le lever complet du soleil.\n\nMon objectif est de : comprendre ce qu'elle cherche dans ma boutique avant que son secret n'entraîne le quartier avec elle."
+  },
+  {
+    "theme": "Space opera",
+    "title": "La pilote du cargo Saint-Argent",
+    "content": "Je suis Tali, pilote indépendante d'un cargo usé qui transporte surtout ce que les lignes régulières jugent peu rentable ou trop risqué.\nJe vis à bord du Saint-Argent, entre cloisons qui vibrent, couchette étroite et pare-brise constellé de poussière orbitale.\n\nJ'ai un pistolet à impulsion, un manuel de navigation annoté, six caisses scellées, une dette de carburant et un passager clandestin blessé.\nLe manifeste officiel ne mentionne ni ce passager ni la planète de guerre qu'il me supplie d'éviter.\n\nMon objectif est de : décider à qui je peux livrer ma cargaison sans vendre en même temps la vie de l'inconnu."
+  },
+  {
+    "theme": "Noir pluvieux",
+    "title": "Le détective de la ligne de tram 6",
+    "content": "Je suis Joël, détective sans bureau fixe qui prend ses rendez-vous là où la pluie couvre les conversations.\nJe vis entre chambres d'hôtel bon marché et banquettes de tram, surtout sur la ligne 6 qui traverse les quartiers où les disparus cessent d'intéresser la police.\n\nJ'ai un carnet froissé, un revolver déchargé, un imperméable râpé, deux contacts nerveux et un ticket composté retrouvé dans la main d'une victime.\nTous les témoins disent avoir vu la même femme monter dans le tram, mais aucun ne la décrit de la même façon.\n\nMon objectif est de : retrouver cette passagère avant qu'un autre corps n'apparaisse au terminus."
+  },
+  {
+    "theme": "Cour fantastique",
+    "title": "La dame faucon du roi absent",
+    "content": "Je suis Oriane, fauconnière de cour dans un château où le roi n'est plus revenu de chasse depuis neuf jours.\nJe vis dans les volières hautes de Rocheclair, entre plumes, froid sec et messagers qui mentent avec une courtoisie impeccable.\n\nJ'ai un gant de cuir, un sifflet d'argent, un faucon borgne, une lettre scellée pour la reine et une plume tachée de sang humain.\nLes conseillers jurent que le roi reviendra demain, mais personne n'ose dire d'où provient cette plume.\n\nMon objectif est de : découvrir ce qui est arrivé au roi avant que la succession ne déchire la cour."
+  },
+  {
+    "theme": "Survie insulaire",
+    "title": "Le pêcheur de l'île des épaves",
+    "content": "Je suis Malo, pêcheur sur une île où les bateaux viennent mourir plus souvent qu'ils n'accostent.\nJe vis dans une cabane battue par le sel près de la plage des Épaves, parmi les filets rapiécés, les goélands agressifs et les rumeurs de contrebande.\n\nJ'ai un harpon court, un filet propre, une barque fendue, une lampe-tempête et un coffre rejeté par la mer sans aucune marque.\nDepuis son arrivée, des hommes armés surveillent discrètement le chenal comme s'ils attendaient que quelqu'un ose l'ouvrir.\n\nMon objectif est de : savoir ce que contient le coffre avant qu'un meurtre n'achète définitivement mon silence."
+  },
+  {
+    "theme": "Mystère monastique",
+    "title": "La novice du cloître gelé",
+    "content": "Je suis Céleste, novice entrée trop jeune dans un ordre qui parle peu et observe beaucoup.\nJe vis au cloître gelé de Sainte-Veille, entre couloirs de pierre, copies enluminées et serres vides que personne n'explique.\n\nJ'ai un chapelet d'if, une petite lampe d'étude, un trousseau incomplet, une fiole d'encre bleue et une page arrachée au registre des décès.\nUne cellule condamnée semble pourtant habitée chaque nuit par quelqu'un qui connaît mon prénom.\n\nMon objectif est de : découvrir ce que le couvent me cache avant que mes vœux ne m'enferment pour de bon."
+  },
+  {
+    "theme": "Fantasy bestiaire",
+    "title": "Le tanneur des loups blancs",
+    "content": "Je suis Garin, tanneur de frontière réputé pour connaître les bêtes mieux que les hommes.\nJe vis dans une remise au bord de la taïga, entre peaux suspendues, neige sale et pièges posés trop près du village.\n\nJ'ai une hachette, des aiguilles courbes, un traîneau léger, trois pièges vides et une empreinte impossible moulée dans la cire.\nLes loups blancs qui tournent autour des maisons semblent guidés par une intelligence qui les dépasse.\n\nMon objectif est de : comprendre ce qui mène la meute avant qu'elle n'entre enfin dans les rues."
+  },
+  {
+    "theme": "Boucle temporelle",
+    "title": "L'archiviste du mardi répété",
+    "content": "Je suis Solène, archiviste municipale avec une mémoire trop bonne pour faire semblant de ne rien remarquer.\nJe vis au-dessus des archives de Bellune, entre boîtes grises, humidité maîtrisée et horloge murale bloquée sur la même minute chaque matin.\n\nJ'ai des gants de coton, un double des clés, un magnétophone, une lettre datée de demain et un agenda où le même mardi revient six fois.\nPersonne d'autre ne semble se souvenir que la journée s'est déjà déroulée exactement ainsi.\n\nMon objectif est de : trouver ce qui recommence le temps avant que ma propre mémoire ne se désagrège."
+  },
+  {
+    "theme": "Science polaire",
+    "title": "La glaciologue sous la mer gelée",
+    "content": "Je suis Inga, glaciologue affectée à une base sous-marine construite sous une banquise plus ancienne que les cartes satellites.\nJe vis dans des modules métalliques reliés par des sas, avec pour horizon un plafond de glace bleue traversé de fissures lumineuses.\n\nJ'ai une combinaison thermique, un sonar portatif, un échantillonneur, trois batteries et un enregistrement où quelqu'un frappe de l'autre côté de la glace.\nL'équipe scientifique prétend que ce signal n'est qu'un écho, mais personne ne veut me laisser l'étudier seule.\n\nMon objectif est de : déterminer l'origine du signal avant que la direction ne ferme définitivement le secteur."
+  },
+  {
+    "theme": "Romance ferroviaire",
+    "title": "Le contrôleur du train de nuit",
+    "content": "Je suis Étienne, contrôleur habitué aux wagons silencieux et aux confidences que les voyageurs n'osent faire qu'entre deux gares.\nJe vis presque plus dans le train de nuit des Hautes-Plaines que dans mon appartement resté vide en ville.\n\nJ'ai un poinçon usé, un uniforme impeccable, un thermos de café, un billet sans nom et une écharpe oubliée sur une banquette de première classe.\nLa même passagère réapparaît à chaque trajet sur les registres, alors qu'aucun agent ne l'a jamais vue descendre.\n\nMon objectif est de : découvrir qui elle attend vraiment avant que la ligne ne soit supprimée pour de bon."
+  },
+  {
+    "theme": "Fantasy marchande",
+    "title": "L'apothicaire du marché des ombres",
+    "content": "Je suis Ysolde, apothicaire du marché des Ombres, où les remèdes honnêtes côtoient des fioles qu'on vend les yeux baissés.\nJe vis derrière mon échoppe, entre herbiers suspendus, chaudrons tièdes et voisins qui n'ouvrent qu'à la tombée du jour.\n\nJ'ai un pilon de bronze, cinq sachets de racines, une balance fine, un chat un peu trop lucide et un flacon sans étiquette laissé à mon nom.\nPlusieurs clients me demandent depuis l'aube un antidote pour un poison dont personne n'est censé connaître l'existence.\n\nMon objectif est de : identifier qui a remis ce poison en circulation avant que le marché entier ne bascule dans la panique."
+  },
+  {
+    "theme": "Science-fiction désertique",
+    "title": "La géologue du puits orbital",
+    "content": "Je suis Sana, géologue envoyée sur une colonie minière bâtie au fond d'un cratère rouge.\nJe vis près du puits orbital, entre foreuses vibrantes, dortoirs chauffés trop fort et poussière qui s'infiltre jusque dans les dents.\n\nJ'ai un marteau d'analyse, une tablette de relevés, un masque de filtration, deux échantillons falsifiés et l'accès temporaire à un niveau interdit.\nLes mesures du sous-sol indiquent une cavité énorme que la compagnie nie depuis des mois.\n\nMon objectif est de : atteindre cette cavité avant que la direction ne rebouche tout sous un faux accident."
+  },
+  {
+    "theme": "Rébellion historique",
+    "title": "Le batelier des affiches interdites",
+    "content": "Je suis Jules, batelier sur une rivière frontière où les caisses officielles pèsent souvent moins lourd que les messages qu'elles dissimulent.\nJe vis sur une péniche basse, entre sacs de grain, boue de quai et chansons qu'on interrompt dès qu'un uniforme approche.\n\nJ'ai une perche ferrée, un manteau goudronné, une fausse licence de transport, trois affiches roulées et un nom d'emprunt gravé sous ma rame.\nUne rafle se prépare dans la ville haute, et l'on m'a confié des listes qui pourraient sauver des familles entières.\n\nMon objectif est de : faire passer ces noms de l'autre côté avant que les barrages ne ferment la rivière."
+  },
+  {
+    "theme": "Pension mystérieuse",
+    "title": "Le surveillant du dortoir ouest",
+    "content": "Je suis Hadrien, surveillant de pension recruté pour calmer des élèves que les autres adultes trouvent simplement trop imaginatifs.\nJe vis dans le dortoir ouest du collège Saint-Alban, un bâtiment ancien où le parquet parle autant que les pensionnaires.\n\nJ'ai une lanterne de ronde, un carnet de sanctions, un trousseau partiel, une tasse ébréchée et une bille de verre trouvée sous le lit d'un disparu.\nChaque nuit, quelqu'un déplace les lits du dernier rang sans laisser de traces de pas.\n\nMon objectif est de : comprendre ce qui attire les élèves vers l'aile condamnée avant qu'un autre enfant ne manque à l'appel."
+  },
+  {
+    "theme": "Thriller médical",
+    "title": "L'interne du service fermé",
+    "content": "Je suis Lina, interne de nuit dans un hôpital où les étages les plus anciens n'ont jamais complètement quitté les usages les plus opaques.\nJe vis de gardes trop longues, de distributeurs tièdes et du petit salon du service fermé où personne ne s'assoit jamais plus de cinq minutes.\n\nJ'ai un badge temporaire, un stéthoscope, des notes cliniques copiées en douce, une ampoule de sédatif manquante et le numéro d'une patiente déclarée sortie.\nCette patiente m'appelle pourtant chaque nuit depuis une chambre censée être vide.\n\nMon objectif est de : découvrir qui l'a fait disparaître des dossiers avant qu'on n'efface aussi mon nom."
+  },
+  {
+    "theme": "Fantôme victorien",
+    "title": "La gouvernante du manoir au lilas",
+    "content": "Je suis Agathe, gouvernante engagée pour remettre de l'ordre dans une maison trop grande pour ses derniers occupants.\nJe vis au manoir au Lilas, entre salons bâchés, escaliers silencieux et portraits dont les regards changent selon l'heure.\n\nJ'ai un trousseau complet, un carnet de dépenses, une robe sobre, une lettre de recommandation froissée et un coffret d'enfant dissimulé dans une armoire.\nLe jeune héritier parle chaque soir à quelqu'un qui l'attend dans la serre condamnée.\n\nMon objectif est de : découvrir s'il s'agit d'un mensonge d'enfant ou du dernier secret de cette famille."
+  },
+  {
+    "theme": "Folk horror",
+    "title": "Le meunier de la vallée creuse",
+    "content": "Je suis Baptiste, meunier d'une vallée où l'eau tourne les roues même quand la rivière semble basse.\nJe vis près du vieux moulin, entre farine froide, planches humides et corbeaux qui s'alignent trop souvent sur le toit.\n\nJ'ai une pelle à grain, une corde rêche, une cloche de porte, un sac de blé noir et une dent animale trouvée dans la farine du matin.\nLes anciens du village exigent que le moulin cesse de tourner trois nuits par an, sans jamais m'expliquer pourquoi.\n\nMon objectif est de : comprendre ce que la roue nourrit encore avant qu'on ne me force à reprendre le rite."
+  },
+  {
+    "theme": "Détective occulte",
+    "title": "La relieuse aux mains tachées",
+    "content": "Je suis Maud, relieuse de livres rares, habituée à restaurer des secrets mieux que du papier.\nJe vis dans un atelier sombre de la rue des Pieux, entre presses, cuir humide et commandes déposées sans signature.\n\nJ'ai un couteau à parer, du fil poissé, des gants noirs, un livre sans titre cousu avec du fil rouge et une facture payée en vieilles pièces funéraires.\nChaque fois que j'ouvre cet ouvrage, une page apparaît fraîchement écrite alors qu'aucune main ne la touche.\n\nMon objectif est de : découvrir qui me parle à travers ce livre avant que ses messages ne deviennent des ordres."
+  },
+  {
+    "theme": "Rébellion fantastique",
+    "title": "Le porteur d'étendard déchu",
+    "content": "Je suis Arven, ancien porteur d'étendard d'une armée dissoute après une paix signée trop vite et tenue encore moins longtemps.\nJe vis dans une auberge de garnison à moitié vide, entre vétérans boiteux, armures vendues au poids et promesses oubliées.\n\nJ'ai une bannière roulée, une épée émoussée, des bottes de marche, deux pièces royales et l'adresse d'un capitaine que tout le monde croit mort.\nDes insurgés utilisent de nouveau les couleurs de mon ancien régiment pour rallier les villages.\n\nMon objectif est de : découvrir si cette révolte peut encore sauver quelque chose avant qu'une nouvelle guerre n'engloutisse le pays."
+  },
+  {
+    "theme": "Romance littorale",
+    "title": "La restauratrice du phare",
+    "content": "Je suis Édith, restauratrice de tableaux venue remettre en état les fresques d'un phare fermé au public.\nJe vis au sommet de la falaise, entre odeur d'iode, chiffons imbibés de solvants et lumière tournante visible de toute la baie.\n\nJ'ai des pinceaux fins, un carnet de pigments, une radio ancienne, une cicatrice discrète et une lettre d'accueil signée par quelqu'un que je croyais parti depuis dix ans.\nLe gardien du phare évite mon regard comme s'il me reconnaissait avant même que je me présente.\n\nMon objectif est de : comprendre ce qui nous lie vraiment avant que mon chantier ne prenne fin."
+  },
+  {
+    "theme": "Mystère maritime",
+    "title": "Le mousse du navire sans pavillon",
+    "content": "Je suis Tiago, mousse embarqué à la hâte sur un navire qui change de route plus souvent que de capitaine.\nJe vis à bord d'un bâtiment sans pavillon fixe, entre cordages goudronnés, soupe claire et cales qu'on me défend d'approcher.\n\nJ'ai un couteau de matelot, une vareuse trop grande, un bout de craie, une pièce percée et un paquet de lettres destinées à un port où nous n'allons pas.\nL'équipage chuchote qu'un passager clandestin voyage caché parmi les caisses religieuses.\n\nMon objectif est de : découvrir qui se cache dans la cale avant qu'on ne m'accuse moi-même de l'avoir aidé."
+  },
+  {
+    "theme": "Écologie futuriste",
+    "title": "La jardinière du biodôme 4",
+    "content": "Je suis Aurore, jardinière en charge d'un biodôme expérimental où l'on teste des espèces capables de réparer l'air.\nJe vis dans le secteur 4, entre cascades artificielles, capteurs de pollen et vitres si propres qu'elles en deviennent inquiétantes.\n\nJ'ai un sécateur en céramique, des gants filtrants, un terminal de serre, des sachets de graines codées et un rosier qui pousse là où le sol devrait être stérile.\nLes administrateurs veulent détruire cette parcelle malgré des résultats qui dépassent toutes les prévisions.\n\nMon objectif est de : sauver ce qui pousse ici avant qu'on ne l'efface pour protéger un mensonge industriel."
+  },
+  {
+    "theme": "Conte d'hiver",
+    "title": "Le tailleur du village au givre",
+    "content": "Je suis Léandre, tailleur de manteaux dans un village que l'hiver visite toujours avant les autres.\nJe vis dans une petite échoppe du village au Givre, entre laine brute, aiguilles longues et vitres que la glace dessine chaque nuit.\n\nJ'ai des ciseaux d'acier, un mannequin de bois, une pelisse inachevée, un bonnet trop fin et un flocon qui ne fond jamais dans ma poche.\nLa nouvelle institutrice m'a confié un tissu brodé de symboles que ma grand-mère disait maudits.\n\nMon objectif est de : savoir qui a ressorti ce motif avant que le froid ne s'installe pour de bon."
+  },
+  {
+    "theme": "Intrigue politique",
+    "title": "La nièce du chancelier",
+    "content": "Je suis Héloïse, nièce peu considérée d'un chancelier qui me croit utile seulement quand il faut écouter sans être remarquée.\nJe vis dans les appartements secondaires du palais de Clairval, entre tapis feutrés, audiences privées et portes qui ferment avant mon passage.\n\nJ'ai un éventail creux, un carnet minuscule, une bague de famille, deux invitations contrefaites et la copie d'un contrat de mariage explosif.\nMon oncle prépare une alliance qui pourrait sauver le trône ou précipiter une révolte immédiate.\n\nMon objectif est de : comprendre qui manipule cette négociation avant d'être sacrifiée à sa place."
+  },
+  {
+    "theme": "Aventure urbaine",
+    "title": "Le chauffeur du dernier bus",
+    "content": "Je suis Karim, chauffeur de nuit sur une ligne que la mairie menace de supprimer chaque hiver.\nJe vis presque dans le dépôt municipal, entre sièges usés, café trop fort et couloirs de maintenance où les ampoules grésillent sans raison.\n\nJ'ai un carnet de trajets, une lampe torche, des clés de service, une radio qui capte parfois des voix étrangères et une sacoche oubliée au terminus.\nAucun passager ne réclame cette sacoche, mais plusieurs inconnus montent maintenant dans mon bus juste pour vérifier si elle est encore là.\n\nMon objectif est de : découvrir pourquoi cet objet intéresse autant de monde avant la fin de ma dernière tournée."
+  },
+  {
+    "theme": "Antiquité sacrée",
+    "title": "L'augure du temple renversé",
+    "content": "Je suis Daphné, jeune augure formée à lire les cendres, les oiseaux et les silences gênés des prêtres.\nJe vis près du temple renversé d'Astron, entre colonnes brisées, encens froid et offrandes déposées de nuit par des mains anonymes.\n\nJ'ai une coupe d'airain, des osselets divinatoires, un voile safran, un signe brûlé sur la paume et une tablette portant un présage censuré.\nLes anciens du culte me demandent de mentir sur ce que j'ai vu dans la fumée.\n\nMon objectif est de : décider si je dois protéger la cité ou révéler la prophétie malgré les conséquences."
+  },
+  {
+    "theme": "Survie hivernale",
+    "title": "La pisteuse du lac blanc",
+    "content": "Je suis Neva, pisteuse louée pour retrouver des gens, du bétail ou des cargaisons là où la neige efface tout trop vite.\nJe vis dans une cabane près du lac Blanc, entre peaux sèches, rations dures et patins suspendus au mur.\n\nJ'ai des raquettes, un fusil long, un chien silencieux, une carte des vents et l'écharpe d'un enfant disparu prise dans un pin nain.\nLes traces s'arrêtent net au milieu de la glace alors que personne n'a entendu de craquement.\n\nMon objectif est de : retrouver l'enfant avant que la tempête annoncée n'enterre pour toujours la piste."
+  },
+  {
+    "theme": "Cyber-enquête",
+    "title": "L'analyste des souvenirs vendus",
+    "content": "Je suis June, analyste indépendante chargée de vérifier l'authenticité de souvenirs enregistrés avant leur revente aux plus riches.\nJe vis dans une tour basse du quartier Signal, entre câbles suspendus, écrans laiteux et voisins qui n'utilisent jamais leur vrai visage.\n\nJ'ai un casque neural, une trousse de patchs, un brouilleur portable, un contrat anonyme et un fragment de mémoire où mon propre rire apparaît.\nQuelqu'un vend sur le marché noir des souvenirs qui me concernent sans que je sache comment ils ont été extraits.\n\nMon objectif est de : retrouver la source de cette fuite avant que l'on puisse me réécrire moi aussi."
+  },
+  {
+    "theme": "Romance musicale",
+    "title": "La pianiste du salon d'été",
+    "content": "Je suis Clémence, pianiste engagée pour accompagner les réceptions d'une villa où l'on applaudit surtout ce qu'on ne comprend pas.\nJe vis pour la saison dans le salon d'été des Morel, entre verrières ouvertes, partitions fanées et conversations qui cessent quand j'entre.\n\nJ'ai des gants de dentelle, un cahier de musique annoté, une broche empruntée, quelques économies et une partition recopiée d'une main que je reconnais.\nLe nouveau jardinier joue le même morceau que moi quand il croit être seul près de la serre.\n\nMon objectif est de : comprendre pourquoi cette mélodie nous relie avant la fin de l'été."
+  },
+  {
+    "theme": "Académie magique",
+    "title": "Le répétiteur de la tour astrale",
+    "content": "Je suis Soren, répétiteur sous-payé dans une académie qui réserve la vraie magie aux élèves bien nés.\nJe vis dans une cellule sous la tour Astrale, entre piles de copies, instruments de mesure et fenêtres trop hautes pour voir la ville.\n\nJ'ai un compas runique, de l'encre phosphorescente, une clef d'étude, un astrolabe d'emprunt et un fragment d'étoffe imprégné de cendre bleue.\nUn élève prodige a disparu après avoir prédit un incendie que les maîtres refusent d'évoquer.\n\nMon objectif est de : retrouver ce qu'il a découvert avant que la tour n'efface jusqu'à son nom."
+  },
+  {
+    "theme": "Casse criminel",
+    "title": "La perceuse de coffres du boulevard Saint-Roch",
+    "content": "Je suis Nora, perceuse de coffres reconvertie tant bien que mal dans la serrurerie honnête.\nJe vis au-dessus d'une boutique discrète du boulevard Saint-Roch, entre barillets, factures en retard et anciennes fréquentations qui savent où me trouver.\n\nJ'ai une mallette de crochets, une perceuse à main, deux faux reçus, une paire de gants souples et le plan d'un coffre qu'on dit impossible à ouvrir.\nLe propriétaire de ce coffre vient d'être retrouvé mort avant de pouvoir m'expliquer pourquoi il voulait mon aide.\n\nMon objectif est de : décider ce que vaut ce secret avant que ses héritiers ou ses ennemis ne me retrouvent."
+  },
+  {
+    "theme": "Ruines tropicales",
+    "title": "Le cartographe de la canopée fendue",
+    "content": "Je suis Iban, cartographe payé pour dessiner des territoires que les empires convoitent avant même de les comprendre.\nJe vis dans un camp suspendu entre les arbres d'une vallée tropicale, au-dessus de brumes épaisses et de ruines couvertes de racines.\n\nJ'ai des rouleaux huilés, une corde fine, une lunette de terrain, un poignard court et une boussole qui refuse le nord.\nUne cité de pierre apparaît puis disparaît dans mes relevés comme si la jungle elle-même refusait qu'on la fixe sur une carte.\n\nMon objectif est de : atteindre cette cité avant les soldats qui financent mon expédition."
+  },
+  {
+    "theme": "Horreur côtière",
+    "title": "La veilleuse du brise-lames",
+    "content": "Je suis Rosalie, gardienne chargée d'allumer les feux du brise-lames quand la mer devient mauvaise.\nJe vis dans une guérite battue par les embruns, entre cordages raides, vareuses sèches et registre des naufrages.\n\nJ'ai une lanterne sourde, un crochet de quai, des allumettes huilées, une corde neuve et le bracelet d'un marin déclaré noyé depuis un an.\nChaque brouillard épais s'accompagne maintenant de pas humides sur la digue, bien après le départ des pêcheurs.\n\nMon objectif est de : découvrir qui revient du large avant que le prochain bateau ne se fracasse contre le port."
+  },
+  {
+    "theme": "Colonie spatiale",
+    "title": "Le cuisinier de l'anneau minier",
+    "content": "Je suis Pavel, cuisinier dans une colonie minière où personne ne reste assez longtemps pour raffiner ses goûts.\nJe vis dans les cuisines de l'anneau Tchern, entre bacs de protéines, vapeur grasse et rumeurs plus brûlantes que mes plaques.\n\nJ'ai un couteau large, un stock rationné, une carte d'accès aux frigos, un sac de thé caché et une caisse de légumes frais arrivée sans manifeste.\nDes contremaîtres se disputent cette caisse comme si elle contenait bien plus que de la nourriture.\n\nMon objectif est de : découvrir ce qui a été dissimulé dans ma livraison avant qu'une émeute n'éclate dans les dortoirs."
+  },
+  {
+    "theme": "Noir provincial",
+    "title": "La photographe des disparus",
+    "content": "Je suis Myrtille, photographe de province à qui l'on demande des portraits de noces, de décès et parfois de gens qu'on espère retrouver.\nJe vis dans un studio au fond d'une cour pavée, entre bains chimiques, rideaux de velours et boîtes remplies de négatifs jamais réclamés.\n\nJ'ai une chambre noire portative, un trépied usé, des plaques sensibles, un carnet d'adresses et une photographie où une silhouette absente apparaît pourtant nette.\nPlusieurs familles veulent acheter ce cliché, mais aucune n'accepte de dire pourquoi.\n\nMon objectif est de : comprendre ce que montre vraiment cette image avant qu'on ne me l'arrache."
+  },
+  {
+    "theme": "Réalisme magique",
+    "title": "Le facteur des maisons invisibles",
+    "content": "Je suis Simon, facteur de campagne dans une région où certaines maisons choisissent manifestement quand elles veulent figurer sur la route.\nJe vis au dépôt de Courbeline, entre sacs de courrier, pluie d'automne et boîtes aux lettres plantées au milieu de chemins qui n'existent pas toujours.\n\nJ'ai un vélo lourd, une sacoche cirée, un registre d'itinéraires, une boussole qui hésite et une lettre adressée à une maison disparue depuis trente ans.\nChaque fois que je prononce le nom de cette maison, un chien se met à hurler au loin.\n\nMon objectif est de : remettre cette lettre à son destinataire avant que le chemin ne se referme définitivement."
+  },
+  {
+    "theme": "Caravane désertique",
+    "title": "L'éleveuse de lézards de selle",
+    "content": "Je suis Yara, éleveuse de lézards de selle pour les caravanes qui traversent les plateaux salés.\nJe vis dans des enclos de toile et de bois au bord d'un puits marchand, entre œufs tièdes, mors de cuir et négociations sans fin.\n\nJ'ai un crochet d'éleveuse, une gourde en peau, un carnet de reproduction, trois selles légères et un œuf fêlé marqué du sceau royal.\nDes soldats inspectent chaque caravane depuis l'aube à la recherche d'un objet qu'ils n'osent pas nommer.\n\nMon objectif est de : comprendre pourquoi cet œuf attire autant d'attention avant qu'on me l'enlève de force."
+  },
+  {
+    "theme": "Drame de cour",
+    "title": "Le précepteur de l'héritière rebelle",
+    "content": "Je suis Adrast, précepteur d'une héritière qui apprend plus volontiers à grimper aux murailles qu'à réciter ses ancêtres.\nJe vis au château de Laorne, entre salles d'étude glacées, jardins clos et gardes qui observent mes leçons d'un peu trop près.\n\nJ'ai des livres de droit, une canne de marche, un nécessaire à écrire, une lettre non remise de la reine et une carte des souterrains du domaine.\nMa jeune élève prétend avoir vu son père vivant alors que le royaume entier pleure déjà sa mort.\n\nMon objectif est de : découvrir si l'on ment à l'héritière ou au royaume tout entier."
+  },
+  {
+    "theme": "Post-apo neige",
+    "title": "La gardienne du réservoir 12",
+    "content": "Je suis Sena, gardienne d'un réservoir d'eau isolé dans une banlieue enterrée sous la neige grise.\nJe vis dans une station de pompage blindée, entre vannes gelées, générateurs capricieux et visites de voisins trop inquiets pour être désintéressés.\n\nJ'ai une clé à molette, un fusil à pompe, quatre tablettes de purification, un carnet de niveaux et un message radio qui répète un code périmé.\nQuelqu'un tente d'ouvrir à distance les portes du réservoir pendant mes quarts de nuit.\n\nMon objectif est de : identifier d'où vient cette tentative avant que tout le district ne manque d'eau."
+  },
+  {
+    "theme": "Fantasy urbaine",
+    "title": "L'accordeur des portes errantes",
+    "content": "Je suis Manel, accordeur de portes pour les vieilles maisons qui ont tendance à s'ouvrir au mauvais endroit au mauvais moment.\nJe vis dans une mansarde du quartier des Serrures, entre chambranles démontés, clous d'argent et factures que personne ne veut assumer.\n\nJ'ai un maillet de frêne, un trousseau runique, de la craie noire, un carnet d'adresses et une porte miniature qui s'est matérialisée sur ma table.\nDepuis son apparition, plusieurs habitants jurent avoir trouvé une pièce étrangère au bout de leur couloir.\n\nMon objectif est de : comprendre où mène vraiment cette nouvelle porte avant qu'un enfant ne la franchisse seul."
+  },
+  {
+    "theme": "Guerre et soins",
+    "title": "L'infirmière de la gare militaire",
+    "content": "Je suis Pauline, infirmière affectée à une gare de transit où les blessés ne restent jamais assez longtemps pour guérir.\nJe vis dans une chambre de repos au-dessus des quais, entre draps propres, odeur d'éther et trains qui hurlent à toute heure.\n\nJ'ai une trousse médicale, des bandages rationnés, un carnet de noms, une montre d'ordonnance et un soldat inconscient sans plaque d'identité.\nDes officiers veulent le faire partir au prochain convoi sans lui laisser le temps de se réveiller.\n\nMon objectif est de : découvrir qui il est avant qu'on ne le fasse disparaître parmi les autres blessés."
+  },
+  {
+    "theme": "Romance gothique",
+    "title": "Le jardinier du domaine d'ardoise",
+    "content": "Je suis Victor, jardinier engagé pour réveiller un domaine où tout pousse de travers, même les souvenirs.\nJe vis dans une serre de verre noir au domaine d'Ardoise, entre rosiers épineux, outils huilés et pluie presque constante.\n\nJ'ai un sécateur, des gants de cuir, des graines rares, une clef de bassin et un portrait miniature trouvé sous un pot cassé.\nLa propriétaire des lieux me traite comme un inconnu alors que je reconnais sa main avant même de lire ses notes.\n\nMon objectif est de : comprendre ce qui s'est perdu entre nous avant que la maison ne nous sépare de nouveau."
+  },
+  {
+    "theme": "Montagne spirituelle",
+    "title": "Le porteur d'eau des cloches rouges",
+    "content": "Je suis Tenzin, porteur d'eau dans un monastère accroché à la montagne comme un oiseau têtu.\nJe vis sous les cloches rouges de Tséma, entre escaliers interminables, braseros maigres et silences disciplinés.\n\nJ'ai deux seaux de cuivre, un manteau de laine, des sandales réparées, une amulette de passage et un rouleau scellé qui n'aurait jamais dû quitter l'abbé.\nDes voyageurs armés montent vers le monastère en demandant après un texte qu'ils ne savent pourtant pas nommer.\n\nMon objectif est de : cacher ou remettre ce rouleau avant que le sanctuaire ne soit profané."
+  },
+  {
+    "theme": "Journalisme criminel",
+    "title": "La chroniqueuse du tribunal",
+    "content": "Je suis Salma, chroniqueuse judiciaire connue pour écrire plus vite que les avocats ne mentent.\nJe vis dans une petite pension en face du tribunal central, entre dossiers ficelés, journaux du matin et cafés bus debout.\n\nJ'ai un carnet sténographique, un stylo noir, un manteau sobre, un laissez-passer presse et la copie d'une déposition retirée du dossier officiel.\nCette déposition contredit à elle seule tout le procès que la ville suit depuis des semaines.\n\nMon objectif est de : découvrir qui a supprimé ce témoignage avant que le verdict ne ferme définitivement l'affaire."
+  },
+  {
+    "theme": "Archéologie méditerranéenne",
+    "title": "Le gardien des amphores scellées",
+    "content": "Je suis Luca, gardien saisonnier d'un dépôt archéologique que les conservateurs aiment oublier loin du musée.\nJe vis dans un entrepôt près des falaises, entre caisses numérotées, odeur de terre sèche et visiteurs trop curieux pour être des chercheurs.\n\nJ'ai une lampe frontale, un registre d'inventaire, un bâton télescopique, un cadenas tordu et une amphore scellée qu'aucune équipe n'a réclamée.\nQuelqu'un entre la nuit pour compter les objets sans jamais rien voler, comme s'il attendait seulement le bon moment.\n\nMon objectif est de : savoir ce que cette amphore protège avant que d'autres ne brisent le sceau à ma place."
+  },
+  {
+    "theme": "Steampunk aérien",
+    "title": "La mécano du dirigeable Azur",
+    "content": "Je suis Violette, mécano principale d'un dirigeable postal qui transporte aussi bien les nouvelles que les secrets.\nJe vis dans les entrailles de l'Azur, entre chaudières dociles, toile vibrante et ciel si vaste qu'il finit par ressembler à une mer.\n\nJ'ai une clé anglaise, des lunettes fumées, un harnais d'entretien, un registre de cargaison et un colis diplomatique qui fuit une poudre brillante.\nLe capitaine veut jeter le colis par-dessus bord, mais plusieurs passagers semblent déjà prêts à tuer pour le récupérer.\n\nMon objectif est de : identifier cette marchandise avant qu'elle ne fasse sombrer l'Azur en plein ciel."
+  },
+  {
+    "theme": "Mystère de petite ville",
+    "title": "Le coiffeur de la place vide",
+    "content": "Je suis René, coiffeur de village et dépositaire involontaire de toutes les rumeurs qui passent par la place.\nJe vis au-dessus de mon salon, entre odeur de savon, fauteuils fatigués et cloches de mairie que j'entends avant tout le monde.\n\nJ'ai des ciseaux fins, un carnet de rendez-vous, un rasoir droit, une boîte à pourboires et une alliance oubliée dans la poche d'un manteau.\nUn client régulier a disparu après avoir annulé tous ses rendez-vous du mois avec une voix qui tremblait.\n\nMon objectif est de : comprendre ce qu'il fuyait avant que le village n'invente la mauvaise histoire à sa place."
+  },
+  {
+    "theme": "Port fantastique",
+    "title": "La douanière des marées noires",
+    "content": "Je suis Maëva, douanière sur un port où certaines marchandises ne doivent surtout pas toucher l'eau.\nJe vis dans un bureau de quai aux vitres salées, entre registres épais, sceaux de plomb et goélettes qui arrivent toujours trop tard.\n\nJ'ai une pique de contrôle, un carnet d'amendes, des gants huilés, une lampe à sel et un coffre suintant qu'on m'ordonne de laisser fermé.\nLes marées deviennent noires quand ce coffre est déplacé, et les capitaines commencent à refuser d'accoster.\n\nMon objectif est de : découvrir ce que l'on m'oblige à laisser passer avant que le port entier ne soit condamné."
+  },
+  {
+    "theme": "Récupération spatiale",
+    "title": "Le recycleur du secteur Kappa",
+    "content": "Je suis Oren, recycleur d'épaves sur une ceinture de débris où chaque boulon vaut de l'air.\nJe vis dans une capsule atelier du secteur Kappa, entre pinces magnétiques, compresseurs grinçants et hublot rayé par les poussières rapides.\n\nJ'ai une combinaison de sortie, un treuil portatif, un scanner thermique, deux bonbonnes d'oxygène et un module mémoire encore alimenté.\nCe module contient la trajectoire d'un vaisseau disparu que plusieurs compagnies jurent n'avoir jamais possédé.\n\nMon objectif est de : vendre ou protéger cette découverte avant que l'on coupe mon accès à la station."
+  },
+  {
+    "theme": "Romance d'automne",
+    "title": "La vigneronne des collines basses",
+    "content": "Je suis Alba, vigneronne revenue seule sur des terres familiales que tout le monde disait trop coûteuses à sauver.\nJe vis dans une maison de vendanges aux murs bas, entre barriques, bottes boueuses et collines rougies par l'automne.\n\nJ'ai un sécateur, un registre de récolte, quelques bouteilles anciennes, une dette notariale et une lettre non ouverte laissée par mon père.\nLe nouvel œnologue du domaine voisin semble connaître cette lettre avant même que je brise le cachet.\n\nMon objectif est de : comprendre ce que nos familles se cachent avant que les vendanges ne nous obligent à choisir un camp."
+  },
+  {
+    "theme": "Théâtre mystérieux",
+    "title": "Le souffleur de la scène 3",
+    "content": "Je suis Basil, souffleur de théâtre, plus à l'aise dans l'ombre des répliques que sous la lumière des applaudissements.\nJe vis dans les dessous du théâtre Arlequin, entre cordages, décors peints et couloirs où la poussière garde tout.\n\nJ'ai un texte raturé, une lampe de pupitre, une clé de coulisse, des pastilles à la menthe et un masque cassé retrouvé sur scène.\nUn comédien jure que quelqu'un lui répond depuis les coulisses quand aucun rôle ne l'exige.\n\nMon objectif est de : découvrir qui joue sans être distribué avant la première du grand spectacle."
+  },
+  {
+    "theme": "Fantaisie populaire",
+    "title": "La fileuse du hameau sans lune",
+    "content": "Je suis Maeline, fileuse dans un hameau où les nuits sans lune durent toujours un peu trop longtemps.\nJe vis dans une maison basse au bord des champs, entre rouets, paniers d'orties et prières laissées sur les seuils.\n\nJ'ai des fuseaux d'if, une lampe à graisse, une boîte de fils teints, un peigne d'argent et une mèche de cheveux inconnue prise dans ma laine.\nLes anciens affirment qu'aucun tissu ne doit être achevé pendant la lune noire, mais les commandes s'accumulent.\n\nMon objectif est de : comprendre ce que cette interdiction retient avant que mon ouvrage ne soit terminé."
+  },
+  {
+    "theme": "Espionnage spatial",
+    "title": "L'agent dormant de Titan-Sud",
+    "content": "Je suis Elias, technicien ordinaire en apparence sur la base de Titan-Sud, et agent dormant en réalité depuis si longtemps que j'ai presque oublié pourquoi.\nJe vis dans un module résidentiel beige, entre cycles artificiels, rapports monotones et neige de méthane derrière les vitres épaisses.\n\nJ'ai un badge standard, une capsule de cyanure que je n'ai jamais voulu utiliser, un code d'activation, un carnet de rêves et un message réveillant ma mission.\nLa cible qu'on m'ordonne d'approcher est aussi la seule personne qui m'ait traité ici comme un humain.\n\nMon objectif est de : décider à qui va ma loyauté avant que l'ordre reçu ne devienne irréversible."
+  },
+  {
+    "theme": "Mer historique",
+    "title": "Le chirurgien du corsaire captif",
+    "content": "Je suis Hernan, chirurgien de bord capturé avec le corsaire qu'il servait par nécessité plus que par conviction.\nJe vis enchaîné avec un peu trop de confort dans la cale d'une frégate royale, entre odeur de goudron, gémissements de blessés et interrogatoires polis.\n\nJ'ai un nécessaire chirurgical, une bible humide, une veste volée, deux fioles d'alcool et la confiance hésitante d'un lieutenant ennemi.\nQuelqu'un empoisonne discrètement les prisonniers pour écourter le procès promis.\n\nMon objectif est de : identifier le coupable avant que l'on accuse mon équipage tout entier."
+  },
+  {
+    "theme": "Mélancolie urbaine",
+    "title": "La locataire du sixième palier",
+    "content": "Je suis Jeanne, locataire récente d'un immeuble si ancien que chaque étage semble garder une humeur propre.\nJe vis au sixième palier, entre valises jamais complètement défaites, radiateurs capricieux et fenêtres qui donnent sur des cours trop proches.\n\nJ'ai une bouilloire, des livres d'occasion, un double des clés, une facture au mauvais nom et une boîte de photos oubliée dans ma penderie.\nL'homme du cinquième laisse chaque soir une tasse de thé sur mon paillasson sans jamais se présenter.\n\nMon objectif est de : comprendre pourquoi il me connaît déjà avant que la solitude ne m'invente encore une autre version de moi."
+  },
+  {
+    "theme": "Train occulte",
+    "title": "Le poinçonneur des wagons clos",
+    "content": "Je suis Lazare, poinçonneur sur une ligne secondaire dont certains wagons n'ouvrent jamais en gare.\nJe vis au rythme de ce train sombre, entre banquettes vides, vapeur froide et règlements plus anciens que la compagnie elle-même.\n\nJ'ai une pince de contrôle, une lanterne rouge, une montre sans aiguilles, un registre scellé et un billet perforé d'un symbole interdit.\nUn wagon censé rester vide apparaît désormais sur chaque trajet avec des passagers inscrits sous des noms de morts.\n\nMon objectif est de : savoir où s'arrête vraiment ce wagon avant que mon propre nom n'entre dans le registre."
+  },
+  {
+    "theme": "Ville enneigée",
+    "title": "Le marchand de braises",
+    "content": "Je suis Faël, marchand ambulant de braises dans une cité si froide que le feu y vaut parfois plus qu'une promesse.\nJe vis sous une halle de pierre près des remparts, entre paniers de charbon, manteaux lourds et mains tendues.\n\nJ'ai un brasero mobile, une pelle courte, des gants brûlés, un carnet de dettes et un sifflet d'alerte.\nDepuis trois nuits, quelqu'un achète toute ma braise pour la livrer en secret à un quartier officiellement abandonné.\n\nMon objectif est de : découvrir qui survit encore là-bas avant que la garde ne boucle définitivement les rues."
+  },
+  {
+    "theme": "Mystère des marais",
+    "title": "La lavandière du pont noyé",
+    "content": "Je suis Éline, lavandière dans un village humide où l'eau ramène parfois plus que le linge qu'on lui confie.\nJe vis près du pont noyé, entre draps battus, paniers d'osier et grenouilles qui se taisent toutes ensemble quand vient le soir.\n\nJ'ai une planche de lavage, du savon gris, un couteau à linge, une bague d'homme retrouvée dans la vase et une clef attachée par un ruban noir.\nPlusieurs familles prétendent ne reconnaître ni la bague ni la clef, mais toutes évitent désormais le pont après le coucher du soleil.\n\nMon objectif est de : comprendre ce que la rivière cherche à rendre avant qu'elle n'emporte quelqu'un d'autre."
+  },
+  {
+    "theme": "Médecine cyberpunk",
+    "title": "Le réparateur d'implants de l'allée Cendre",
+    "content": "Je suis Novak, réparateur d'implants au noir pour ceux qui ne peuvent plus se permettre les cliniques officielles.\nJe vis dans l'allée Cendre, entre néons vacillants, odeur de métal chaud et files d'attente qui commencent avant l'aube.\n\nJ'ai un kit stérile, un micro-soudeur, des lunettes de diagnostic, une dette envers un gang local et une puce extraite qui enregistre encore.\nCette puce contient le souvenir brut d'un meurtre commis par quelqu'un de très haut placé.\n\nMon objectif est de : décider si je vends cette preuve, si je la cache ou si je tente de la rendre à son propriétaire."
+  },
+  {
+    "theme": "Pastorale romantique",
+    "title": "Le berger du verger abandonné",
+    "content": "Je suis Colin, berger saisonnier engagé pour remettre des bêtes sur un domaine que ses héritiers ne veulent plus habiter.\nJe vis dans une petite maison de garde au bord d'un verger abandonné, entre brebis dociles, pommiers tordus et silence de campagne.\n\nJ'ai une houlette, un bonnet de laine, un chien fidèle, quelques pommes ridées et un carnet de recettes appartenant à l'ancienne propriétaire.\nLa voisine du domaine vient chaque soir nourrir mes brebis comme si elles lui rappelaient quelqu'un qu'elle n'arrive pas à oublier.\n\nMon objectif est de : comprendre ce qu'elle protège encore ici avant que le domaine ne soit vendu."
+  },
+  {
+    "theme": "Casse fantastique",
+    "title": "La clef de la reine morte",
+    "content": "Je suis Sira, voleuse recrutée pour un travail que personne d'honnête n'accepterait d'entendre jusqu'au bout.\nJe vis dans les arrière-salles du quartier des Changeurs, entre cartes des égouts, chandelles courtes et serments jamais gratuits.\n\nJ'ai des bottes souples, un jeu de crochets, un plan du mausolée royal, une rune de silence et une clef qui se réchauffe à l'approche des tombes.\nMes commanditaires veulent un bijou, mais la clef semble ouvrir bien plus qu'un coffre funéraire.\n\nMon objectif est de : découvrir ce que l'on cherche vraiment à libérer avant de franchir le dernier verrou."
+  },
+  {
+    "theme": "Exploration sauvage",
+    "title": "L'éclaireuse des falaises d'ambre",
+    "content": "Je suis Nara, éclaireuse envoyée en avant-garde sur une côte nouvelle dont la pierre semble briller de l'intérieur.\nJe vis sous des tentes battues par le vent au pied des falaises d'Ambre, entre cartes incomplètes, rations salées et feux qu'on garde bas par prudence.\n\nJ'ai une longue-vue, une corde de chanvre, une machette, un compas d'expédition et un éclat d'ambre où quelque chose bouge.\nLes officiers veulent ouvrir une carrière au plus vite, mais les habitants du littoral refusent même de nommer ces falaises.\n\nMon objectif est de : savoir ce que la roche enferme avant que les mineurs n'y fassent sauter leurs charges."
+  },
+  {
+    "theme": "Mystère universitaire",
+    "title": "La bibliothécaire des cartes censurées",
+    "content": "Je suis Théa, bibliothécaire adjointe dans une université qui aime davantage classer les connaissances que les partager.\nJe vis dans les réserves géographiques, entre atlas reliés, échelles roulantes et poussière fine.\n\nJ'ai des gants de coton, un tampon d'autorisation, une clef des fonds spéciaux, une carte mutilée et un carton de fiches falsifiées.\nQuelqu'un retire discrètement des bibliothèques toutes les cartes menant vers la même vallée oubliée.\n\nMon objectif est de : découvrir ce qu'on veut effacer du monde avant que le dernier plan ne disparaisse."
+  },
+  {
+    "theme": "Naufrage",
+    "title": "Le survivant du récif aux cornes",
+    "content": "Je suis Ilyan, seul survivant reconnu d'un naufrage que les assureurs préfèrent appeler accident.\nJe vis provisoirement dans un hospice côtier, entre draps rêches, soupe claire et nuits sans sommeil.\n\nJ'ai une côte fêlée, un couteau de cabine, une médaille de baptême, un souvenir incomplet de la tempête et un morceau de bois gravé d'un signe païen.\nPersonne ne veut entendre que le navire a été guidé vers le récif par un feu allumé depuis la terre.\n\nMon objectif est de : retrouver qui a condamné l'équipage avant que l'affaire ne soit classée."
+  },
+  {
+    "theme": "Dystopie politique",
+    "title": "La voix pirate du quartier 11",
+    "content": "Je suis Aya, animatrice clandestine d'une radio pirate dans une ville où la vérité change selon le décret du matin.\nJe vis dans un sous-sol du quartier 11, entre câbles bricolés, matelas empilés et antennes dissimulées.\n\nJ'ai un micro usé, une batterie de secours, un masque anti-fumée, une liste de fréquences et un message d'un ministre dissident.\nLe régime brouille déjà nos émissions, mais ce message pourrait déclencher bien plus qu'une simple descente de police.\n\nMon objectif est de : choisir quand diffuser cette preuve avant que le quartier ne paie le prix de ma décision."
+  },
+  {
+    "theme": "Western fantôme",
+    "title": "Le shérif du puits sec",
+    "content": "Je suis Eli, shérif d'une bourgade minière que la sécheresse a presque vidée de ses habitants et complètement de sa patience.\nJe vis près du puits sec, entre cellules vides, dossiers poussiéreux et bâches qui claquent dans le vent.\n\nJ'ai un revolver ancien, une étoile ternie, un cheval maigre, un avis d'expulsion et un collier trouvé dans une mine effondrée.\nDes lanternes s'allument désormais chaque nuit dans le quartier désert alors qu'aucune famille n'y habite plus.\n\nMon objectif est de : découvrir qui revient occuper la ville avant que le prochain affrontement ne tourne au massacre."
+  },
+  {
+    "theme": "Auberge magique",
+    "title": "La serveuse de l'auberge suspendue",
+    "content": "Je suis Lise, serveuse dans une auberge accrochée à un pont de pierre au-dessus d'un ravin brumeux.\nJe vis entre tables bancales, chambres inclinées et une cuisine qui sert autant de potages que de potions discrètes.\n\nJ'ai un plateau de cuivre, un carnet de commandes, une paire de bottes silencieuses, une chambre jamais louée et une cuillère gravée à mon nom.\nCertains clients montent l'escalier du troisième étage et ressortent avec des souvenirs qui ne leur appartenaient pas en entrant.\n\nMon objectif est de : comprendre ce que cache la chambre interdite avant qu'un voyageur n'y laisse son esprit."
+  },
+  {
+    "theme": "Fantasy sous-marine",
+    "title": "Le plongeur de la cité de nacre",
+    "content": "Je suis Kaï, plongeur de perles devenu guide pour les ruines submergées au large de la cité de Nacre.\nJe vis sur une plateforme flottante, entre filets tendus, cloches de plongée et marées lunaires.\n\nJ'ai un couteau d'os, une corde lestée, un masque de verre, une perle noire et une tablette marine gravée.\nLes courants semblent protéger l'entrée d'un quartier englouti que même les anciens pêcheurs jurent ne jamais avoir vu.\n\nMon objectif est de : atteindre ce quartier avant les pillards financés par le palais."
+  },
+  {
+    "theme": "Romance élégante",
+    "title": "La modiste de la galerie d'hiver",
+    "content": "Je suis Irisse, modiste dans une galerie couverte où l'on vend surtout des apparences bien ajustées.\nJe vis derrière ma boutique, entre chapeaux en cours, rubans de velours et miroirs piqués par le temps.\n\nJ'ai des épingles nacrées, un carnet de mesures, un manteau trop fin, une facture impayée et un gant oublié lors d'un essayage privé.\nL'avocat qui m'a laissé ce gant revient chaque semaine commander des modèles pour une épouse qu'on ne voit jamais.\n\nMon objectif est de : comprendre quelle histoire se cache derrière ses visites avant que je ne m'attache pour de bon."
+  },
+  {
+    "theme": "Drame d'après-guerre",
+    "title": "Le démobilisé de l'atelier Brun",
+    "content": "Je suis Auguste, démobilisé revenu réparer des vélos dans un atelier qui a survécu à la guerre mieux que bien des familles.\nJe vis au-dessus de l'atelier Brun, entre outils suspendus, odeur de graisse et cauchemars que je n'arrive pas à déposer.\n\nJ'ai une clé plate, un tablier taché, une pension maigre, une caisse de lettres militaires et une enveloppe jamais ouverte.\nLa fille du propriétaire veut vendre l'atelier, mais quelqu'un fouille déjà la cave comme si un autre héritage y dormait.\n\nMon objectif est de : découvrir ce que mon ancien régiment a caché ici avant que les murs ne changent de mains."
+  },
+  {
+    "theme": "Esprits de forêt",
+    "title": "L'enfant du moulin des fougères",
+    "content": "Je suis Naël, apprenti meunier élevé loin de la ville et plus à l'aise avec les ruisseaux qu'avec les visiteurs.\nJe vis au moulin des Fougères, entre mousse humide, sacs d'avoine et chants d'oiseaux.\n\nJ'ai un couteau à pain, un manteau trop grand, une flûte de roseau, un seau de farine et une lanterne basse.\nDepuis quelques jours, une enfant aux pieds nus me parle depuis l'autre rive sans jamais laisser de traces dans la boue.\n\nMon objectif est de : savoir si elle a besoin d'aide ou si c'est le moulin qui cherche à me retenir auprès de lui."
+  },
+  {
+    "theme": "Tribunal lunaire",
+    "title": "La greffière du procès lunaire",
+    "content": "Je suis Mei, greffière affectée à un procès historique sur la colonie lunaire d'Arcas.\nJe vis dans le complexe judiciaire, entre dossiers cryptés, sas silencieux et lueur blanche des écrans.\n\nJ'ai un clavier sécurisé, un identifiant biométrique, un carnet secret, trois heures de sommeil et un enregistrement effacé trop proprement.\nLa version publique des faits ne correspond pas à ce qui a été dit hors audience.\n\nMon objectif est de : protéger la vérité judiciaire avant que le verdict ne soit écrit d'avance."
+  },
+  {
+    "theme": "Noir de carnaval",
+    "title": "Le lanceur de couteaux sans troupe",
+    "content": "Je suis Mirko, ancien lanceur de couteaux d'une troupe de foire dissoute après un incendie jamais élucidé.\nJe vis derrière les baraques d'un carnaval itinérant, entre toile humide, ampoules colorées et odeur de caramel rance.\n\nJ'ai un jeu de lames équilibrées, un manteau de scène, une roulotte cadenassée, un billet de dette et une affiche brûlée sur les bords.\nQuelqu'un réassemble patiemment les anciens membres de ma troupe sans nous dire pour quel spectacle.\n\nMon objectif est de : découvrir qui nous rappelle et pourquoi avant que la tournée ne commence."
+  },
+  {
+    "theme": "Épopée fantasy",
+    "title": "La messagère du roi de cendre",
+    "content": "Je suis Érine, messagère jurée d'un roi vaincu dont le royaume existe encore surtout dans la fidélité de ceux qui le servent.\nJe vis sur les routes grises de l'est, entre relais incendiés, montagnes sévères et cavaliers ennemis.\n\nJ'ai un cheval nerveux, une cape de voyage, un sceau de cendre, un message codé et une bague de serment.\nPlusieurs seigneurs se disent prêts à reprendre les armes si le dernier ordre royal est authentique.\n\nMon objectif est de : remettre ce message sans le laisser tomber aux mains de ceux qui veulent une guerre totale."
+  },
+  {
+    "theme": "Mystère industriel",
+    "title": "Le contremaître des chaudières 5",
+    "content": "Je suis Gaspard, contremaître dans une usine textile dont les chaudières grondent plus fort depuis la fermeture de l'aile nord.\nJe vis presque dans la salle des machines, entre vapeur lourde, cuivre brûlant et quarts de nuit.\n\nJ'ai une clé de sécurité, un sifflet, un registre d'entretien, une main brûlée et un plan barré de rouge.\nChaque panne survient exactement après le passage d'un inspecteur censé vérifier la sécurité du site.\n\nMon objectif est de : découvrir qui sabote l'usine avant qu'une explosion n'enterre tous les ouvriers avec le secret."
+  },
+  {
+    "theme": "Romance artisanale",
+    "title": "La potière du chemin creux",
+    "content": "Je suis Adèle, potière installée à l'écart d'un bourg où tout le monde sait tout mais ne dit jamais rien au bon moment.\nJe vis dans un atelier au chemin Creux, entre terre rouge, four chaud et étagères fragiles.\n\nJ'ai un tablier d'argile, une caisse de commandes, une tasse fêlée, un reçu signé d'un inconnu et un bouquet séché.\nLe menuisier nouvellement arrivé vient chercher chaque semaine une pièce différente qu'il n'utilise jamais devant moi.\n\nMon objectif est de : comprendre ce qu'il construit avec mes céramiques avant que nos silences ne deviennent absurdes."
+  },
+  {
+    "theme": "Survie insulaire moderne",
+    "title": "La gardienne des capteurs météo",
+    "content": "Je suis Alina, gardienne d'une station météo isolée sur un chapelet d'îles battues par les tempêtes.\nJe vis seule dans une base en béton, entre écrans venteux, réserves comptées et radio grésillante.\n\nJ'ai des bottes marines, une caisse d'outils, un fusil de détresse, trois panneaux solaires et un journal de marée.\nUn signal d'urgence tourne en boucle depuis un îlot rayé des cartes de navigation.\n\nMon objectif est de : vérifier d'où vient ce signal avant que la prochaine tempête ne coupe tout accès."
+  },
+  {
+    "theme": "Gothique vampirique",
+    "title": "Le secrétaire du comte pâle",
+    "content": "Je suis Adrien, secrétaire fraîchement recruté au service d'un comte qui ne reçoit qu'après le coucher du soleil.\nJe vis dans une aile feutrée du château de Vayre, entre papiers parfumés, rideaux épais et domestiques muets.\n\nJ'ai un nécessaire d'écriture, une clé de bureau, des lunettes fines, un contrat avantageux et un portrait dont le modèle me ressemble trop.\nAucun courrier entrant n'est daté du jour même, comme si le château suivait un temps différent du reste du pays.\n\nMon objectif est de : comprendre quelle place on m'a réservée ici avant qu'il ne soit trop tard pour repartir."
+  },
+  {
+    "theme": "Solarpunk",
+    "title": "L'urbaniste du quartier suspendu",
+    "content": "Je suis Nima, urbaniste de terrain chargée de maintenir un quartier aérien fait de passerelles, de jardins et de récupérations ingénieuses.\nJe vis dans le quartier suspendu d'Aster, entre panneaux solaires, bacs de culture et escaliers de corde.\n\nJ'ai une tablette de plans, une caisse de fixations, un harnais de sécurité, une plainte collective et le schéma d'un pilier porteur disparu.\nQuelqu'un retire discrètement des pièces essentielles pour fragiliser le quartier avant le vote sur son extension.\n\nMon objectif est de : identifier le saboteur avant qu'un effondrement ne serve d'argument à la fermeture."
+  },
+  {
+    "theme": "Guilde des voleurs",
+    "title": "La recruteuse de la guilde silencieuse",
+    "content": "Je suis Vesna, recruteuse pour une guilde qui préfère les serments brefs, les membres discrets et les commanditaires solvables.\nJe vis dans une maison close reconvertie en salle de rendez-vous, entre tentures épaisses, codes murmurés et couteaux cachés.\n\nJ'ai un carnet de dettes, un jeu de dés pipés, une dague plate, trois noms prometteurs et un sceau royal brisé.\nQuelqu'un infiltre de faux candidats dans nos rangs pour remonter jusqu'à la maîtresse de la guilde.\n\nMon objectif est de : découvrir pour qui ils travaillent avant que notre refuge ne devienne un piège."
+  },
+  {
+    "theme": "Huis clos hôtelier",
+    "title": "Le concierge de l'hôtel Mirabeau",
+    "content": "Je suis Luc, concierge de nuit dans un hôtel ancien qui accueille plus de secrets que de touristes.\nJe vis derrière le comptoir du Mirabeau, entre clés pendues, couloirs capitonnés et sonnette trop polie.\n\nJ'ai un registre des chambres, une lampe de bureau, un double des passes, une enveloppe sans timbre et un passe-partout gravé.\nUne cliente affirme qu'un homme entre chaque nuit dans sa chambre verrouillée sans que personne ne le voie traverser le hall.\n\nMon objectif est de : comprendre comment cela est possible avant que la panique ne vide l'hôtel."
+  },
+  {
+    "theme": "Steppe nomade",
+    "title": "La cavalière du vent froid",
+    "content": "Je suis Asha, cavalière messagère entre des clans de steppe qui ne se parlent plus qu'à travers des menaces polies.\nJe vis sous une yourte basse quand je m'arrête, mais surtout en selle au milieu des herbes grises et du vent froid.\n\nJ'ai un arc recourbé, une selle légère, un talisman d'os, deux lettres scellées et une jument trop intelligente pour son propre bien.\nL'un des sceaux que je transporte porte la marque d'un clan censé avoir été anéanti l'hiver dernier.\n\nMon objectif est de : découvrir qui l'a envoyé avant que les survivants n'embrasent toute la steppe."
+  },
+  {
+    "theme": "Pèlerinage spatial",
+    "title": "Le pèlerin du relais Hélios",
+    "content": "Je suis Maro, pèlerin de l'espace en route vers un ancien relais solaire converti en sanctuaire.\nJe vis de compartiment en compartiment sur des navettes lentes, entre hublots dorés, chants de voyageurs et repas lyophilisés.\n\nJ'ai un chapelet métallique, une carte de transfert, une boîte de cendres, une lettre de pardon et une clé de consigne.\nAu relais Hélios, quelqu'un semble attendre l'arrivée de ma boîte bien plus que moi-même.\n\nMon objectif est de : comprendre ce que les cendres de mon père cachent avant de les remettre au sanctuaire."
+  },
+  {
+    "theme": "Romance douce",
+    "title": "L'associée du salon de thé bleu",
+    "content": "Je suis Manon, associée d'un salon de thé bleu où les habitués viennent surtout se réchauffer en parlant des vies des autres.\nJe vis dans l'appartement étroit au-dessus de la salle, entre tasses ébréchées, odeur de bergamote et factures qui s'empilent.\n\nJ'ai un tablier brodé, une boîte à biscuits, un carnet de commandes spéciales, un service en porcelaine et une invitation au concert municipal.\nLe nouveau professeur de dessin vient chaque après-midi croquer la même table vide sans jamais m'expliquer qui il attend.\n\nMon objectif est de : découvrir ce qu'il voit ici que je n'ai pas encore appris à regarder."
+  },
+  {
+    "theme": "Manoir d'horreur",
+    "title": "La peintre du corridor scellé",
+    "content": "Je suis Sélia, peintre de restauration appelée pour évaluer des fresques découvertes derrière un mur effondré.\nJe vis temporairement dans un manoir vidé de ses domestiques, entre bâches blanches, odeur de plâtre et corridor condamné.\n\nJ'ai des pinceaux plats, un masque à poussière, une boîte de pigments, un marteau de sondage et un croquis représentant une pièce encore murée.\nChaque nuit, un rire d'enfant résonne exactement derrière le corridor que les propriétaires jurent n'avoir jamais possédé.\n\nMon objectif est de : ouvrir ce passage avant que les murs ne se referment sur la seule preuve que j'ai entendue."
+  },
+  {
+    "theme": "Royaume fluvial",
+    "title": "Le collecteur d'impôts du delta vert",
+    "content": "Je suis Corentin, collecteur d'impôts dans un delta si vaste que chaque village invente sa propre vérité sur ce qu'il doit au trône.\nJe vis sur une barge administrative, entre coffres de comptes, moustiques épais et chenaux qui se ressemblent tous.\n\nJ'ai un sceau fiscal, un coffre léger, une rame courte, un carnet de dettes et un jeton de jade non déclaré.\nPlusieurs villages paient désormais en silence à une autorité parallèle dont personne ne veut prononcer le nom.\n\nMon objectif est de : découvrir qui gouverne déjà l'ombre du delta avant que ma mission ne tourne à l'exécution."
+  },
+  {
+    "theme": "Romance torride",
+    "title": "La suite au balcon fermé",
+    "content": "Je suis Élisa, coordinatrice de gala habituée à garder un sourire calme même quand toute la soirée menace d'exploser.\nJe vis cette semaine dans un hôtel particulier transformé en palais de réception, entre coupes de champagne, tentures lourdes et portes qu'on referme trop vite.\n\nJ'ai une robe noire choisie pour impressionner, une clé de service, un téléphone saturé de messages, un parfum qui me suit encore et une invitation privée à une suite que je n'étais pas censée voir.\nLe mécène principal me regarde comme s'il avait déjà décidé comment la nuit finira, et je ne sais pas encore si cela m'agace ou m'attire davantage.\n\nMon objectif est de : vivre une romance adulte très sensuelle, consentie et brûlante, où l'attente compte autant que le passage à l'acte."
+  },
+  {
+    "theme": "Séduction adulte",
+    "title": "Le tailleur et la cliente de minuit",
+    "content": "Je suis Maëlys, héritière trop contrôlée le jour et beaucoup moins sage après la fermeture des boutiques.\nJe vis entre les salons brillants de l'avenue d'Or et l'atelier feutré d'un tailleur qui prend mes mesures comme s'il lisait déjà mes hésitations.\n\nJ'ai une commande urgente, une paire de gants oubliés exprès, une carte bancaire sans limite, une fenêtre de liberté jusqu'à l'aube et assez de culot pour revenir seule à minuit.\nChaque essayage rapproche nos corps d'une façon que ni lui ni moi ne faisons semblant de ne pas remarquer.\n\nMon objectif est de : me laisser consumer par une tension adulte, raffinée et assumée, jusqu'à ce que la retenue cesse d'être une option."
+  },
+  {
+    "theme": "Passion mondaine",
+    "title": "Le pianiste du bar velours",
+    "content": "Je suis Nora, attachée de presse dans un palace où les sourires sont impeccables et les nuits rarement sages.\nJe vis entre le hall marbré, les salons privés et le bar Velours, où un pianiste me déshabille presque du regard sans jamais cesser de jouer.\n\nJ'ai une robe fendue, un badge d'accès aux étages privés, un verre de champagne jamais terminé, un rouge à lèvres trop voyant et une note glissée sous mon assiette.\nÀ chaque morceau, il semble m'inviter à le suivre plus loin que la scène et beaucoup plus loin que la bienséance.\n\nMon objectif est de : céder à une nuit élégante, fiévreuse et consentie, où chaque note devient une provocation."
+  },
+  {
+    "theme": "Nuit d'hôtel",
+    "title": "La clé 407",
+    "content": "Je suis Jade, réceptionniste de nuit dans un hôtel où les clients paient cher pour qu'on oublie leurs noms au petit matin.\nJe vis derrière le comptoir, entre sonnettes feutrées, couloirs tapis de silence et portes qui se ferment toujours trop lentement.\n\nJ'ai un trousseau d'étage, des talons que je devrais déjà avoir retirés, un carnet de réservations codées, une chemise entrouverte malgré moi et la clé 407 laissée exprès à mon attention.\nL'occupant de cette chambre me parle depuis des jours avec cette patience dangereuse de ceux qui savent déjà qu'on finira par monter.\n\nMon objectif est de : franchir enfin cette porte pour vivre une histoire adulte tendue, consentie et impossible à oublier."
+  },
+  {
+    "theme": "Danse sensuelle",
+    "title": "Le cours après la fermeture",
+    "content": "Je suis Ana, professeure de danse latine, parfaitement capable de diriger une salle entière et beaucoup moins sûre de moi quand il ne reste qu'un seul élève.\nJe vis au rythme du studio Miroir, entre parquet encore chaud, musique basse et stores tirés sur la ville.\n\nJ'ai une paire de talons de rechange, une bouteille d'eau tiède, une playlist bien trop suggestive, une main encore posée sur sa taille dans ma mémoire et aucune envie réelle de mettre fin au cours.\nMon dernier partenaire suit chacun de mes ordres avec une lenteur calculée qui transforme chaque correction en invitation.\n\nMon objectif est de : prolonger cette leçon jusqu'à ce qu'elle devienne une romance adulte, consentie et intensément charnelle."
+  },
+  {
+    "theme": "Romance estivale",
+    "title": "Le maître-nageur de la crique blanche",
+    "content": "Je suis Zoé, romancière venue chercher le calme dans une villa trop lumineuse pour mes habitudes et trop proche de la mer pour rester sage.\nJe vis au bord de la crique Blanche, entre draps qui sèchent au soleil, bains de fin d'après-midi et dîners pris pieds nus sur la terrasse.\n\nJ'ai un manuscrit abandonné, un maillot encore salé, des lunettes noires, une bouteille de vin frais et l'impression persistante d'être observée dès que je sors de l'eau.\nLe maître-nageur du club voisin connaît déjà mes horaires, mes silences et exactement la façon de me faire perdre mes bonnes résolutions.\n\nMon objectif est de : me laisser emporter par une aventure adulte brûlante, consentie et irrésistiblement estivale."
+  },
+  {
+    "theme": "Tension professionnelle",
+    "title": "La directrice et le consultant de nuit",
+    "content": "Je suis Claire, directrice d'un hôtel de luxe en pleine rénovation, habituée à tout contrôler sauf l'effet qu'un seul homme a sur mon souffle.\nJe vis depuis des semaines entre bureaux vitrés, suites en chantier et inspections nocturnes menées avec le consultant chargé de sauver l'établissement.\n\nJ'ai un tailleur impeccable, un dossier de plans annotés, une clé magnétique universelle, un message effacé trop vite et une colère fragile contre moi-même chaque fois qu'il s'approche.\nNos discussions commencent toujours par les travaux et finissent toujours trop près d'un mur, d'un bureau ou d'une porte verrouillée.\n\nMon objectif est de : basculer dans une histoire adulte, consentie et pleine de tension, où le désir finit par l'emporter sur la discipline."
+  },
+  {
+    "theme": "Tentation urbaine",
+    "title": "Le voisin de la terrasse d'en face",
+    "content": "Je suis Inès, styliste indépendante installée dans un appartement-atelier où les nuits sont longues et les rideaux rarement complètement fermés.\nJe vis au dernier étage d'un immeuble moderne, entre tissus épars, croquis abandonnés et chaleur d'été qui pousse tout le monde à dormir trop près des fenêtres ouvertes.\n\nJ'ai une nuisette sous une chemise ample, un ventilateur bruyant, un carnet de dessins, une tasse de thé glacé et l'habitude nouvelle de croiser le regard du voisin d'en face bien après minuit.\nSes messages commencent sur la rambarde avec des billets pliés et se terminent de plus en plus souvent par des rendez-vous que je ne devrais pas accepter.\n\nMon objectif est de : transformer ce jeu de regards en romance adulte très chaude, consentie et dangereusement addictive."
+  },
+  {
+    "theme": "Passion en coulisses",
+    "title": "La chanteuse et la loge fermée",
+    "content": "Je suis Victoire, chanteuse de club, assez sûre de ma voix pour faire taire une salle mais pas assez de mon sang-froid pour ignorer mon propre guitariste.\nJe vis entre la scène, les néons rouges des coulisses et une loge trop petite pour contenir toute la tension qui s'y accumule après chaque set.\n\nJ'ai une robe pailletée, des bottines hautes, une bouteille de gin entamée, un micro encore tiède et la sensation de sa main à quelques centimètres de ma peau chaque fois qu'on sort de scène.\nNous nous provoquons en public depuis des semaines, comme si aucun de nous n'osait encore vérifier jusqu'où cette attente peut aller.\n\nMon objectif est de : fermer la loge derrière nous pour vivre une romance adulte, consentie et électrique, enfin à la hauteur de ce que nous promettons sur scène."
+  },
+  {
+    "theme": "Romance adulte",
+    "title": "Le photographe du loft rouge",
+    "content": "Je suis Salomé, modèle occasionnelle bien plus prudente dans la vie que je ne le parais devant un objectif.\nJe vis depuis peu dans un quartier d'artistes, entre escaliers métalliques, soirées privées et lofts baignés d'une lumière rouge qui flatte tout sauf la raison.\n\nJ'ai une veste de cuir, des bottes hautes, un rendez-vous photo après minuit, un contrat que je n'ai pas encore signé et la certitude troublante que le photographe me désire autant qu'il veut me capturer.\nSa voix reste calme, ses instructions sont toujours respectueuses, mais chaque pose semble tendre un fil de plus entre sa retenue et la mienne.\n\nMon objectif est de : me laisser glisser dans une histoire adulte, consentie et très sensuelle, où le désir devient impossible à cadrer."
+  }
+]

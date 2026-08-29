@@ -105,8 +105,8 @@ body {
   --stage-gap: 26px;
   --stage-pad: 28px 28px 56px;
   --stage-align: center;
-  --stage-columns: var(--rail-width) minmax(0, var(--col-narrative));
-  --stage-areas: 'rail flow';
+  --stage-columns: var(--rail-width) minmax(0, var(--col-narrative)) var(--rail-width);
+  --stage-areas: 'rail flow side';
 
   --surface-alpha: 1;
   --surface-bg: color-mix(
@@ -204,6 +204,21 @@ body {
   gap: 18px;
 }
 
+.gm-rail--side {
+  grid-area: side;
+}
+
+@media (max-width: 1200px) {
+  .gm-page {
+    --stage-columns: var(--rail-width) minmax(0, var(--col-narrative));
+    --stage-areas: 'rail flow' 'rail side';
+  }
+
+  .gm-rail--side {
+    width: 100%;
+  }
+}
+
 .gm-surface {
   position: relative;
   background: var(--surface-bg);
@@ -249,7 +264,7 @@ body {
     --stage-gap: 16px !important;
     --stage-align: stretch !important;
     --stage-columns: minmax(0, 1fr) !important;
-    --stage-areas: 'rail' 'flow' !important;
+    --stage-areas: 'rail' 'flow' 'side' !important;
   }
 }
 

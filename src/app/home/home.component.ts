@@ -12,6 +12,7 @@ import { GameStateService } from '../core/game-state.service';
 import { Stat, Ambiance, DEFAULT_AMBIANCE, Turn, AnswerPayload } from '../models/turn.model';
 import {
   ACTION_COPY,
+  AUTO_TURN,
   MAX_TURNS,
   STAT_NAMES,
   STAT_ROLL,
@@ -174,9 +175,17 @@ export class HomeComponent implements OnDestroy {
   }
 
   protected submitTurn(): void {
+    this.sendTurn(this.prompt(), true);
+  }
+
+  protected submitAutoTurn(): void {
+    this.sendTurn(AUTO_TURN.message, false);
+  }
+
+  private sendTurn(text: string, clearPrompt: boolean): void {
     if (this.controlsDisabled()) return;
 
-    const sanitizedText = sanitizeText(this.prompt());
+    const sanitizedText = sanitizeText(text);
 
     if (!sanitizedText) {
       this.error.set('Écrivez une action avant de l’envoyer.');
@@ -219,10 +228,12 @@ export class HomeComponent implements OnDestroy {
           this.conversation.set(data);
           this.turns.update((prev) => [...prev, data]);
           this.updateStats(data);
-          this.prompt.set('');
-          const accountId = this.auth.accountId();
-          if (accountId !== null) {
-            this.gameState.saveDraft(accountId, '');
+          if (clearPrompt) {
+            this.prompt.set('');
+            const accountId = this.auth.accountId();
+            if (accountId !== null) {
+              this.gameState.saveDraft(accountId, '');
+            }
           }
 
           if (this.turns().length > MAX_TURNS) {

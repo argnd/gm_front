@@ -84,5 +84,8 @@
       "placeholder": "Où va votre attention ?",
       "submit": "Poursuivre"
     }
+  },
+  "autoTurn": {
+    "label": "Auto"
   }
 }

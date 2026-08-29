@@ -42,6 +42,7 @@
           [loading]="loading()"
           (promptChange)="updatePrompt($event)"
           (submit)="submitTurn()"
+          (continueStory)="submitAutoTurn()"
         />
 
         <div class="trail-band" aria-label="Progression de l’aventure">
@@ -78,25 +79,8 @@
                   joue en {{ maxTurns }} tours.
                 </p>
               </div>
-              <app-suggestion-panel gmPlayField />
             }
           }
-        </div>
-
-        <div class="flow-duo">
-          <app-rolls-panel
-            gmPlayField
-            [rolls]="rollEntries()"
-            [decor]="decorComponent()"
-            [decorData]="decorData()"
-          />
-
-          <app-objects-panel
-            gmPlayField
-            [objects]="objectsEntries()"
-            [decor]="decorComponent()"
-            [decorData]="decorData()"
-          />
         </div>
 
         <div class="narrative narrative--history">
@@ -132,6 +116,26 @@
           <ng-container *ngComponentOutlet="decorComponent(); inputs: decorInputs('answer-end')" />
         </div>
       </section>
+
+      <aside class="gm-rail gm-rail--side">
+        @if (turnsPlayed() === 0 && !loading()) {
+          <app-suggestion-panel gmPlayField />
+        }
+
+        <app-objects-panel
+          gmPlayField
+          [objects]="objectsEntries()"
+          [decor]="decorComponent()"
+          [decorData]="decorData()"
+        />
+
+        <app-rolls-panel
+          gmPlayField
+          [rolls]="rollEntries()"
+          [decor]="decorComponent()"
+          [decorData]="decorData()"
+        />
+      </aside>
     </div>
   </div>
 

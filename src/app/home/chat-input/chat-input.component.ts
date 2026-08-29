@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ACTION_COPY, ACTION_HINTS, ActionCopy, AmbianceKey } from '../ambiance/ambiance.engine';
+import { ACTION_COPY, ACTION_HINTS, AUTO_TURN, ActionCopy, AmbianceKey } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
 const HINT_ROTATION_MS = 6000;
@@ -39,6 +39,9 @@ export class ChatInputComponent {
 
   readonly promptChange = output<string>();
   readonly submit = output<void>();
+  readonly continueStory = output<void>();
+
+  protected readonly autoLabel = AUTO_TURN.label;
 
   private readonly field = viewChild<ElementRef<HTMLTextAreaElement>>('field');
 
@@ -102,6 +105,32 @@ export class ChatInputComponent {
       setTimeout(() => this.sealing.set(false), SEAL_MS);
     }
     this.submit.emit();
+  }
+
+  protected emitContinue(): void {
+    if (this.disabled()) {
+      return;
+    }
+    this.sealing.set(true);
+    setTimeout(() => this.sealing.set(false), SEAL_MS);
+    this.continueStory.emit();
+  }
+
+  protected paste(): void {
+    if (this.disabled()) {
+      return;
+    }
+    navigator.clipboard
+      ?.readText()
+      .then((text) => {
+        if (!text) {
+          return;
+        }
+        const current = this.prompt();
+        this.promptChange.emit(current ? `${current}\n${text}` : text);
+        this.field()?.nativeElement.focus();
+      })
+      .catch(() => {});
   }
 
   protected autoGrow(event: Event): void {

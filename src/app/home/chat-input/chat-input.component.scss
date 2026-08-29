@@ -216,11 +216,42 @@
   }
 }
 
+.chatbox-actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.chatbox-tool {
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.74rem;
+  cursor: pointer;
+  transition:
+    color var(--speed-fast) ease,
+    border-color var(--speed-fast) ease;
+
+  &:hover:not(:disabled) {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
 .chatbox-submit {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-left: auto;
   padding: 12px 26px;
   border: 1px solid transparent;
   border-radius: 999px;

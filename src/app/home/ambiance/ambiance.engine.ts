@@ -1,5 +1,6 @@
 import { Ambiance, Stat } from '../../models/turn.model';
 import copy from '../../content/copy.json';
+import autoMessage from '../../content/auto-message.json';
 import rules from '../../content/rules.json';
 
 export type AmbianceKey = 'romance' | 'adventure' | 'other';
@@ -61,6 +62,11 @@ export type ActionCopy = {
 export const ACTION_COPY: Record<AmbianceKey | 'neutral', ActionCopy> = copy.actionCopy;
 
 export const ACTION_HINTS: Record<AmbianceKey | 'neutral', string[]> = copy.actionHints;
+
+export const AUTO_TURN: { label: string; message: string } = {
+  label: copy.autoTurn.label,
+  message: autoMessage.message,
+};
 
 export function clamp01(value: number): number {
   if (!Number.isFinite(value)) return 0;

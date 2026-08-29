@@ -60,16 +60,24 @@
       >{{ prompt().length }} caractères</span
     >
     <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('foot')" />
-    <button class="chatbox-submit" type="button" (click)="emitSubmit()" [disabled]="disabled()">
-      @if (loading()) {
-        <svg class="chatbox-die chatbox-die--rolling" viewBox="0 0 100 100" aria-hidden="true">
-          <polygon points="50,4 89,27 89,73 50,96 11,73 11,27" />
-          <polygon points="50,26 72,64 28,64" />
-        </svg>
-        Le dé roule…
-      } @else {
-        {{ copy().submit }}
-      }
-    </button>
+    <span class="chatbox-actions">
+      <button class="chatbox-tool" type="button" (click)="paste()" [disabled]="disabled()">
+        Coller
+      </button>
+      <button class="chatbox-tool" type="button" (click)="emitContinue()" [disabled]="disabled()">
+        {{ autoLabel }}
+      </button>
+      <button class="chatbox-submit" type="button" (click)="emitSubmit()" [disabled]="disabled()">
+        @if (loading()) {
+          <svg class="chatbox-die chatbox-die--rolling" viewBox="0 0 100 100" aria-hidden="true">
+            <polygon points="50,4 89,27 89,73 50,96 11,73 11,27" />
+            <polygon points="50,26 72,64 28,64" />
+          </svg>
+          Le dé roule…
+        } @else {
+          {{ copy().submit }}
+        }
+      </button>
+    </span>
   </div>
 </section>

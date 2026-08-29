@@ -28,12 +28,6 @@
           (randomize)="randomizeStats()"
         />
 
-        <app-objects-panel
-          gmPlayField
-          [objects]="objectsEntries()"
-          [decor]="decorComponent()"
-          [decorData]="decorData()"
-        />
       </aside>
 
       <section class="gm-flow">
@@ -64,44 +58,76 @@
           <ng-container *ngComponentOutlet="decorComponent(); inputs: decorInputs('trail')" />
         </div>
 
-        <app-rolls-panel
-          gmPlayField
-          [rolls]="rollEntries()"
-          [decor]="decorComponent()"
-          [decorData]="decorData()"
-        />
-
-        <div class="flow-divider" aria-hidden="true">
-          <span class="flow-divider-line"></span>
-          <span class="flow-divider-gem"></span>
-          <span class="flow-divider-line flow-divider-line--end"></span>
-        </div>
-
-        <div class="narrative">
+        <div class="narrative narrative--latest">
           <ng-container *ngComponentOutlet="decorComponent(); inputs: decorInputs('answer')" />
           @if (loading()) {
             <p class="state-msg gm-surface" gmPlayField>Le Maître du Jeu écrit…</p>
           } @else if (error()) {
             <p class="state-msg state-msg--error">{{ error() }}</p>
-          } @else if (reversedTurns().length) {
-            @for (turn of reversedTurns(); track $index) {
-              <app-turn-card
-                gmPlayField
-                [turn]="turn"
-                [index]="reversedTurns().length - 1 - $index"
-                [isLast]="$first"
-              />
+          }
+          @for (entry of latestTurnEntries(); track entry.index) {
+            <app-turn-card gmPlayField [turn]="entry.turn" [index]="entry.index" [isLast]="true" />
+          } @empty {
+            @if (!loading() && !error()) {
+              <div class="state-msg gm-surface" gmPlayField>
+                <p>L’histoire n’a pas encore commencé. Décrivez votre première action.</p>
+                <p class="intro-hint">
+                  Votre Maître du Jeu est une intelligence artificielle. Écrivez librement ce que
+                  fait votre personnage : elle raconte la suite, en tire les conséquences et fait
+                  évoluer vos statistiques, vos objets et l’ambiance au fil du récit. La partie se
+                  joue en {{ maxTurns }} tours.
+                </p>
+              </div>
+              <app-suggestion-panel gmPlayField />
             }
-          } @else {
-            <div class="state-msg gm-surface" gmPlayField>
-              <p>L’histoire n’a pas encore commencé. Décrivez votre première action.</p>
-              <p class="intro-hint">
-                Votre Maître du Jeu est une intelligence artificielle. Écrivez librement ce que
-                fait votre personnage : elle raconte la suite, en tire les conséquences et fait
-                évoluer vos statistiques, vos objets et l’ambiance au fil du récit. La partie se
-                joue en {{ maxTurns }} tours.
-              </p>
+          }
+        </div>
+
+        <div class="flow-duo">
+          <app-rolls-panel
+            gmPlayField
+            [rolls]="rollEntries()"
+            [decor]="decorComponent()"
+            [decorData]="decorData()"
+          />
+
+          <app-objects-panel
+            gmPlayField
+            [objects]="objectsEntries()"
+            [decor]="decorComponent()"
+            [decorData]="decorData()"
+          />
+        </div>
+
+        <div class="narrative narrative--history">
+          @if (historyEntries().length) {
+            <div class="flow-divider" aria-hidden="true">
+              <span class="flow-divider-line"></span>
+              <span class="flow-divider-gem"></span>
+              <span class="flow-divider-line flow-divider-line--end"></span>
             </div>
+
+            <section class="history gm-surface" gmPlayField>
+              <header
+                class="history-head"
+                role="button"
+                tabindex="0"
+                [attr.aria-expanded]="!historyCollapsed()"
+                (click)="toggleHistory()"
+                (keydown.enter)="toggleHistory()"
+                (keydown.space)="toggleHistory()"
+              >
+                <span class="gm-label">Historique</span>
+                <span class="history-toggle">{{ historyCollapsed() ? 'Déplier' : 'Replier' }}</span>
+              </header>
+              @if (!historyCollapsed()) {
+                <div class="history-list">
+                  @for (entry of historyEntries(); track entry.index) {
+                    <app-turn-card [turn]="entry.turn" [index]="entry.index" />
+                  }
+                </div>
+              }
+            </section>
           }
           <ng-container *ngComponentOutlet="decorComponent(); inputs: decorInputs('answer-end')" />
         </div>

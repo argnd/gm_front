@@ -32,6 +32,7 @@ import { RollsPanelComponent } from './rolls-panel/rolls-panel.component';
 import { DebugPanelComponent } from './debug-panel/debug-panel.component';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 import { TurnCardComponent } from './turn-card/turn-card.component';
+import { SuggestionPanelComponent } from './suggestion-panel/suggestion-panel.component';
 import { AdventureOverOverlayComponent } from './adventure-over-overlay/adventure-over-overlay.component';
 
 const ADVENTURE_OVER_DELAY_MS = 4_000;
@@ -50,6 +51,7 @@ const ADVENTURE_OVER_DELAY_MS = 4_000;
     DebugPanelComponent,
     ChatInputComponent,
     TurnCardComponent,
+    SuggestionPanelComponent,
     AdventureOverOverlayComponent,
   ],
   templateUrl: './home.component.html',
@@ -94,9 +96,20 @@ export class HomeComponent implements OnDestroy {
       .reverse();
   });
 
-  protected readonly reversedTurns = computed(() =>
-    [...(this.conversation()?.turns ?? [])].reverse(),
+  protected readonly latestTurnEntries = computed(() => {
+    const turns = this.conversation()?.turns ?? [];
+    const last = turns.at(-1);
+    return last ? [{ turn: last, index: turns.length - 1 }] : [];
+  });
+
+  protected readonly historyEntries = computed(() =>
+    (this.conversation()?.turns ?? [])
+      .slice(0, -1)
+      .map((turn, index) => ({ turn, index }))
+      .reverse(),
   );
+
+  protected readonly historyCollapsed = signal(true);
 
   protected readonly controlsDisabled = computed(() => this.loading() || this.adventureOver());
 
@@ -233,6 +246,10 @@ export class HomeComponent implements OnDestroy {
     if (this.error()) {
       this.error.set(null);
     }
+  }
+
+  protected toggleHistory(): void {
+    this.historyCollapsed.update((v) => !v);
   }
 
   protected randomizeStats(): void {

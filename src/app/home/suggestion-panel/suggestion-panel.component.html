@@ -1,0 +1,15 @@
+<section class="panel gm-surface">
+  <header class="panel-head">
+    <span class="gm-label">Suggestion</span>
+    <span class="panel-actions">
+      <button class="panel-reset" type="button" (click)="copy()">
+        {{ copied() ? 'Copié !' : 'Copier' }}
+      </button>
+      <button class="panel-reset" type="button" (click)="randomize()">Au hasard</button>
+    </span>
+  </header>
+
+  <p class="suggestion-theme">{{ suggestion().theme }}</p>
+  <p class="suggestion-title">{{ suggestion().title }}</p>
+  <p class="suggestion-content">{{ suggestion().content }}</p>
+</section>

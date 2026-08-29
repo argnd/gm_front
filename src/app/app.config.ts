@@ -2,6 +2,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/auth.interceptor';
+import { SILENT_AUTH_ENABLED } from './core/auth.service';
 import {
   SOCIAL_AUTH_CONFIG,
   SocialAuthServiceConfig,
@@ -18,13 +19,13 @@ export const appConfig: ApplicationConfig = {
     {
       provide: SOCIAL_AUTH_CONFIG,
       useValue: {
-        autoLogin: false,
+        autoLogin: SILENT_AUTH_ENABLED,
         lang: 'en',
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(environment.googleClientId, {
-              oneTapEnabled: false,
+              oneTapEnabled: SILENT_AUTH_ENABLED,
             }),
           },
         ],

@@ -8,6 +8,7 @@ import {
 import { finalize } from 'rxjs';
 import { AuthService } from '../core/auth.service';
 import { ApiService } from '../core/api.service';
+import { GameStateService } from '../core/game-state.service';
 import { Stat, Ambiance, DEFAULT_AMBIANCE, Turn, AnswerPayload } from '../models/turn.model';
 import {
   ACTION_COPY,
@@ -57,6 +58,7 @@ const ADVENTURE_OVER_DELAY_MS = 4_000;
 export class HomeComponent implements OnDestroy {
   protected readonly auth = inject(AuthService);
   private readonly api = inject(ApiService);
+  private readonly gameState = inject(GameStateService);
 
   protected readonly maxTurns = MAX_TURNS;
 
@@ -135,6 +137,8 @@ export class HomeComponent implements OnDestroy {
         }
       });
     });
+
+    this.restoreGameState();
   }
 
   protected decorInputs(slot: AmbianceDecorSlot): Record<string, unknown> {
@@ -203,9 +207,15 @@ export class HomeComponent implements OnDestroy {
           this.turns.update((prev) => [...prev, data]);
           this.updateStats(data);
           this.prompt.set('');
+          const accountId = this.auth.accountId();
+          if (accountId !== null) {
+            this.gameState.saveDraft(accountId, '');
+          }
 
           if (this.turns().length > MAX_TURNS) {
             this.triggerAdventureOver();
+          } else {
+            this.persistGameState();
           }
         },
         error: (err) => {
@@ -216,6 +226,10 @@ export class HomeComponent implements OnDestroy {
 
   protected updatePrompt(value: string): void {
     this.prompt.set(value);
+    const accountId = this.auth.accountId();
+    if (accountId !== null) {
+      this.gameState.saveDraft(accountId, value);
+    }
     if (this.error()) {
       this.error.set(null);
     }
@@ -229,6 +243,7 @@ export class HomeComponent implements OnDestroy {
     this.halfturns.set([]);
     this.conversation.set(null);
     this.error.set(null);
+    this.clearGameState();
   }
 
   protected overrideAmbiance(ambiance: Ambiance): void {
@@ -241,6 +256,9 @@ export class HomeComponent implements OnDestroy {
 
   private triggerAdventureOver(): void {
     this.adventureOver.set(true);
+    // The character (stats/objects/ambiance) carries over to the next adventure;
+    // persist that carry-over so a reload matches the in-session behavior
+    this.persistCarryOverState();
 
     if (this.adventureOverTimer !== null) {
       clearTimeout(this.adventureOverTimer);
@@ -253,6 +271,62 @@ export class HomeComponent implements OnDestroy {
       this.adventureOver.set(false);
       this.adventureOverTimer = null;
     }, ADVENTURE_OVER_DELAY_MS);
+  }
+
+  private restoreGameState(): void {
+    const accountId = this.auth.accountId();
+    if (accountId === null) return;
+
+    const draft = this.gameState.loadDraft(accountId);
+    if (draft !== null) {
+      this.prompt.set(draft);
+    }
+
+    const saved = this.gameState.load(accountId);
+    if (!saved) return;
+
+    this.turns.set(saved.turns);
+    this.halfturns.set(saved.halfturns);
+    this.conversation.set(saved.conversation);
+    this.stats.set(new Map(saved.stats));
+    this.objects.set(new Map(saved.objects));
+    this.ambiance.set(saved.ambiance);
+  }
+
+  private persistGameState(): void {
+    const accountId = this.auth.accountId();
+    if (accountId === null) return;
+
+    this.gameState.save(accountId, {
+      turns: this.turns(),
+      // halfturns is debug-only data and doubles the snapshot size — not persisted
+      halfturns: [],
+      conversation: this.conversation(),
+      stats: Array.from(this.stats().entries()),
+      objects: Array.from(this.objects().entries()),
+      ambiance: this.ambiance(),
+    });
+  }
+
+  private persistCarryOverState(): void {
+    const accountId = this.auth.accountId();
+    if (accountId === null) return;
+
+    this.gameState.save(accountId, {
+      turns: [],
+      halfturns: [],
+      conversation: null,
+      stats: Array.from(this.stats().entries()),
+      objects: Array.from(this.objects().entries()),
+      ambiance: this.ambiance(),
+    });
+  }
+
+  private clearGameState(): void {
+    const accountId = this.auth.accountId();
+    if (accountId !== null) {
+      this.gameState.clear(accountId);
+    }
   }
 
   private updateStats(data: AnswerPayload): void {

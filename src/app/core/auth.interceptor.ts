@@ -1,21 +1,42 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { catchError, from, switchMap, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 
+function withToken<T>(req: HttpRequest<T>, token: string): HttpRequest<T> {
+  return req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
+}
+
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const auth = inject(AuthService);
-  const token = auth.getIdToken();
-
-  console.debug('[AuthInterceptor] token present:', !!token, '| length:', token?.length ?? 0);
-
-  if (token && req.url.startsWith(environment.apiBaseUrl)) {
-    req = req.clone({
-      setHeaders: { Authorization: `Bearer ${token}` },
-    });
-  } else if (req.url.startsWith(environment.apiBaseUrl)) {
-    console.warn('[AuthInterceptor] No token � request will be unauthenticated');
+  if (!req.url.startsWith(environment.apiBaseUrl)) {
+    return next(req);
   }
 
-  return next(req);
+  const auth = inject(AuthService);
+  auth.touchActivity();
+  const token = auth.getIdToken();
+
+  if (!token) {
+    console.warn('[AuthInterceptor] No token — request will be unauthenticated');
+    return next(req);
+  }
+
+  return next(withToken(req, token)).pipe(
+    catchError((error) => {
+      if (!(error instanceof HttpErrorResponse) || error.status !== 401) {
+        return throwError(() => error);
+      }
+
+      return from(auth.forceRenewToken()).pipe(
+        switchMap((renewed) => {
+          if (renewed === null) {
+            auth.sessionLapsed();
+            return throwError(() => error);
+          }
+          return next(withToken(req, renewed));
+        }),
+      );
+    }),
+  );
 };

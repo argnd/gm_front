@@ -106,11 +106,28 @@ export class DictationService {
       // re-sends results it has already delivered — often the entire session, with
       // resultIndex back at zero — so appending would repeat them, and repeat the
       // repetitions on the next event.
-      let text = '';
+      //
+      // The list itself can also carry the same utterance twice, which mobile engines do
+      // and desktop ones do not: once as a provisional result and once as its own final,
+      // or the same final twice after the engine has restarted itself (Android ignores
+      // `continuous`). Consecutive entries saying the same thing are therefore folded into
+      // one, keeping the longer — a provisional result is a prefix of the final it becomes.
+      const parts: string[] = [];
       for (let index = 0; index < event.results.length; index++) {
-        text = join(text, event.results[index][0].transcript);
+        const transcript = event.results[index][0].transcript.trim();
+        if (!transcript) {
+          continue;
+        }
+        const previous = parts.at(-1);
+        if (previous !== undefined && sameUtterance(previous, transcript)) {
+          if (transcript.length > previous.length) {
+            parts[parts.length - 1] = transcript;
+          }
+          continue;
+        }
+        parts.push(transcript);
       }
-      this.spokenText.set(text);
+      this.spokenText.set(parts.join(' '));
     };
 
     recognition.onerror = (event) => {
@@ -146,12 +163,23 @@ export class DictationService {
   }
 }
 
-// Chunks come with inconsistent leading and trailing spaces depending on the engine, so
-// they are normalised to exactly one space between them
-function join(left: string, right: string): string {
-  const start = left.trim();
-  const end = right.trim();
-  if (!start) return end;
-  if (!end) return start;
-  return `${start} ${end}`;
+// Two neighbouring results are the same utterance when one is the beginning of the other:
+// that covers a provisional result sitting next to its own final, which adds capitalisation
+// and punctuation but no words. The cost of the rule is that a player genuinely repeating
+// themselves — "non, non" said as two separate results — is heard once.
+function sameUtterance(left: string, right: string): boolean {
+  const start = comparable(left);
+  const end = comparable(right);
+  if (!start || !end) return false;
+  return start.startsWith(end) || end.startsWith(start);
+}
+
+// Case, spacing and trailing punctuation are exactly what differs between a provisional
+// result and the final it becomes, so none of them may weigh in the comparison
+function comparable(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .replace(/[.,;:!?…]+$/g, '')
+    .trim();
 }

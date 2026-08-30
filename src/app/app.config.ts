@@ -2,7 +2,6 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/auth.interceptor';
-import { SILENT_AUTH_ENABLED } from './core/auth.service';
 import {
   SOCIAL_AUTH_CONFIG,
   SocialAuthServiceConfig,
@@ -10,9 +9,6 @@ import {
 } from '@abacritt/angularx-social-login';
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
-
-// One Tap only on touch devices (bottom sheet): on desktop the white card clashes with the theme
-const oneTapEnabled = SILENT_AUTH_ENABLED && window.matchMedia('(pointer: coarse)').matches;
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,18 +18,15 @@ export const appConfig: ApplicationConfig = {
     {
       provide: SOCIAL_AUTH_CONFIG,
       useValue: {
-        // autoLogin makes GIS emit a credential at startup when the user is still signed
-        // in to Google, which AuthService turns into a session without any click
-        autoLogin: SILENT_AUTH_ENABLED,
+        // Neither auto sign-in nor One Tap: signing in goes through the explicit Google
+        // button on /login, so Google never puts a card on screen by itself
+        autoLogin: false,
         lang: 'en',
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(environment.googleClientId, {
-              oneTapEnabled,
-              // Renders the prompt inside a 1px hidden host (see index.html) instead of the
-              // top-right corner: the renewal stays silent, the card is never seen
-              prompt_parent_id: 'gm-onetap-host',
+              oneTapEnabled: false,
             }),
           },
         ],

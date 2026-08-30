@@ -4,8 +4,9 @@
     {
       "name": "gm-front",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["ng", "serve", "--port", "4250"],
-      "port": 4250
+      "runtimeArgs": ["ng", "serve"],
+      "port": 4250,
+      "autoPort": true
     }
   ]
 }

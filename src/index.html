@@ -10,6 +10,16 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
   </head>
   <body>
+    <!--
+      Host for the Google One Tap prompt: prompt_parent_id points GIS here instead of the
+      top-right corner, so a silent token renewal never flashes a card. Declared in
+      index.html, not in a component, so it exists before the first prompt() can fire.
+    -->
+    <div
+      id="gm-onetap-host"
+      aria-hidden="true"
+      style="position: fixed; top: 0; left: 0; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none"
+    ></div>
     <app-root></app-root>
   </body>
 </html>

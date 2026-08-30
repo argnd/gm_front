@@ -31,6 +31,9 @@ export const appConfig: ApplicationConfig = {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(environment.googleClientId, {
               oneTapEnabled,
+              // Renders the prompt inside a 1px hidden host (see index.html) instead of the
+              // top-right corner: the renewal stays silent, the card is never seen
+              prompt_parent_id: 'gm-onetap-host',
             }),
           },
         ],

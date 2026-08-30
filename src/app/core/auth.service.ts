@@ -131,7 +131,7 @@ export class AuthService {
 
     this.pendingRenewal = new Promise<string | null>((resolve) => {
       this.resolveRenewal = resolve;
-      this.renewalTimeout = setTimeout(() => this.settleRenewal(null), FORCED_RENEWAL_TIMEOUT_MS);
+      this.renewalTimeout = setTimeout(() => this.abandonRenewal(), FORCED_RENEWAL_TIMEOUT_MS);
       this.promptWhenReady();
     }).finally(() => {
       this.pendingRenewal = null;
@@ -264,6 +264,13 @@ export class AuthService {
       clearTimeout(this.renewalTimer);
     }
     this.renewalTimer = setTimeout(() => this.attemptSilentRenewal(), SILENT_RENEWAL_RETRY_MS);
+  }
+
+  // The prompt lives in a hidden host, so one waiting on a click would hang there unseen:
+  // close it before giving up, leaving GIS in a clean state for the next attempt
+  private abandonRenewal(): void {
+    googleIdApi()?.cancel();
+    this.settleRenewal(null);
   }
 
   // Single exit point for a pending renewal: cancels the give-up timer and resolves the

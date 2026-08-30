@@ -67,8 +67,30 @@
     <span class="chatbox-count" [class.is-visible]="prompt().length > 0"
       >{{ prompt().length }} caractères</span
     >
+    @if (dictation.error(); as dictationError) {
+      <span class="chatbox-dictation-error" role="status">{{ dictationError }}</span>
+    }
     <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('foot')" />
     <span class="chatbox-actions">
+      <!-- No engine, no button: Firefox has none, and an inert control would only puzzle -->
+      @if (dictation.available()) {
+        <button
+          class="chatbox-tool chatbox-mic-button"
+          type="button"
+          [class.is-listening]="dictation.listening()"
+          [attr.aria-label]="dictation.listening() ? 'Arrêter la dictée' : 'Dicter votre action'"
+          [attr.aria-pressed]="dictation.listening()"
+          (click)="toggleDictation()"
+          [disabled]="disabled()"
+        >
+          <svg class="chatbox-mic" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="9" y="2.5" width="6" height="11.5" rx="3" />
+            <path d="M5 11.5a7 7 0 0 0 14 0" />
+            <path d="M12 18.5v3" />
+          </svg>
+          {{ dictation.listening() ? 'Écoute…' : 'Dicter' }}
+        </button>
+      }
       <button class="chatbox-tool" type="button" (click)="paste()" [disabled]="disabled()">
         Coller
       </button>

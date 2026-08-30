@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { ACTION_COPY, ACTION_HINTS, AUTO_TURN, ActionCopy, AmbianceKey } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
+import { DictationService } from '../../core/dictation.service';
 
 // The console: where the player writes their action. Purely presentational — the text is
 // owned by the home, which receives it through promptChange and hands it back as an input.
@@ -46,6 +47,7 @@ export class ChatInputComponent {
   readonly continueStory = output<void>();
 
   protected readonly autoLabel = AUTO_TURN.label;
+  protected readonly dictation = inject(DictationService);
 
   private readonly field = viewChild<ElementRef<HTMLTextAreaElement>>('field');
 
@@ -68,8 +70,30 @@ export class ChatInputComponent {
   // Tracks the falling edge of `loading` in the effect below
   private wasLoading = false;
 
+  // What was in the field when the microphone was opened: the dictation is appended to it,
+  // and is rewritten in place as the engine revises what it heard
+  private dictationBase = '';
+
   constructor() {
     const destroyRef = inject(DestroyRef);
+    destroyRef.onDestroy(() => this.dictation.stop());
+
+    // Deliberately reads neither prompt() nor the base text as a signal: the emission
+    // below comes straight back as an input, and reading it here would loop
+    effect(() => {
+      const spoken = this.dictation.spokenText();
+      if (!this.dictation.listening()) {
+        return;
+      }
+      const base = this.dictationBase.trimEnd();
+      this.promptChange.emit(base && spoken ? `${base} ${spoken}` : base || spoken);
+      setTimeout(() => {
+        const element = this.field()?.nativeElement;
+        if (element) {
+          this.grow(element);
+        }
+      });
+    });
 
     const rotation = setInterval(() => {
       // Suggestions freeze as soon as the player engages: rotating text under an active
@@ -113,6 +137,9 @@ export class ChatInputComponent {
     if (this.disabled()) {
       return;
     }
+    // A microphone left open would write the dictation back into the field the home has
+    // just emptied
+    this.dictation.stop();
     if (this.prompt().trim()) {
       this.sealing.set(true);
       setTimeout(() => this.sealing.set(false), SEAL_MS);
@@ -124,9 +151,23 @@ export class ChatInputComponent {
     if (this.disabled()) {
       return;
     }
+    this.dictation.stop();
     this.sealing.set(true);
     setTimeout(() => this.sealing.set(false), SEAL_MS);
     this.continueStory.emit();
+  }
+
+  protected toggleDictation(): void {
+    if (this.disabled()) {
+      return;
+    }
+    if (this.dictation.listening()) {
+      this.dictation.stop();
+      this.field()?.nativeElement.focus();
+      return;
+    }
+    this.dictationBase = this.prompt();
+    this.dictation.start();
   }
 
   protected paste(): void {

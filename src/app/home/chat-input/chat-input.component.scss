@@ -221,9 +221,20 @@
 .chatbox-actions {
   display: flex;
   flex: none;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   align-items: center;
   gap: 10px;
   margin-left: auto;
+}
+
+.chatbox-dictation-error {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-soft);
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .chatbox-tool {
@@ -247,6 +258,39 @@
   &:disabled {
     opacity: 0.55;
     cursor: not-allowed;
+  }
+}
+
+.chatbox-mic-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  // Live microphone: the ring pulses so an open mic is visible without watching the label
+  &.is-listening {
+    color: var(--accent);
+    border-color: var(--accent);
+    animation: chatbox-mic-pulse 1.6s ease-in-out infinite;
+  }
+}
+
+.chatbox-mic {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+@keyframes chatbox-mic-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+  50% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
   }
 }
 

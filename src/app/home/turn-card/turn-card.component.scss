@@ -153,6 +153,11 @@
   font-family: var(--font-ui);
   font-size: 0.9rem;
   font-style: italic;
+  // This line renders text typed by the player, emoji included. Emoji fonts carry no
+  // italic face, so the browser would synthesise an oblique and visibly shear the glyphs.
+  // Forbidding the synthesis keeps the real italic of the UI font on the text while the
+  // emoji fall back to their upright face. Same reasoning for scripts with no italic cut.
+  font-synthesis-style: none;
   line-height: 1.55;
 
   &.is-clamped {

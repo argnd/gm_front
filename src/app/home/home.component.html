@@ -129,14 +129,14 @@
           }
           <ng-container *ngComponentOutlet="decorComponent(); inputs: decorInputs('answer-end')" />
         </div>
-      </section>
 
-      <aside class="gm-rail gm-rail--side">
         <!-- Only offered before the first turn: once the story is under way it is noise -->
         @if (turnsPlayed() === 0 && !loading()) {
           <app-suggestion-panel gmPlayField />
         }
+      </section>
 
+      <aside class="gm-rail gm-rail--side">
         <app-objects-panel
           gmPlayField
           [objects]="objectsEntries()"

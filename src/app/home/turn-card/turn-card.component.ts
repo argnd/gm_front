@@ -58,6 +58,14 @@ export class TurnCardComponent implements OnChanges {
     return `turn-${this.index}`;
   }
 
+  // The superior voice is synthesized on the backend, so the button spends a few seconds
+  // between the click and the first sound. It stays active throughout: clicking again
+  // cancels the pending request.
+  protected get listenLabel(): string {
+    if (this.speech.loadingId() === this.speechId) return 'Synthèse…';
+    return this.speech.speakingId() === this.speechId ? 'Stop' : 'Écouter';
+  }
+
   protected toggleSpeech(event: Event): void {
     // The whole card is clickable to collapse it: the speech button must not do both
     event.stopPropagation();

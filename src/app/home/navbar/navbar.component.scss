@@ -61,6 +61,92 @@
   white-space: nowrap;
 }
 
+// Narration switch. The native checkbox stays in the DOM, only visually replaced by the
+// track below, so the control keeps its keyboard behaviour and its announced state.
+.voice {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.voice-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.voice-track {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 34px;
+  height: 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  transition:
+    border-color var(--speed-fast) ease,
+    background-color var(--speed-fast) ease;
+}
+
+.voice-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  transition:
+    transform var(--speed-fast) ease,
+    background-color var(--speed-fast) ease;
+}
+
+.voice-label {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  transition: color var(--speed-fast) ease;
+}
+
+.voice:hover {
+  .voice-track {
+    border-color: var(--accent);
+  }
+
+  .voice-label {
+    color: var(--text-soft);
+  }
+}
+
+// Focus lands on the hidden input, so the ring has to be drawn on the visible track
+.voice-input:focus-visible + .voice-track {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.voice.is-on {
+  .voice-track {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  .voice-knob {
+    background: var(--accent);
+    transform: translateX(16px);
+  }
+
+  .voice-label {
+    color: var(--accent);
+  }
+}
+
 .user {
   display: flex;
   align-items: center;
@@ -105,7 +191,8 @@
 }
 
 @media (max-width: 620px) {
-  .user-name {
+  .user-name,
+  .voice-label {
     display: none;
   }
 }

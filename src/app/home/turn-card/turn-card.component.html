@@ -22,11 +22,12 @@
           class="turn-listen"
           type="button"
           [class.is-speaking]="speech.speakingId() === speechId"
+          [class.is-loading]="speech.loadingId() === speechId"
           (click)="toggleSpeech($event)"
           (keydown.enter)="$event.stopPropagation()"
           (keydown.space)="$event.stopPropagation()"
         >
-          {{ speech.speakingId() === speechId ? 'Stop' : 'Écouter' }}
+          {{ listenLabel }}
         </button>
       }
       @if (!isLast) {

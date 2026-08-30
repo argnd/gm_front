@@ -145,6 +145,22 @@
     color: var(--accent);
     border-color: var(--accent);
   }
+
+  // Synthesis takes several seconds: the pulse says the wait is expected, not a dead button
+  &.is-loading {
+    color: var(--text-soft);
+    animation: turn-listen-pulse 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes turn-listen-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
 }
 
 .turn-action {

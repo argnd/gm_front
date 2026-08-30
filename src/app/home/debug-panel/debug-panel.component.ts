@@ -290,6 +290,10 @@ export class DebugPanelComponent {
     this.speech.setVoice((event.target as HTMLSelectElement).value);
   }
 
+  protected onPremiumVoiceSelect(event: Event): void {
+    this.speech.setPremiumVoice((event.target as HTMLSelectElement).value);
+  }
+
   protected onSpeechRate(event: Event): void {
     this.applySpeechRate(readNumber(event));
   }

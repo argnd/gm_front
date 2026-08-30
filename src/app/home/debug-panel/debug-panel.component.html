@@ -246,7 +246,23 @@
         </div>
 
         <div class="debug-speech">
-          @if (speech.available()) {
+          @if (speech.premium()) {
+            <div class="debug-state">
+              <label class="debug-name" for="speech-premium-voice">Voix supérieure</label>
+              <select
+                id="speech-premium-voice"
+                class="debug-select"
+                [value]="speech.premiumVoice()"
+                (change)="onPremiumVoiceSelect($event)"
+              >
+                @for (voice of speech.premiumVoices; track voice.name) {
+                  <option [value]="voice.name">{{ voice.label }}</option>
+                }
+              </select>
+            </div>
+          }
+
+          @if (speech.localAvailable()) {
             <div class="debug-state">
               <label class="debug-name" for="speech-voice">Voix de lecture</label>
               <select
@@ -260,7 +276,14 @@
                 }
               </select>
             </div>
+          } @else {
+            <p class="debug-hint">
+              Aucune voix française locale détectée : sans la voix supérieure, la lecture des tours
+              est désactivée.
+            </p>
+          }
 
+          @if (speech.available()) {
             <div class="debug-row debug-row--compact">
               <div class="debug-row-head">
                 <label class="debug-name" for="speech-rate">Vitesse de lecture</label>
@@ -282,10 +305,6 @@
                 <button type="button" (click)="applySpeechRate(1.5)">1.5</button>
               </div>
             </div>
-          } @else {
-            <p class="debug-hint">
-              Aucune voix française locale détectée : la lecture des tours est désactivée.
-            </p>
           }
         </div>
       </div>

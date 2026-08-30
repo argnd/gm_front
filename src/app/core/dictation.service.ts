@@ -22,7 +22,6 @@ interface SpeechRecognitionAlternative {
 
 interface SpeechRecognitionResult {
   readonly length: number;
-  readonly isFinal: boolean;
   [index: number]: SpeechRecognitionAlternative;
 }
 
@@ -32,7 +31,6 @@ interface SpeechRecognitionResultList {
 }
 
 interface SpeechRecognitionEvent extends Event {
-  readonly resultIndex: number;
   readonly results: SpeechRecognitionResultList;
 }
 
@@ -69,15 +67,11 @@ function engine(): SpeechRecognitionConstructor | null {
 export class DictationService {
   readonly available = signal(engine() !== null);
   readonly listening = signal(false);
-  // Everything heard since the last start(), the chunk still being revised included. The
-  // engine rewrites its own tail until it settles, so the whole text is rebuilt on every
-  // event instead of being appended to.
+  // Everything heard since the last start(), the chunk still being revised included
   readonly spokenText = signal('');
   readonly error = signal<string | null>(null);
 
   private recognition: SpeechRecognition | null = null;
-  // The part the engine has committed to; the rest of spokenText is still provisional
-  private settled = '';
 
   toggle(): void {
     if (this.listening()) {
@@ -104,21 +98,19 @@ export class DictationService {
     recognition.interimResults = true;
     recognition.maxAlternatives = 1;
 
-    this.settled = '';
     this.spokenText.set('');
     this.error.set(null);
 
     recognition.onresult = (event) => {
-      let pending = '';
-      for (let index = event.resultIndex; index < event.results.length; index++) {
-        const result = event.results[index];
-        if (result.isFinal) {
-          this.settled = join(this.settled, result[0].transcript);
-        } else {
-          pending = join(pending, result[0].transcript);
-        }
+      // Rebuilt from the whole list on every event rather than appended to. The engine
+      // re-sends results it has already delivered — often the entire session, with
+      // resultIndex back at zero — so appending would repeat them, and repeat the
+      // repetitions on the next event.
+      let text = '';
+      for (let index = 0; index < event.results.length; index++) {
+        text = join(text, event.results[index][0].transcript);
       }
-      this.spokenText.set(join(this.settled, pending));
+      this.spokenText.set(text);
     };
 
     recognition.onerror = (event) => {

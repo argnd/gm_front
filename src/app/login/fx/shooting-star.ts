@@ -1,9 +1,12 @@
 import { FxScene, FxSize } from './login-fx';
 
+// A single shooting star at a time, rare and confined to the side margins so it never
+// crosses the sign-in area. Alternates left and right so both margins get their turn.
+
 const STREAK = {
-  minDelay: 20,
+  minDelay: 20, // gap between two streaks — deliberately long: the rarity is the point
   maxDelay: 30,
-  minFirstDelay: 8,
+  minFirstDelay: 8, // shorter for the first one, so an arriving visitor sees one
   maxFirstDelay: 16,
   minLife: 0.9,
   maxLife: 1.4,
@@ -15,10 +18,11 @@ const STREAK = {
   headRadius: 1.4,
   headColor: 'rgb(235, 240, 255)',
   glowSpan: 26,
+  // Keep-out zone around the centred content, and how much margin is needed to bother
   cardHalfWidth: 230,
   cardPad: 40,
-  tailBuffer: 70,
-  minMarginWidth: 150,
+  tailBuffer: 70, // room left for the trail, which extends behind the head
+  minMarginWidth: 150, // narrower than this (small screens): no streak at all
   spawnMinY: 0.08,
   spawnMaxY: 0.7,
   leftAngleMin: 105,
@@ -63,6 +67,8 @@ export class ShootingStars implements FxScene {
     if (this.timer <= 0) {
       this.zone = this.zone === 'left' ? 'right' : 'left';
       this.streak = spawnStreak(size, this.zone);
+      // A refused spawn (window too narrow) re-arms the timer instead of retrying every
+      // frame, which would spin until the window is resized
       if (!this.streak) {
         this.timer = lerp(STREAK.minDelay, STREAK.maxDelay, Math.random());
       }
@@ -75,11 +81,14 @@ export class ShootingStars implements FxScene {
       return;
     }
 
+    // Squared easing: the streak starts slow and accelerates, the way a real one reads
     const progress = streak.age / streak.life;
     const eased = progress * progress;
     const headX = streak.x0 + streak.dx * eased;
     const headY = streak.y0 + streak.dy * eased;
 
+    // Fade in over the first 12% of the life, out over the last 20%: it never pops in or
+    // out at a fixed point in the sky
     const alpha = Math.min(1, progress / 0.12, (1 - progress) / 0.2);
     if (alpha <= 0) {
       return;
@@ -122,6 +131,8 @@ export class ShootingStars implements FxScene {
   }
 }
 
+// Returns null when the margin is too narrow to hold a streak without it running over the
+// centred content — a refusal, not a failure
 function spawnStreak(size: FxSize, zone: 'left' | 'right'): Streak | null {
   const marginEnd = size.width / 2 - STREAK.cardHalfWidth - STREAK.cardPad;
   if (marginEnd < STREAK.minMarginWidth) {
@@ -132,6 +143,7 @@ function spawnStreak(size: FxSize, zone: 'left' | 'right'): Streak | null {
   const x0 = zone === 'left' ? offset : size.width - offset;
   const y0 = size.height * lerp(STREAK.spawnMinY, STREAK.spawnMaxY, Math.random());
 
+  // Angle ranges are mirrored per zone so the streak always travels away from the centre
   const angleDeg =
     zone === 'left'
       ? lerp(STREAK.leftAngleMin, STREAK.leftAngleMax, Math.random())

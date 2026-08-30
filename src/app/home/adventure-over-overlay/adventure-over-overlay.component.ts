@@ -2,6 +2,8 @@ import { Component, Input, Type, input } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
+// End-of-adventure curtain, shown for a few seconds before the home resets the story.
+// Purely a display: the reset itself is timed by the home.
 @Component({
   selector: 'app-adventure-over-overlay',
   imports: [NgComponentOutlet],

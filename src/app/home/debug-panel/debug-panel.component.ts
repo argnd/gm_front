@@ -20,13 +20,19 @@ import {
 import { SpeechService } from '../../core/speech.service';
 import { DebugHistoryComponent } from '../debug-history/debug-history.component';
 
-const STAT_SLIDER_MAX = 12;
-const PRESET_VALUES = [0, 29, 59, 89] as const;
+// Development tool: forces the game state without going through the backend, and shows
+// what actually travels over the wire. Emits outputs only — it owns no game state, so
+// anything it does is exactly what a real turn would do.
+
+const STAT_SLIDER_MAX = 12; // above the nominal scale on purpose, to test overflow
+const PRESET_VALUES = [0, 29, 59, 89] as const; // just under each tier threshold
 
 type DebugTab = 'ambiance' | 'rendu' | 'echanges';
 
 type StatePreset = { key: AmbianceState; label: string; ambiance: Ambiance };
 
+// One entry per reachable state, so every decor can be viewed in one click. Values are
+// chosen to land squarely inside their tier, away from threshold edges.
 const STATE_PRESETS: StatePreset[] = [
   { key: 'neutral', label: 'Neutre', ambiance: { romance: 10, adventure: 10, other: 10 } },
   { key: 'romance-1', label: '1R', ambiance: { romance: 45, adventure: 10, other: 10 } },
@@ -84,6 +90,7 @@ const STATE_PRESETS: StatePreset[] = [
   templateUrl: './debug-panel.component.html',
   styleUrl: './debug-panel.component.scss',
   host: {
+    // Two complementary ways of closing the panel — see onFocusOut
     '(focusout)': 'onFocusOut($event)',
     '(document:pointerdown)': 'onDocumentPointerDown($event)',
   },
@@ -128,6 +135,7 @@ export class DebugPanelComponent {
   protected readonly fieldDim = signal(25);
   protected readonly fieldFeather = signal(40);
 
+  // Budget left over the three axes: shown so the sliders' ceiling is legible
   protected readonly total = computed(() => ambianceTotal(this.current()));
 
   protected readonly remaining = computed(() => AMBIANCE_MAX_TOTAL - this.total());
@@ -152,6 +160,7 @@ export class DebugPanelComponent {
     return isLowStat(value);
   }
 
+  // Ceiling for one axis: whatever the other two leave of the shared total
   protected budgetFor(key: AmbianceKey): number {
     const current = this.current();
     const others = AMBIANCE_KEYS.filter((other) => other !== key).reduce(
@@ -162,6 +171,8 @@ export class DebugPanelComponent {
   }
 
   protected onAmbianceInput(key: AmbianceKey, event: Event): void {
+    // The slider is written back so its knob visibly stops at the budget instead of
+    // drifting away from the value actually emitted
     const capped = Math.min(clamp(readNumber(event)), this.budgetFor(key));
     (event.target as HTMLInputElement).value = String(capped);
     this.ambianceChange.emit({ ...this.current(), [key]: capped });
@@ -174,6 +185,9 @@ export class DebugPanelComponent {
     );
   }
 
+  // Forces one axis to a value and, if that busts the budget, shrinks the other two
+  // proportionally so their ratio is preserved. The last axis takes whatever is left
+  // rather than its own rounded share, so the total lands exactly on the budget.
   protected applyPreset(key: AmbianceKey, raw: number): void {
     const current = this.current();
     const target = clamp(raw);
@@ -200,6 +214,7 @@ export class DebugPanelComponent {
     this.ambianceChange.emit({ ...DEFAULT_AMBIANCE });
   }
 
+  // Shortcuts straddling the high/low thresholds, to check the stat-driven staging
   protected liftStats(): void {
     this.setAllStats(9);
   }
@@ -224,6 +239,8 @@ export class DebugPanelComponent {
     );
   }
 
+  // Rendering knobs: each keeps a local copy for its own slider and emits the value, which
+  // the home turns into a custom property on the page
   protected onSurfaceOpacity(event: Event): void {
     this.applySurfaceOpacity(Math.round(readNumber(event)));
   }
@@ -281,6 +298,8 @@ export class DebugPanelComponent {
     this.speech.setRate(value);
   }
 
+  // Closes the panel when focus leaves it — the keyboard half of the pair, covering Tab
+  // and Escape, which never produce a pointer event
   protected onFocusOut(event: FocusEvent): void {
     const next = event.relatedTarget;
     // relatedTarget null = clic dans une zone non focusable : le clic hors panneau
@@ -298,6 +317,8 @@ export class DebugPanelComponent {
     this.collapse();
   }
 
+  // Open/closed state lives in the native <details>, not in a signal: driven straight
+  // through the DOM so the browser keeps handling the summary toggle on its own
   private collapse(): void {
     const details = this.host.nativeElement.querySelector('details');
     if (details) details.open = false;
@@ -307,6 +328,8 @@ export class DebugPanelComponent {
     this.statsChange.emit(this.stats().map((stat) => ({ name: stat.name, value })));
   }
 
+  // Always a copy: the emitted objects are mutated while budgets are redistributed and
+  // must never alias the home's own ambiance
   private current(): Ambiance {
     const value = this.ambiance();
     return value ? { ...value } : { ...DEFAULT_AMBIANCE };

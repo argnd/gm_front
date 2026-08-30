@@ -21,6 +21,9 @@ import {
   tierOf,
 } from '../ambiance/ambiance.engine';
 
+// Character sheet: the six stats and the three ambiance axes. Reads everything through the
+// engine (labels, glyphs, thresholds) so no game value is hardcoded in the template.
+
 type AmbianceRow = {
   key: AmbianceKey;
   label: string;
@@ -73,6 +76,7 @@ export class StatsPanelComponent {
     return statSlug(name);
   }
 
+  // Flavour lines shown only when a stat sits above or below its threshold
   protected signature(name: string): string {
     return STAT_SIGNATURES[name] ?? '';
   }
@@ -81,6 +85,8 @@ export class StatsPanelComponent {
     return STAT_SIGNATURES_LOW[name] ?? '';
   }
 
+  // Gauge widths. Clamped because the backend can send a value beyond the nominal scale
+  // and a bar wider than its track would break the panel's layout.
   protected fill(value: number): string {
     return `${(clamp01(value / STAT_SCALE) * 100).toFixed(1)}%`;
   }

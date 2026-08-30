@@ -1,8 +1,22 @@
+// Global stylesheet: design tokens, page skeleton, shared surfaces and the keyframe
+// library the decor and FX components animate against.
+
+// ---------------------------------------------------------------------------
+// Registered properties
+// ---------------------------------------------------------------------------
+
+// Declaring the type is what makes this custom property animatable: without @property the
+// browser treats it as a string and the transition would snap instead of ramping. Used to
+// fade a running animation in and out (see the health-low effect in fx-layer).
 @property --fx-gate {
   syntax: '<number>';
   inherits: false;
   initial-value: 1;
 }
+
+// ---------------------------------------------------------------------------
+// Design tokens — fixed palette, independent of the ambiance
+// ---------------------------------------------------------------------------
 
 :root {
   --ink-950: #0a0e18;
@@ -21,6 +35,7 @@
   --text-soft: #b6c1d8;
   --text-dim: #8894b0;
 
+  // One accent triple per ambiance family; .gm-page aliases the active one to --accent
   --neutral-accent: #8494b8;
   --neutral-accent-soft: #bcc7de;
   --neutral-accent-deep: #38445e;
@@ -37,17 +52,21 @@
   --other-accent-soft: #c8dbf1;
   --other-accent-deep: #24344b;
 
+  // Stat colors, reused by the effects that dramatise them
   --danger: #ff6b6b;
   --gold: #f2c14e;
   --mana: #7ad3ff;
   --vital: #6ee7a8;
   --stone: #b9a48c;
 
+  // System fonts only — nothing is fetched from an external host
   --font-ui: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
   --font-display: 'Bahnschrift', 'Arial Narrow', 'Segoe UI', system-ui, sans-serif;
   --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
   --font-mono: 'Cascadia Mono', Consolas, 'Courier New', ui-monospace, monospace;
 
+  // Stacking order of the page's four layers. Decor that must fly over the .gm-surface
+  // cards needs its own z-index on top of this, since those cards are positioned.
   --z-fx: 0;
   --z-shell: 1;
   --z-stage: 2;
@@ -78,7 +97,15 @@ body {
   color: var(--ink-950);
 }
 
+// ---------------------------------------------------------------------------
+// The page — every ambiance-dependent variable lives on this single element
+// ---------------------------------------------------------------------------
+
+// The `amb-state-*` class and these variables are both posted here by ambianceClasses()
+// and ambianceVars(). This is the hook the whole theming layer keys off.
 .gm-page {
+  // Overwritten at runtime with the 0..1 values from ambianceVars(); the fallbacks here
+  // are what a page renders with before the first turn
   --romance: 0;
   --adventure: 0;
   --other: 0;
@@ -100,6 +127,8 @@ body {
   --felt-opacity: 0.4;
   --vignette: 0.3;
 
+  // Layout driven by variables so a breakpoint only has to redefine the tokens, never the
+  // grid rules themselves
   --rail-width: 268px;
   --col-narrative: 780px;
   --stage-gap: 26px;
@@ -108,6 +137,8 @@ body {
   --stage-columns: var(--rail-width) minmax(0, var(--col-narrative)) var(--rail-width);
   --stage-areas: 'rail flow side';
 
+  // The *-alpha variables are the debug panel's rendering sliders; the derived colors are
+  // rebuilt from them with color-mix
   --surface-alpha: 1;
   --surface-bg: color-mix(
     in srgb,
@@ -137,6 +168,8 @@ body {
   --label-spacing: 0.09em;
   --label-transform: uppercase;
 
+  // Every duration derives from --motion-scale, so a state can speed the whole page up or
+  // slow it down by changing one number
   --motion-scale: 1;
   --speed-fast: calc(160ms * var(--motion-scale));
   --speed-slow: calc(320ms * var(--motion-scale));
@@ -147,12 +180,21 @@ body {
   --field-feather: 40px;
 
   position: relative;
+  // Own stacking context: the --z-* values are scoped to the page and cannot be outranked
+  // by a z-index set elsewhere in the document
   isolation: isolate;
   min-height: 100dvh;
   background: var(--page-bg);
   transition: background 600ms ease;
 }
 
+// ---------------------------------------------------------------------------
+// Page skeleton
+// ---------------------------------------------------------------------------
+
+// Fixed rather than absolute: the ambient layer covers the viewport and does not scroll
+// with the story. The descendant rule makes sure no decor injected into a slot can ever
+// intercept a click.
 .gm-fx {
   position: fixed;
   inset: 0;
@@ -208,6 +250,7 @@ body {
   grid-area: side;
 }
 
+// Three columns down to two: the side rail slides under the story, the sheet keeps its own
 @media (max-width: 1200px) {
   .gm-page {
     --stage-columns: var(--rail-width) minmax(0, var(--col-narrative));
@@ -219,6 +262,8 @@ body {
   }
 }
 
+// Shared card. Positioned, so it paints above any decor declared before it in the DOM —
+// decor meant to fly over a card must be declared after it, or carry its own z-index.
 .gm-surface {
   position: relative;
   background: var(--surface-bg);
@@ -243,6 +288,10 @@ body {
   color: var(--accent);
 }
 
+// ---------------------------------------------------------------------------
+// Stat-driven staging — each class only retunes tokens, never layout
+// ---------------------------------------------------------------------------
+
 .gm-page.stat-gold-high {
   --surface-shadow: 0 18px 44px rgba(3, 6, 15, calc(0.55 * var(--shadow-alpha))),
     0 0 0 1px rgba(242, 193, 78, calc(0.3 * var(--shadow-alpha)));
@@ -256,6 +305,8 @@ body {
   --border-alpha: 0.45;
 }
 
+// Single column. The !important flags override any token an ambiance state may have
+// retuned: below this width the layout is not negotiable.
 @media (max-width: 900px) {
   .gm-page {
     --rail-width: 100% !important;
@@ -268,6 +319,15 @@ body {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Shared keyframe library
+//
+// Declared globally so any decor or FX component can reference them without redefining
+// them. Most read parameters from custom properties (--drift, --lift, --peak, --radius…)
+// set inline per element, which is what lets one keyframe serve dozens of particles.
+// ---------------------------------------------------------------------------
+
+// Paired with animate.enter / animate.leave in the templates
 .gm-appear {
   animation: gm-fade var(--fx-in) ease both;
 }
@@ -285,6 +345,8 @@ body {
   }
 }
 
+// Rising particle: dust, pollen, gold flakes. A negative --lift makes it sink instead,
+// which is how the low-Gold motes are done.
 @keyframes gm-drift {
   0% {
     transform: translate3d(0, 0, 0);
@@ -314,6 +376,7 @@ body {
   }
 }
 
+// Orbit at --radius. The counter-rotation keeps the glyph upright as it travels around.
 @keyframes gm-orbit {
   from {
     transform: rotate(0deg) translateX(var(--radius, 160px)) rotate(0deg);
@@ -382,6 +445,8 @@ body {
   }
 }
 
+// Low-Health pulse. Every opacity is multiplied by --fx-gate so the effect can be faded
+// in and out by transitioning that one registered property, while the loop keeps running.
 @keyframes gm-lifeblood {
   0%,
   100% {
@@ -394,6 +459,8 @@ body {
   }
 }
 
+// Accessibility floor: kills every animation on the three animated roots at once. The
+// canvas engine honours the same preference on its own, by pausing its loop.
 @media (prefers-reduced-motion: reduce) {
   .gm-fx *,
   .gm-page *,

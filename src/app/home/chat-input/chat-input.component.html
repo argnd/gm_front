@@ -18,6 +18,10 @@
     <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('head')" />
   </header>
 
+  <!--
+    The field is uncontrolled in height: autoGrow writes an inline height on input, which
+    an effect in the component clears when the text is emptied.
+  -->
   <div class="chatbox-field">
     <textarea
       #field
@@ -33,6 +37,7 @@
       enterkeyhint="enter"
       (input)="autoGrow($event)"
     ></textarea>
+    <!-- Rotating suggestion, shown only while the field is empty -->
     @if (!prompt()) {
       <span class="chatbox-hint" [class.is-fading]="hintFading()" aria-hidden="true">
         {{ currentHint() }}

@@ -1,3 +1,8 @@
+<!--
+  Two layers on purpose: the shell owns position and fade, the inner core owns halo and
+  twinkle. The transition-duration pairs them — `speed()` for the move, a fixed 240ms for
+  the opacity, so a dash can teleport (speed 0) while still fading softly.
+-->
 <span
   class="firefly-shell"
   [class.is-hidden]="!visible()"

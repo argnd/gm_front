@@ -1,3 +1,6 @@
+// Single source of truth for game rules and copy: the JSON files under content/ are read
+// here and re-exported, so no component ever imports them directly. Pure functions only —
+// no Angular, no state — which is what lets components and the debug panel share them.
 import { Ambiance, Stat } from '../../models/turn.model';
 import copy from '../../content/copy.json';
 import autoMessage from '../../content/auto-message.json';
@@ -6,6 +9,8 @@ import rules from '../../content/rules.json';
 export type AmbianceKey = 'romance' | 'adventure' | 'other';
 export type Tier = 0 | 1 | 2 | 3;
 
+// The 20 reachable states. Not every tier combination exists: the shared budget of 100
+// makes anything richer impossible (two tier-2 axes would already need 120).
 export type AmbianceState =
   | 'neutral'
   | 'romance-1'
@@ -28,6 +33,7 @@ export type AmbianceState =
   | 'other-2-romance-1'
   | 'other-2-adventure-1';
 
+// Also the canonical order used to break ties between axes of equal value
 export const AMBIANCE_KEYS: readonly AmbianceKey[] = ['romance', 'adventure', 'other'];
 export const AMBIANCE_THRESHOLDS = rules.ambiance.thresholds as [number, number, number];
 export const AMBIANCE_MAX = rules.ambiance.max;
@@ -73,6 +79,7 @@ export function clamp01(value: number): number {
   return Math.min(1, Math.max(0, value));
 }
 
+// Tier band of a single axis (0 below the first threshold, then 1/2/3)
 export function tierOf(value: number): Tier {
   const safe = Number.isFinite(value) ? value : 0;
   if (safe >= AMBIANCE_THRESHOLDS[2]) return 3;
@@ -81,6 +88,8 @@ export function tierOf(value: number): Tier {
   return 0;
 }
 
+// Position within the current tier, 0 at its floor and 1 at the next threshold. Gives
+// animations a continuous ramp inside a band instead of a jump at each threshold.
 export function bandProgress(value: number): number {
   const safe = Number.isFinite(value) ? value : 0;
   const tier = tierOf(safe);
@@ -90,11 +99,15 @@ export function bandProgress(value: number): number {
   return clamp01((safe - floor) / (AMBIANCE_THRESHOLDS[tier] - floor));
 }
 
+// Every read of an axis goes through here: the backend is free to send anything, and a
+// NaN or out-of-range value must degrade quietly rather than break the staging
 export function ambianceValue(ambiance: Ambiance | null, key: AmbianceKey): number {
   const raw = ambiance ? ambiance[key] : 0;
   return Number.isFinite(raw) ? Math.min(AMBIANCE_MAX, Math.max(0, raw)) : 0;
 }
 
+// Highest axis, or null while every axis is still below the first threshold — a strict
+// `>` comparison means a tie keeps the first axis in canonical order
 export function dominantKey(ambiance: Ambiance | null): AmbianceKey | null {
   let best: AmbianceKey | null = null;
   let bestValue = 0;
@@ -110,7 +123,12 @@ export function dominantKey(ambiance: Ambiance | null): AmbianceKey | null {
   return bestValue >= AMBIANCE_THRESHOLDS[0] ? best : null;
 }
 
+// Collapses the three raw axes into the one state that drives the whole staging.
+// Deliberately total: any input, however inconsistent, resolves to a valid state rather
+// than throwing, because this runs on every backend answer.
 export function resolveAmbianceState(ambiance: Ambiance | null): AmbianceState {
+  // Sorted by value, ties broken by canonical order so the same ambiance always yields
+  // the same state name (and therefore the same decor component)
   const entries = AMBIANCE_KEYS.map((key) => {
     const value = ambianceValue(ambiance, key);
     return { key, value, tier: tierOf(value) };
@@ -121,6 +139,7 @@ export function resolveAmbianceState(ambiance: Ambiance | null): AmbianceState {
   const [first, second] = entries;
 
   if (first.tier === 0) return 'neutral';
+  // Tier 3 eats at least 90 of the budget: no second axis can reach a threshold
   if (first.tier === 3) return `${first.key}-3`;
   if (first.tier === 2) {
     if (second.tier >= 1) {
@@ -129,6 +148,8 @@ export function resolveAmbianceState(ambiance: Ambiance | null): AmbianceState {
     return `${first.key}-2`;
   }
 
+  // Everything left is tier 1: the state lists the active axes in canonical order, not by
+  // value, so `romance-1-other-1` never appears mirrored
   const active = AMBIANCE_KEYS.filter(
     (key) => entries.find((entry) => entry.key === key)!.tier >= 1,
   );
@@ -137,6 +158,7 @@ export function resolveAmbianceState(ambiance: Ambiance | null): AmbianceState {
   return 'romance-1-adventure-1-other-1';
 }
 
+// Stat name to CSS-safe token, used to build the `stat-<slug>-high` / `-low` hooks
 export function statSlug(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 }
@@ -162,6 +184,8 @@ export function lowStats(stats: readonly Stat[]): Stat[] {
   return stats.filter((stat) => isLowStat(stat.value));
 }
 
+// All the CSS hooks posted on .gm-page in one map. `amb-state-*` is the one the theming
+// layer keys off; the per-axis and per-stat classes are the finer-grained handles.
 export function ambianceClasses(
   ambiance: Ambiance | null,
   stats: readonly Stat[],
@@ -186,6 +210,8 @@ export function ambianceClasses(
   return classes;
 }
 
+// Custom properties mirroring the ambiance as 0..1 numbers, so SCSS can interpolate
+// (opacity, counts, distances) without any of it being recomputed in TypeScript
 export function ambianceVars(ambiance: Ambiance | null): Record<string, string> {
   const vars: Record<string, string> = {};
   let dominant = 0;

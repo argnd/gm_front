@@ -1,17 +1,26 @@
+// Ambient layer: felt grain, particles, vignette, and the mask that keeps them off the
+// readable surfaces.
+
 :host {
   display: block;
 }
 
+// Only the weather is masked — the felt and the vignette must cover the whole page
 .fx-weather {
   position: absolute;
   inset: 0;
   mask: url(#gm-field-mask);
 }
 
+// SVG mask, in mask semantics: white = keep, black = hide. The background is opaque white
+// and each play-field rectangle punches a hole in it.
 .fx-mask-bg {
   fill: #fff;
 }
 
+// Partial fill-opacity rather than pure black: surfaces attenuate the particles instead of
+// erasing them, so the page keeps some life under the cards. The blur softens the edges,
+// which would otherwise show as a visible rectangle in the particle field.
 .fx-mask-field {
   fill: #000;
   fill-opacity: calc(1 - var(--field-dim, 0.25));

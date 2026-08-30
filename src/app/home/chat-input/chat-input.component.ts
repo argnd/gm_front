@@ -17,10 +17,13 @@ import { FormsModule } from '@angular/forms';
 import { ACTION_COPY, ACTION_HINTS, AUTO_TURN, ActionCopy, AmbianceKey } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
-const HINT_ROTATION_MS = 6000;
-const HINT_FADE_MS = 450;
-const FIELD_MAX_HEIGHT = 340;
-const SEAL_MS = 650;
+// The console: where the player writes their action. Purely presentational — the text is
+// owned by the home, which receives it through promptChange and hands it back as an input.
+
+const HINT_ROTATION_MS = 6000; // gap between two rotating suggestions
+const HINT_FADE_MS = 450; // must match the fade in the stylesheet
+const FIELD_MAX_HEIGHT = 340; // past this the textarea scrolls instead of growing
+const SEAL_MS = 650; // duration of the send-seal animation
 
 @Component({
   selector: 'app-chat-input',
@@ -50,6 +53,8 @@ export class ChatInputComponent {
   protected readonly hintFading = signal(false);
   private readonly hintIndex = signal(0);
 
+  // Modulo rather than a reset: the pool changes size with the dominant axis, and the
+  // index keeps running across an ambiance change without ever going out of bounds
   protected readonly currentHint = computed(() => {
     const hints = ACTION_HINTS[this.dominant()];
     return hints[this.hintIndex() % hints.length];
@@ -59,12 +64,15 @@ export class ChatInputComponent {
     return { slot, ...this.decorData() };
   }
 
+  // Tracks the falling edge of `loading` in the effect below
   private wasLoading = false;
 
   constructor() {
     const destroyRef = inject(DestroyRef);
 
     const rotation = setInterval(() => {
+      // Suggestions freeze as soon as the player engages: rotating text under an active
+      // cursor is distracting
       if (this.focused() || this.prompt()) {
         return;
       }
@@ -78,6 +86,8 @@ export class ChatInputComponent {
 
     afterNextRender(() => this.field()?.nativeElement.focus());
 
+    // Hands focus back when the GM finishes answering, so the player can chain turns
+    // without touching the mouse. The setTimeout waits for the field to be enabled again.
     effect(() => {
       const loading = this.loading();
       if (this.wasLoading && !loading) {
@@ -86,6 +96,8 @@ export class ChatInputComponent {
       this.wasLoading = loading;
     });
 
+    // Clearing the text does not fire the input event that drives autoGrow, so the height
+    // set inline has to be dropped here or the field would stay stretched
     effect(() => {
       if (!this.prompt()) {
         const element = this.field()?.nativeElement;
@@ -134,6 +146,7 @@ export class ChatInputComponent {
   }
 
   protected autoGrow(event: Event): void {
+    // Reset to auto first: scrollHeight only shrinks once the inline height is released
     const element = event.target as HTMLTextAreaElement;
     element.style.height = 'auto';
     element.style.height = `${Math.min(element.scrollHeight, FIELD_MAX_HEIGHT)}px`;

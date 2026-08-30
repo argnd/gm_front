@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Ambiance, AnswerPayload } from '../models/turn.model';
 
+// Local persistence of a game, keyed per Google account so two accounts on the same
+// browser never share a save. Nothing here leaves the machine.
 const GAME_KEY_PREFIX = 'gm_game_';
 const DRAFT_KEY_PREFIX = 'gm_draft_';
 
+// Maps are stored as entry tuples because JSON.stringify turns a Map into `{}`
 export interface StoredGameState {
   turns: AnswerPayload[];
   halfturns: AnswerPayload[];
@@ -30,6 +33,7 @@ export class GameStateService {
     if (!raw) return null;
 
     try {
+      // Shape check only: the snapshot may have been written by an older build
       const state = JSON.parse(raw) as StoredGameState;
       const valid =
         Array.isArray(state.turns) &&
@@ -55,6 +59,8 @@ export class GameStateService {
     localStorage.removeItem(DRAFT_KEY_PREFIX + accountId);
   }
 
+  // The unsent chat input, kept apart from the game snapshot so it survives independently
+  // and is dropped as soon as it goes empty
   saveDraft(accountId: string, draft: string): void {
     try {
       if (draft) {

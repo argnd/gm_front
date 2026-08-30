@@ -1,6 +1,10 @@
 <article class="turn gm-surface" [class.is-collapsed]="collapsed()" [class.is-latest]="isLast">
   <span class="turn-trim" aria-hidden="true"></span>
 
+  <!--
+    Only an older card is clickable: the latest turn stays open, so its header carries
+    neither the role nor the tabindex that would announce an action to a screen reader.
+  -->
   <header
     class="turn-head"
     [class.is-clickable]="!isLast"
@@ -38,6 +42,7 @@
   @if (!collapsed()) {
     <div class="turn-answer">{{ turn.answer }}</div>
 
+    <!-- The footer disappears entirely when the turn changed nothing -->
     @if (statDeltas.length || ambianceDeltas.length) {
       <footer class="turn-deltas">
         @for (delta of statDeltas; track delta.label) {

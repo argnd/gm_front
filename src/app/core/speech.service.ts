@@ -1,6 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 
-const CHUNK_MAX_LENGTH = 220;
+// Reads a GM answer aloud through the Web Speech API. Only one utterance chain plays at a
+// time; `speakingId` is the id of the turn card currently speaking, or null.
+const CHUNK_MAX_LENGTH = 220; // most engines truncate or stall on very long utterances
 const RATE_MIN = 0.5;
 const RATE_MAX = 2;
 
@@ -18,11 +20,14 @@ export class SpeechService {
   readonly rate = signal(1);
 
   private localVoices: SpeechSynthesisVoice[] = [];
+  // Bumped on every stop(): callbacks from a cancelled chain compare against it and
+  // no-op, so a stale onend cannot clear the id of a newly started reading
   private generation = 0;
 
   constructor() {
     if (!('speechSynthesis' in window)) return;
     this.refreshVoices();
+    // Voices arrive asynchronously and can change while the app runs (OS voice installed)
     window.speechSynthesis.addEventListener('voiceschanged', () => this.refreshVoices());
   }
 
@@ -75,6 +80,8 @@ export class SpeechService {
       }
     };
 
+    // Chunks are queued in one go: the engine plays them back to back, and only the last
+    // one clears the speaking state
     this.speakingId.set(id);
     chunks.forEach((chunk, index) => {
       const utterance = new SpeechSynthesisUtterance(chunk);
@@ -95,6 +102,8 @@ export class SpeechService {
 
   private refreshVoices(): void {
     const voices = window.speechSynthesis.getVoices();
+    // French only (the game is written in French) and local only: remote voices send the
+    // narration to a cloud service and stutter on long texts
     this.localVoices = voices.filter(
       (voice) => voice.localService && voice.lang.toLowerCase().startsWith('fr'),
     );
@@ -110,6 +119,8 @@ export class SpeechService {
   }
 }
 
+// Splits on sentence boundaries first so the prosody stays natural, and only falls back to
+// a blind cut for a sentence longer than the chunk limit
 function splitText(text: string): string[] {
   const sentences = text.match(/[^.!?…\n]+[.!?…]*\s*/g) ?? [];
   const chunks: string[] = [];

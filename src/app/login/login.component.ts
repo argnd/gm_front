@@ -17,6 +17,10 @@ export class LoginComponent {
   private fxTeardown: (() => void) | null = null;
 
   constructor() {
+    // Restarts the engine whenever the canvas element itself changes, and only then: the
+    // effect re-runs on any signal read, so comparing against the current canvas is what
+    // keeps it from tearing down and rebuilding the scenes for nothing.
+    // Scene order is paint order — wisps sit behind the constellation, streaks on top.
     effect(() => {
       const canvas = this.sky()?.nativeElement ?? null;
       if (canvas === this.fxCanvas) {

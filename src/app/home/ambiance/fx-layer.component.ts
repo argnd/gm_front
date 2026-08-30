@@ -6,6 +6,14 @@ import { isHighStat, isLowStat, statValue } from './ambiance.engine';
 import { FieldMaskService } from './field-mask.service';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
+// Full-page ambient layer, behind the interface and inert to the pointer. Holds the
+// permanent base (felt grain, dust, vignette), the stat-driven effects (Mana runes, Gold
+// flakes and their low-stat counterparts) and the `fx` slot of the current decor.
+//
+// Particles are plain DOM elements animated by CSS: their geometry is computed once here
+// and handed over as inline custom properties, so nothing is recomputed per frame.
+
+// One particle: pre-baked inline styles, plus a glyph for the rune effects
 type Fleck = {
   glyph?: string;
   style: Record<string, string>;
@@ -32,6 +40,7 @@ export class FxLayerComponent {
     return { slot, ...this.decorData() };
   }
 
+  // Permanent, ambiance-independent: the grain that keeps the page from feeling flat
   protected readonly dust = computed(() =>
     build(11, 'dust', (rand) => ({
       style: {
@@ -48,6 +57,8 @@ export class FxLayerComponent {
     })),
   );
 
+  // Stat-driven effects. A count of 0 empties the array, which collapses the @if in the
+  // template and destroys the nodes — effects are never merely hidden.
   protected readonly runes = computed(() =>
     build(this.hasHigh('Mana') ? RUNES.length : 0, 'rune', (rand, index) => ({
       glyph: RUNES[index],
@@ -76,6 +87,8 @@ export class FxLayerComponent {
     })),
   );
 
+  // Low Gold: dull motes sinking (negative --lift), the mirror image of the flakes above.
+  // Stratified placement — one per 1/14th of the width — avoids visible clumping.
   protected readonly fallingMotes = computed(() =>
     build(this.hasLow('Gold') ? 14 : 0, 'mote', (rand, index) => ({
       style: {
@@ -92,6 +105,7 @@ export class FxLayerComponent {
     })),
   );
 
+  // Low Mana: the same runes, but lying dead along the bottom edge instead of orbiting
   protected readonly fallenRunes = computed(() =>
     build(this.hasLow('Mana') ? RUNES.length : 0, 'fallen', (rand, index) => ({
       glyph: RUNES[index],
@@ -114,6 +128,8 @@ export class FxLayerComponent {
   }
 }
 
+// `rand(slot)` hands out an independent value per particle and per property, so tweaking
+// one axis of an effect does not reshuffle the others
 function build(
   count: number,
   salt: string,
@@ -126,6 +142,8 @@ function build(
   return flecks;
 }
 
+// FNV-1a over "salt:index:slot". Deterministic on purpose: Math.random would redraw the
+// whole scatter on every recompute of the signal, making the effects visibly jump.
 function noise(salt: string, index: number, slot: number): number {
   let hash = 2166136261;
   const seed = `${salt}:${index}:${slot}`;

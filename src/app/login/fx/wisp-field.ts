@@ -1,5 +1,9 @@
 import { FxScene, FxSize } from './login-fx';
 
+// Three will-o'-the-wisps, one per narrative axis, wandering across the sky and leaving a
+// short trail of motes. They ignore the cursor entirely — only the constellation reacts to
+// it, so the two scenes stay readable on top of each other.
+
 const WISP = {
   spriteSize: 64,
   headSpan: 120,
@@ -26,12 +30,15 @@ const WISP = {
   maxWobbleRatio: 3.4,
 };
 
+// Romance, adventure, other — the same hues as the accent tokens in the stylesheet
 const AXES = [
   { core: [255, 214, 228], glow: [255, 111, 159] },
   { core: [255, 224, 186], glow: [255, 160, 74] },
   { core: [214, 231, 248], glow: [143, 178, 220] },
 ];
 
+// Sized for the worst case (max rate x max lifetime) so the pool never runs dry: motes are
+// recycled rather than allocated, which keeps the loop free of garbage collection
 const TRAIL_POOL = Math.ceil(WISP.trailRate * WISP.maxTrailLife) + 8;
 
 type TrailMote = {
@@ -77,6 +84,8 @@ export class WispField implements FxScene {
       wisp.pulsePhase += wisp.pulseSpeed * dt;
       placeWisp(wisp, size);
 
+      // Accumulator rather than one mote per frame: the emission rate stays constant
+      // whatever the frame rate, and a long frame emits several at once
       wisp.emitAcc += WISP.trailRate * dt;
       while (wisp.emitAcc >= 1) {
         wisp.emitAcc -= 1;
@@ -104,6 +113,8 @@ export class WispField implements FxScene {
         if (!mote.alive) {
           continue;
         }
+        // A mote shrinks and fades as it ages; the squared alpha makes the tail vanish
+        // fast enough that the trail stays a wake rather than a smear
         const left = 1 - mote.age / mote.life;
         const span = mote.span * (0.55 + 0.45 * left);
         ctx.globalAlpha = WISP.trailAlpha * left * left;
@@ -154,6 +165,8 @@ function spawnWisp(core: number[], glow: number[], size: FxSize): Wisp {
   return wisp;
 }
 
+// Position is a pure function of time: two detuned sines per axis, in fractions of the
+// viewport. Nothing is integrated, so a resize repositions the wisp without any drift.
 function placeWisp(wisp: Wisp, size: FxSize): void {
   const t = wisp.t;
   wisp.x =
@@ -168,6 +181,8 @@ function placeWisp(wisp: Wisp, size: FxSize): void {
       WISP.secondaryAmpY * Math.sin(wisp.fy2 * t + wisp.py2));
 }
 
+// Takes the first free slot from the pool and re-seeds it; a full pool simply drops the
+// emission rather than growing the array
 function emitMote(wisp: Wisp): void {
   const mote = wisp.trail.find((candidate) => !candidate.alive);
   if (!mote) {
@@ -177,6 +192,7 @@ function emitMote(wisp: Wisp): void {
   mote.x = wisp.x + (Math.random() * 2 - 1) * WISP.trailJitter;
   mote.y = wisp.y + (Math.random() * 2 - 1) * WISP.trailJitter;
   mote.vx = (Math.random() * 2 - 1) * WISP.trailDrift;
+  // Constant upward bias on top of the random drift: the trail rises like embers
   mote.vy = (Math.random() * 2 - 1) * WISP.trailDrift - WISP.trailRise;
   mote.age = 0;
   mote.life = lerp(WISP.minTrailLife, WISP.maxTrailLife, Math.random());

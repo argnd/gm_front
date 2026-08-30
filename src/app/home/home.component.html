@@ -1,3 +1,11 @@
+<!--
+  The one element carrying the whole staging: pageClasses() posts amb-state-* and the
+  stat hooks, pageVars() the numeric ambiance variables. Everything below styles itself
+  from these, which is why no descendant needs to know the ambiance.
+
+  The debug overrides pass null at their default value so the token defined in the
+  stylesheet keeps applying, instead of being pinned to its own default.
+-->
 <div
   class="gm-page"
   [class]="pageClasses()"
@@ -15,6 +23,7 @@
 
     <div class="gm-stage">
       <aside class="gm-rail">
+        <!-- Part of the base, outside the decor registry: always present, ambiance-tinted -->
         <app-firefly [ambiance]="ambiance()" />
         <app-stats-panel
           gmPlayField
@@ -59,6 +68,11 @@
           <ng-container *ngComponentOutlet="decorComponent(); inputs: decorInputs('trail')" />
         </div>
 
+        <!--
+          Decor slots: the same component instantiated once per zone, each told which
+          `slot` it is rendering. `answer` sits at the top of the story area, `answer-end`
+          at the very bottom so it trails the last card.
+        -->
         <div class="narrative narrative--latest">
           <ng-container *ngComponentOutlet="decorComponent(); inputs: decorInputs('answer')" />
           @if (loading()) {
@@ -118,6 +132,7 @@
       </section>
 
       <aside class="gm-rail gm-rail--side">
+        <!-- Only offered before the first turn: once the story is under way it is noise -->
         @if (turnsPlayed() === 0 && !loading()) {
           <app-suggestion-panel gmPlayField />
         }
@@ -145,6 +160,7 @@
     [decorData]="decorData()"
   />
 
+  <!-- Development tool, positioned outside the shell so it never disturbs the layout -->
   <app-debug-panel
     [ambiance]="ambiance()"
     [stats]="statsEntries()"

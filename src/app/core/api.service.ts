@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+// Thin wrapper that prefixes every call with the environment base URL. That prefix is also
+// what authInterceptor matches on to decide whether to attach the bearer token.
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private http = inject(HttpClient);

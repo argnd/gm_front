@@ -10,19 +10,30 @@ import {
 import { Ambiance } from '../../models/turn.model';
 import { AMBIANCE_KEYS, AMBIANCE_MAX_TOTAL, ambianceTotal, ambianceValue } from '../ambiance/ambiance.engine';
 
-const HOME_Y: [number, number] = [10, 430];
-const NEAR_X = -14;
-const MAX_REACH = 280;
+// Part of the permanent base, not of the decor registry: the firefly is always on screen
+// and adapts to the ambiance instead of being swapped between states.
+//
+// It wanders the dark margin left of the character sheet. Positions are relative to the
+// host, which is anchored on that rail, and negative X therefore means "further left".
+// Motion is driven by timers that only set target coordinates; the travel itself is a CSS
+// transition whose duration is `speed`.
+
+const HOME_Y: [number, number] = [10, 430]; // vertical band of the resting area
+const NEAR_X = -14; // closest it ever comes to the sheet
+const MAX_REACH = 280; // furthest left, further clamped to the real viewport edge
 const EDGE_MARGIN = 12;
-const PAUSE_MS: [number, number] = [400, 1800];
-const DASH_CHANCE = 0.12;
+const PAUSE_MS: [number, number] = [400, 1800]; // idle time between two glides
+
+// Rare escapade to the right of the console — see dash()
+const DASH_CHANCE = 0.12; // per cycle, once the cooldown has elapsed
 const DASH_COOLDOWN_MS = 20000;
-const FADE_MS = 240;
+const FADE_MS = 240; // must match the opacity transition in the stylesheet
 const HOP_COUNT: [number, number] = [2, 5];
-const HOP_MS: [number, number] = [240, 460];
+const HOP_MS: [number, number] = [240, 460]; // short hops: nervous, unlike the calm glide
 const HOP_PAUSE_MS: [number, number] = [90, 330];
 const LINGER_MS: [number, number] = [400, 1100];
 
+// Resting yellow-green, blended with the axis hues in `color`
 const BASE_COLOR = { r: 222, g: 234, b: 158 };
 const HUE_COLORS = {
   romance: { r: 255, g: 111, b: 159 },
@@ -43,12 +54,15 @@ export class FireflyComponent {
 
   protected readonly x = signal(lerp([-70, NEAR_X], Math.random()));
   protected readonly y = signal(lerp(HOME_Y, Math.random()));
-  protected readonly z = signal(Math.random());
-  protected readonly speed = signal(0);
+  protected readonly z = signal(Math.random()); // depth, only ever read as `scale`
+  protected readonly speed = signal(0); // transition duration; 0 teleports
   protected readonly visible = signal(true);
 
   protected readonly scale = computed(() => (0.55 + 0.65 * this.z()).toFixed(3));
 
+  // Weighted average between the base color and the three axis hues, each axis weighing
+  // its own value and the base weighing whatever budget is left unused. A neutral ambiance
+  // therefore stays yellow-green, and a saturated one takes on the dominant axis' hue.
   protected readonly color = computed(() => {
     const value = this.ambiance();
     const total = value ? ambianceTotal(value) : 0;
@@ -69,12 +83,15 @@ export class FireflyComponent {
     return `rgb(${Math.round(r / weightSum)}, ${Math.round(g / weightSum)}, ${Math.round(b / weightSum)})`;
   });
 
+  // Halo intensity: rises with the total ambiance, so a busy scene burns brighter
   protected readonly glow = computed(() => {
     const value = this.ambiance();
     const total = value ? ambianceTotal(value) : 0;
     return Math.min(1, total / AMBIANCE_MAX_TOTAL).toFixed(3);
   });
 
+  // A single timer slot shared by the glide loop and the dash steps: only one of the two
+  // is ever pending, and DestroyRef clearing it is what stops the whole animation
   private timer: ReturnType<typeof setTimeout> | null = null;
   private lastDash = 0;
 
@@ -89,6 +106,7 @@ export class FireflyComponent {
     this.timer = setTimeout(() => this.step(), delay);
   }
 
+  // One glide: pick a target near the current position, let CSS travel there, come back
   private step(): void {
     const now = performance.now();
     if (now - this.lastDash > DASH_COOLDOWN_MS && Math.random() < DASH_CHANCE) {
@@ -96,16 +114,21 @@ export class FireflyComponent {
       return;
     }
 
+    // Measured every cycle rather than cached: the rail moves with the window, and the
+    // firefly must never wander off the left edge of the viewport
     const railLeft = this.host.nativeElement.getBoundingClientRect().left;
     const minX = -Math.max(48, Math.min(MAX_REACH, railLeft - EDGE_MARGIN));
     const currentX = this.x();
     const currentY = this.y();
+    // The further left it already is, the wider its next move: it stays discreet next to
+    // the sheet and roams freely out in the dark
     const leftness = Math.min(1, Math.max(0, (-currentX - 20) / 200));
     const rangeX = 60 + 190 * leftness;
     const rangeY = 18 + 46 * leftness;
 
     const targetX = clamp(currentX + (Math.random() * 2 - 1) * rangeX, minX, NEAR_X);
     const targetY = clamp(currentY + (Math.random() * 2 - 1) * rangeY, HOME_Y[0], HOME_Y[1]);
+    // Duration derived from the distance, so the apparent speed stays constant
     const distance = Math.hypot(targetX - currentX, targetY - currentY);
     const duration = clamp((distance / 32) * 1000, 2800, 9000);
 
@@ -116,9 +139,14 @@ export class FireflyComponent {
     this.schedule(duration + lerp(PAUSE_MS, Math.random()));
   }
 
+  // Rare escapade: fade out, teleport to the dark margin on the *other* side of the page,
+  // a handful of nervous hops, then fade back to the home rail. Never a visible crossing —
+  // the fades are what make the jump read as an insect leaving and returning.
   private async dash(): Promise<void> {
     this.lastDash = performance.now();
     const rail = this.host.nativeElement.getBoundingClientRect();
+    // The target zone is measured at runtime instead of hardcoded: the console's right
+    // edge moves with the layout, and the fallbacks cover it not being mounted yet
     const flow = this.host.nativeElement.closest('.gm-stage')?.querySelector('.gm-flow');
     const flowRect = flow?.getBoundingClientRect() ?? null;
     const base = flowRect ? flowRect.right - rail.left : 900;
@@ -131,6 +159,7 @@ export class FireflyComponent {
     this.visible.set(false);
     await this.wait(FADE_MS + 30);
 
+    // speed 0 for the jump itself: the move must not be animated, only the fades are
     this.speed.set(0);
     this.x.set(lerp(zoneX, Math.random()));
     this.y.set(lerp(zoneY, Math.random()));
@@ -163,6 +192,8 @@ export class FireflyComponent {
     this.schedule(300);
   }
 
+  // Goes through the same timer slot as the glide loop: clearing it on destroy leaves the
+  // promise unresolved, which halts the dash sequence for good
   private wait(ms: number): Promise<void> {
     return new Promise((resolve) => {
       this.timer = setTimeout(resolve, ms);

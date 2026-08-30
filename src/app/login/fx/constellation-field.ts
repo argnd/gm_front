@@ -1,7 +1,10 @@
 import { FxPointer, FxScene, FxSize } from './login-fx';
 
+// Drifting stars linked by threads when they come close, plus a "lantern" that follows the
+// cursor: it lights the nearby stars, brightens their links and gently pushes them away.
+
 const FIELD = {
-  areaPerStar: 26000,
+  areaPerStar: 26000, // density: the count follows the surface, bounded by min/max
   minCount: 40,
   maxCount: 110,
   minSpeed: 6,
@@ -17,17 +20,17 @@ const FIELD = {
   maxBeatRatio: 3.9,
   minFlickerDepth: 0.18,
   maxFlickerDepth: 0.38,
-  linkDistance: 115,
+  linkDistance: 115, // beyond this two stars are not linked at all
   linkAlpha: 0.25,
   linkColor: 'rgb(164, 182, 224)',
   coreColor: 'rgb(235, 243, 255)',
-  wrapMargin: 24,
-  spriteSize: 64,
+  wrapMargin: 24, // a star crosses the edge before reappearing opposite
+  spriteSize: 64, // halo sprite, drawn once and rescaled per star
   minHaloSpan: 5,
   maxHaloSpan: 11,
   minHaloAlpha: 0.2,
   maxHaloAlpha: 0.85,
-  haloAverage: 0.70,
+  haloAverage: 0.70, // target mean halo, applied as an exponent in spawnStar
 };
 
 const LANTERN = {
@@ -47,20 +50,22 @@ type StarPoint = {
   y: number;
   heading: number;
   speed: number;
-  radius: number;
+  radius: number; // the crisp core
   glow: number;
-  span: number;
+  span: number; // halo diameter, decorrelated from the core
   haloAlpha: number;
+  // Two detuned waves: their beating gives an irregular twinkle a single sine cannot
   phase: number;
   twinkle: number;
   phase2: number;
   twinkle2: number;
-  flickerDepth: number;
-  light: number;
+  flickerDepth: number; // how much of the brightness the twinkle actually swings
+  light: number; // lantern contribution, recomputed every frame
 };
 
 export class ConstellationField implements FxScene {
   private points: StarPoint[] = [];
+  // Built once: a radial gradient per star per frame would be far too costly
   private readonly halo = createHaloSprite();
   private readonly lantern = { x: 0, y: 0, intensity: 0 };
 
@@ -89,6 +94,8 @@ export class ConstellationField implements FxScene {
         const dy = point.y - lantern.y;
         const dist = Math.hypot(dx, dy);
 
+        // Repulsion falls off linearly; the 0.5 floor avoids dividing by a distance of
+        // zero when the cursor sits exactly on a star
         if (dist < LANTERN.repelRadius && dist > 0.5) {
           const push =
             (1 - dist / LANTERN.repelRadius) * LANTERN.repelStrength * lantern.intensity * dt;
@@ -96,6 +103,7 @@ export class ConstellationField implements FxScene {
           point.y += (dy / dist) * push;
         }
 
+        // Squared falloff: the halo stays concentrated instead of washing out the field
         const closeness = Math.max(0, 1 - dist / LANTERN.lightRadius);
         point.light = closeness * closeness * lantern.intensity;
       } else {
@@ -113,10 +121,13 @@ export class ConstellationField implements FxScene {
     ctx.globalAlpha = 1;
   }
 
+  // The lantern lags behind the cursor and fades in and out, so entering or leaving the
+  // page is a soft transition rather than a hard cut
   private updateLantern(dt: number, pointer: FxPointer): void {
     const lantern = this.lantern;
 
     if (pointer.active) {
+      // Snap on the first frame: otherwise it would visibly slide in from its last spot
       if (lantern.intensity < 0.01) {
         lantern.x = pointer.x;
         lantern.y = pointer.y;
@@ -139,6 +150,8 @@ export class ConstellationField implements FxScene {
     ctx.drawImage(this.halo, this.lantern.x - span / 2, this.lantern.y - span / 2, span, span);
   }
 
+  // O(n²) over every pair, which is affordable at ~110 stars. The squared comparison
+  // avoids a sqrt on the vast majority of pairs, which are out of range anyway.
   private drawLinks(ctx: CanvasRenderingContext2D): void {
     const maxDist = FIELD.linkDistance;
     const maxDist2 = maxDist * maxDist;
@@ -170,6 +183,8 @@ export class ConstellationField implements FxScene {
   private drawStars(ctx: CanvasRenderingContext2D): void {
     ctx.fillStyle = FIELD.coreColor;
     for (const point of this.points) {
+      // Two detuned sines: the sum never repeats on a short cycle, so the twinkle reads as
+      // irregular rather than as a visible pulse
       const wave = 0.62 * Math.sin(point.phase) + 0.38 * Math.sin(point.phase2);
       const brightness = Math.min(
         1,
@@ -196,8 +211,10 @@ export class ConstellationField implements FxScene {
 }
 
 function spawnStar(size: FxSize): StarPoint {
+  // Squared bias: many small stars, few large ones — a uniform draw looks artificial
   const sizeBias = Math.random();
   const radius = lerp(FIELD.minRadius, FIELD.maxRadius, sizeBias * sizeBias);
+  // Exponent chosen so the halo distribution averages haloAverage rather than 0.5
   const haloBias = Math.random() ** (1 / FIELD.haloAverage - 1);
   const twinkle = lerp(FIELD.minTwinkle, FIELD.maxTwinkle, Math.random());
 
@@ -237,6 +254,8 @@ function lerp(min: number, max: number, ratio: number): number {
   return min + (max - min) * ratio;
 }
 
+// Off-screen halo drawn once, then blitted and rescaled per star. Also reused, much
+// larger, for the lantern's own glow.
 function createHaloSprite(): HTMLCanvasElement {
   const sprite = document.createElement('canvas');
   sprite.width = FIELD.spriteSize;

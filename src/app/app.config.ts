@@ -22,6 +22,8 @@ export const appConfig: ApplicationConfig = {
     {
       provide: SOCIAL_AUTH_CONFIG,
       useValue: {
+        // autoLogin makes GIS emit a credential at startup when the user is still signed
+        // in to Google, which AuthService turns into a session without any click
         autoLogin: SILENT_AUTH_ENABLED,
         lang: 'en',
         providers: [

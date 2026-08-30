@@ -3,6 +3,10 @@ import { NgComponentOutlet } from '@angular/common';
 import { DiceRoll } from '../../models/turn.model';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
+// Log of the dice rolled by the GM, newest first. Stays empty for now: the contract
+// carries diceRolls, but the backend does not fill them in yet.
+
+// The roll plus the turn it belongs to, so the log can be read out of context
 export type RollEntry = {
   roll: DiceRoll;
   turn: number;

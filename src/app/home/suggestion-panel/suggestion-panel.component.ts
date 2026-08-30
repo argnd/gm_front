@@ -7,6 +7,8 @@ type IntroPrompt = {
   content: string;
 };
 
+// Offers a ready-made opening for players who do not know how to start. Copying the text
+// is all it does — it never writes into the console itself.
 const PROMPTS: IntroPrompt[] = introPrompts;
 
 @Component({
@@ -33,6 +35,8 @@ export class SuggestionPanelComponent {
 
   protected copy(): void {
     navigator.clipboard?.writeText(this.suggestion().content).then(() => {
+      // Transient confirmation; the pending timer is replaced so repeated clicks restart
+      // the delay instead of cutting it short
       this.copied.set(true);
       if (this.copyTimer !== null) clearTimeout(this.copyTimer);
       this.copyTimer = setTimeout(() => this.copied.set(false), 1600);
@@ -40,6 +44,8 @@ export class SuggestionPanelComponent {
   }
 }
 
+// Redraws until the suggestion actually changes: landing on the same one would read as a
+// broken button. The length guard keeps a single-entry pool from looping forever.
 function randomPrompt(current: IntroPrompt | null): IntroPrompt {
   let next = PROMPTS[Math.floor(Math.random() * PROMPTS.length)];
   while (PROMPTS.length > 1 && next === current) {

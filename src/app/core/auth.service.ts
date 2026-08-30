@@ -3,16 +3,21 @@ import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Router } from '@angular/router';
 import { GameStateService } from './game-state.service';
 
+// Session authority for the whole app. Two independent lifetimes are juggled here:
+// the Google ID token (short-lived, renewed silently through One Tap) and our own 24h
+// session (a sliding window refreshed by user activity). A dead token never signs the
+// user out — only the window lapsing, or an explicit sign-out, does.
+
 // Kill switch: set to false to disable One Tap / auto sign-in when debugging login issues
 export const SILENT_AUTH_ENABLED = true;
 
 const SESSION_DURATION_MS = 24 * 60 * 60 * 1000; // 24h sliding window from last activity
-const SESSION_KEY = 'gm_session';
-const TOKEN_REFRESH_MARGIN_MS = 5 * 60 * 1000;
-const FORCED_RENEWAL_TIMEOUT_MS = 15 * 1000;
+const SESSION_KEY = 'gm_session'; // localStorage, and the cross-tab sync channel
+const TOKEN_REFRESH_MARGIN_MS = 5 * 60 * 1000; // renew this early so no request races expiry
+const FORCED_RENEWAL_TIMEOUT_MS = 15 * 1000; // past this, a pending renewal resolves to null
 const SILENT_RENEWAL_RETRY_MS = 5 * 60 * 1000;
-const ACTIVITY_WRITE_THROTTLE_MS = 60 * 1000;
-const MIN_RENEWAL_DELAY_MS = 5 * 1000;
+const ACTIVITY_WRITE_THROTTLE_MS = 60 * 1000; // cap localStorage writes on every request
+const MIN_RENEWAL_DELAY_MS = 5 * 1000; // floor, so an already-expired token cannot busy-loop
 const MAX_SILENT_RENEWAL_ATTEMPTS = 3;
 const GIS_READY_POLL_MS = 500;
 
@@ -28,11 +33,15 @@ interface GoogleIdApi {
   disableAutoSelect: () => void;
 }
 
+// The raw GIS global, reached directly where the wrapper library is not enough.
+// Null until the async Google script has loaded, hence the polling in promptWhenReady().
 function googleIdApi(): GoogleIdApi | null {
   const google = (globalThis as { google?: { accounts?: { id?: GoogleIdApi } } }).google;
   return google?.accounts?.id ?? null;
 }
 
+// Decodes the JWT payload for its `exp` only, to schedule the renewal — this is not a
+// signature check, the backend remains the one that validates the token.
 function readTokenExpiry(token: string): number | null {
   const parts = token.split('.');
   if (parts.length !== 3) {
@@ -60,9 +69,10 @@ export class AuthService {
   private lastSessionWrite = 0;
   private silentRenewalFailures = 0;
 
-  private expiryTimer: ReturnType<typeof setTimeout> | null = null;
-  private renewalTimer: ReturnType<typeof setTimeout> | null = null;
-  private renewalTimeout: ReturnType<typeof setTimeout> | null = null;
+  private expiryTimer: ReturnType<typeof setTimeout> | null = null; // 24h window lapse
+  private renewalTimer: ReturnType<typeof setTimeout> | null = null; // next silent renewal
+  private renewalTimeout: ReturnType<typeof setTimeout> | null = null; // give-up on the current one
+  // A single in-flight renewal shared by every caller, so a burst of 401s produces one prompt
   private pendingRenewal: Promise<string | null> | null = null;
   private resolveRenewal: ((token: string | null) => void) | null = null;
 
@@ -78,6 +88,8 @@ export class AuthService {
     this.socialAuth.authState.subscribe((user) => {
       if (!user?.idToken) return;
 
+      // Same account = a refreshed token; a different one = the user picked another
+      // account in the Google chooser, which is a different game save entirely
       const current = this.user();
       if (current !== null && this.isLoggedIn()) {
         if (current.id === user.id) {
@@ -90,6 +102,7 @@ export class AuthService {
       }
     });
 
+    // Keeps every open tab on the same session: login, sign-out and renewals propagate
     window.addEventListener('storage', (event) => this.onStorageEvent(event));
   }
 
@@ -139,6 +152,7 @@ export class AuthService {
     setTimeout(() => this.promptWhenReady(), GIS_READY_POLL_MS);
   }
 
+  // Deliberate sign-out: also wipes the local save, unlike a lapse
   signOut(): void {
     const accountId = this.accountId();
     if (accountId !== null) {
@@ -147,6 +161,8 @@ export class AuthService {
     this.endSession(true);
   }
 
+  // Session ended without the user asking (window lapsed, or renewal exhausted after a
+  // 401): the save is kept so signing back in resumes the game
   sessionLapsed(): void {
     this.endSession(false);
   }
@@ -210,6 +226,8 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+  // Arms the next renewal a margin before the token expires. Called after every token
+  // change, so the timer always reflects the token currently held.
   private scheduleSilentRenewal(): void {
     if (this.renewalTimer !== null) {
       clearTimeout(this.renewalTimer);
@@ -248,6 +266,8 @@ export class AuthService {
     this.renewalTimer = setTimeout(() => this.attemptSilentRenewal(), SILENT_RENEWAL_RETRY_MS);
   }
 
+  // Single exit point for a pending renewal: cancels the give-up timer and resolves the
+  // shared promise exactly once, whatever the outcome
   private settleRenewal(token: string | null): void {
     if (this.renewalTimeout !== null) {
       clearTimeout(this.renewalTimeout);
@@ -258,9 +278,12 @@ export class AuthService {
     resolve?.(token);
   }
 
+  // Fires only in the *other* tabs, never in the one that wrote the key
   private onStorageEvent(event: StorageEvent): void {
     if (event.key !== SESSION_KEY) return;
 
+    // Key removed elsewhere = sign-out or lapse: follow it, but without re-running the GIS
+    // teardown, which the originating tab already did
     if (event.newValue === null) {
       if (this.isLoggedIn()) {
         this.clearTimers();
@@ -299,6 +322,7 @@ export class AuthService {
         this.scheduleSilentRenewal();
         this.leaveLoginPage();
       } else {
+        // Another account took over in a sibling tab: reload rather than hot-swap state
         window.location.reload();
       }
     } catch {
@@ -346,6 +370,8 @@ export class AuthService {
     }
   }
 
+  // Re-arms rather than fires when activity moved the deadline while the timer was
+  // pending: that is what makes the 24h window slide instead of being absolute
   private armExpiryTimer(): void {
     if (this.expiryTimer !== null) {
       clearTimeout(this.expiryTimer);

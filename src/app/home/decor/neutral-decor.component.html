@@ -1,3 +1,13 @@
+<!--
+  One @case per slot the neutral state occupies; a slot with no case renders nothing.
+  The scattered blooming cycle runs from left to right through the interface: seed on the
+  sheet, sprout on Objects, closed bud on the rolls, half-open flower at the end of the
+  trail, laid branch at the head of the console, open rosette at the foot of the story.
+
+  The blooms gated on `stage()` are the staged evolution — extra flowers appearing at 60,
+  70 and 80 of total ambiance. Wrapping them in @if rather than hiding them is what
+  guarantees they are destroyed when the total drops back.
+-->
 @switch (slot()) {
   @case ('head') {
     <svg viewBox="0 0 92 20">
@@ -144,6 +154,7 @@
       </svg>
     }
   }
+  <!-- The other mechanic: pollen, a continuous ramp rather than a staged one -->
   @case ('fx') {
     @for (grain of pollen(); track $index) {
       <span class="pollen" [style]="grain.style"></span>

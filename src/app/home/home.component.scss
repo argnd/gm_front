@@ -1,3 +1,6 @@
+// Layout of the game page: rails, story column, turn trail and transient messages.
+
+// Sticky so the character sheet stays in view while the story scrolls
 .gm-rail {
   display: flex;
   flex-direction: column;
@@ -6,6 +9,8 @@
   top: 18px;
 }
 
+// Positioned: the reference frame for the decor absolutely placed in the `answer` and
+// `answer-end` slots
 .narrative {
   position: relative;
   display: flex;
@@ -120,6 +125,7 @@
   line-height: 1.65;
 }
 
+// Turn trail: one diamond per turn of the adventure, between the console and the story
 .trail-band {
   display: flex;
   align-items: center;
@@ -164,6 +170,7 @@
 }
 
 @media (max-width: 900px) {
+  // Single column: a sticky rail would pin the sheet over the story
   .gm-rail {
     position: static;
   }

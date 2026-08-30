@@ -1,3 +1,5 @@
+// Login page. Its own palette, decoupled from the game's ambiance tokens: the sky here is
+// fixed and never reacts to a state the visitor has not reached yet.
 .login-page {
   --accent: var(--neutral-accent);
   position: relative;

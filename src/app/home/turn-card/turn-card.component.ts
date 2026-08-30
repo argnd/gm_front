@@ -15,6 +15,10 @@ import { Turn } from '../../models/turn.model';
 import { AMBIANCE_KEYS, AMBIANCE_LABELS, STAT_LABELS } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
+// One turn of the story: the player's action, the GM's answer, and what that turn changed.
+// Only the latest card is expanded; older ones collapse to keep the column readable.
+
+// A single change, shown only when it is non-zero
 type Delta = {
   label: string;
   from: number;
@@ -45,18 +49,23 @@ export class TurnCardComponent implements OnChanges {
   protected readonly speech = inject(SpeechService);
 
   constructor() {
+    // A card destroyed mid-reading must stop its own narration, and only its own
     inject(DestroyRef).onDestroy(() => this.speech.stopIf(this.speechId));
   }
 
+  // Identifies this card within the shared speech service, which only plays one at a time
   protected get speechId(): string {
     return `turn-${this.index}`;
   }
 
   protected toggleSpeech(event: Event): void {
+    // The whole card is clickable to collapse it: the speech button must not do both
     event.stopPropagation();
     this.speech.toggle(this.speechId, this.turn.answer);
   }
 
+  // Iterates over the *before* stats: a stat the GM did not send back is unchanged, not
+  // missing, so it falls back to its own starting value and gets filtered out
   get statDeltas(): Delta[] {
     const after = this.turn.newstats;
     if (!after) return [];
@@ -88,6 +97,8 @@ export class TurnCardComponent implements OnChanges {
     })).filter((entry) => entry.delta !== 0);
   }
 
+  // A card that stops being the latest collapses on its own, which is what makes the
+  // story scroll down to a single open turn as the game advances
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isLast']) {
       this.collapsed.set(!this.isLast);
@@ -96,6 +107,7 @@ export class TurnCardComponent implements OnChanges {
 
   toggle(): void {
     this.collapsed.update((v) => !v);
+    // Collapsing hides the text being read: stop the narration rather than let it run blind
     if (this.collapsed()) {
       this.speech.stopIf(this.speechId);
     }

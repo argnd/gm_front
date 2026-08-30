@@ -1,3 +1,7 @@
+// Exchange contract with the GM backend (POST /answer).
+// A turn carries both the before state (stats/ambiance/objects) and the after state
+// (new*): the front sends the whole history on every request, so the backend stays
+// stateless and any turn can be replayed or inspected in isolation.
 import rules from '../content/rules.json';
 
 export type Stat = {
@@ -10,6 +14,8 @@ export type GameObject = {
   description: string;
 };
 
+// The three narrative axes, 0-100 each with a shared budget (sum <= 100), which is what
+// makes a maxed-out axis mutually exclusive with the others.
 export type Ambiance = {
   romance: number;
   adventure: number;
@@ -68,6 +74,8 @@ export type Turn = {
   precognition: string[] | null;
 };
 
+// One request/response envelope: `turns` is the full history, the last entry being the
+// turn currently being resolved.
 export type AnswerPayload = {
   turns: Turn[];
 };

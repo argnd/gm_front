@@ -1,3 +1,7 @@
+<!--
+  data-stat / data-key / data-tier are styling hooks, not data: they let the stylesheet
+  colour a row by its stat or its tier without a class per case.
+-->
 <section class="panel gm-surface">
   <header class="panel-head">
     <span class="gm-label">Fiche de personnage</span>
@@ -35,6 +39,7 @@
             <span class="ambiance-value">{{ row.value }}</span>
             <span class="ambiance-bar">
               <span class="ambiance-fill" [style.width]="ambianceFill(row.value)"></span>
+              <!-- Tier thresholds, drawn as ticks on the gauge itself -->
               @for (mark of thresholds; track mark) {
                 <span class="ambiance-mark" [style.left]="ambianceFill(mark)"></span>
               }

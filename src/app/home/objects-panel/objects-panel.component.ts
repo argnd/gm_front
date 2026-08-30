@@ -3,6 +3,8 @@ import { NgComponentOutlet } from '@angular/common';
 import { GameObject } from '../../models/turn.model';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
+// The character's inventory, filled entirely by the GM through the turn's newObjects.
+// The front never adds or removes an object on its own.
 @Component({
   selector: 'app-objects-panel',
   imports: [NgComponentOutlet],

@@ -1,3 +1,8 @@
+// The firefly is drawn in two nested layers: the shell carries the position and the fade,
+// the core carries the halo and the twinkle. Separating them lets each animate on its own
+// timing without one resetting the other.
+
+// overflow: visible is what lets the firefly leave its host and roam the dark margins
 :host {
   position: absolute;
   inset: 0;
@@ -10,6 +15,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  // Above the .gm-surface cards, which are positioned and would otherwise cover it
   z-index: 4;
   width: 4px;
   height: 4px;

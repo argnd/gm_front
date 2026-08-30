@@ -36,7 +36,14 @@ import { TurnCardComponent } from './turn-card/turn-card.component';
 import { SuggestionPanelComponent } from './suggestion-panel/suggestion-panel.component';
 import { AdventureOverOverlayComponent } from './adventure-over-overlay/adventure-over-overlay.component';
 
-const ADVENTURE_OVER_DELAY_MS = 4_000;
+// Orchestrator of a game. Owns every piece of state (stats, objects, ambiance, history),
+// talks to the backend, persists locally and distributes the current decor to its slots.
+//
+// It deliberately holds no staging logic: it resolves the ambiance state, loads the
+// matching decor component and hands each slot the raw ambiance. Thresholds and evolution
+// curves belong to the decor components themselves.
+
+const ADVENTURE_OVER_DELAY_MS = 4_000; // time the end overlay stays up before the reset
 
 @Component({
   selector: 'app-home',
@@ -66,15 +73,21 @@ export class HomeComponent implements OnDestroy {
   protected readonly maxTurns = MAX_TURNS;
 
   protected readonly prompt = signal('');
+  // Last backend answer, i.e. the story as currently displayed
   protected readonly conversation = signal<AnswerPayload | null>(null);
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
+  // What was *sent*, kept for the debug panel only — never persisted
   protected readonly halfturns = signal<AnswerPayload[]>([]);
+  // One entry per completed round trip; its length is the number of turns played
   protected readonly turns = signal<AnswerPayload[]>([]);
+  // Maps rather than arrays: the backend returns whole stats/objects lists and updating by
+  // name avoids reconciling two arrays by index
   protected readonly stats = signal<Map<string, number>>(buildRandomStats());
   protected readonly objects = signal<Map<string, string>>(new Map());
   protected readonly ambiance = signal<Ambiance>(DEFAULT_AMBIANCE);
   protected readonly adventureOver = signal(false);
+  // Live styling knobs driven by the debug panel; no effect on the game itself
   protected readonly debugSurfaceOpacity = signal(100);
   protected readonly debugBorderOpacity = signal(100);
   protected readonly debugShadowOpacity = signal(100);
@@ -89,6 +102,8 @@ export class HomeComponent implements OnDestroy {
     Array.from(this.objects().entries()).map(([name, description]) => ({ name, description })),
   );
 
+  // Every roll of the whole game, most recent first. Stays empty as long as the backend
+  // sends no diceRolls, which is the current state of the contract.
   protected readonly rollEntries = computed(() => {
     const last = this.turns().at(-1);
     if (!last) return [];
@@ -97,6 +112,8 @@ export class HomeComponent implements OnDestroy {
       .reverse();
   });
 
+  // The story is split in two: the latest turn is always shown, the rest sits behind the
+  // collapsible history. Both are wrapped in arrays so the template can use one @for.
   protected readonly latestTurnEntries = computed(() => {
     const turns = this.conversation()?.turns ?? [];
     const last = turns.at(-1);
@@ -132,12 +149,15 @@ export class HomeComponent implements OnDestroy {
 
   protected readonly decorComponent = signal<Type<unknown> | null>(null);
 
+  // Raw data handed to every slot: each decor state derives its own thresholds from it
   protected readonly decorData = computed<AmbianceDecorData>(() => ({
     ambiance: this.ambiance(),
     stats: this.statsEntries(),
   }));
 
   constructor() {
+    // Resolves the state to its decor component. Swapping the component is what destroys
+    // the previous state's animations — they are never merely hidden.
     effect(() => {
       const state = this.ambianceState();
       const loader = AMBIANCE_DECOR[state];
@@ -146,6 +166,8 @@ export class HomeComponent implements OnDestroy {
         return;
       }
       loader().then((component) => {
+        // Race guard: two fast ambiance changes resolve their imports in any order, and a
+        // late arrival must not overwrite the decor of the state now in force
         if (this.ambianceState() === state) {
           this.decorComponent.set(component);
         }
@@ -155,6 +177,7 @@ export class HomeComponent implements OnDestroy {
     this.restoreGameState();
   }
 
+  // Inputs for one NgComponentOutlet: the same decor component, told which slot it renders
   protected decorInputs(slot: AmbianceDecorSlot): Record<string, unknown> {
     return { slot, ...this.decorData() };
   }
@@ -178,10 +201,14 @@ export class HomeComponent implements OnDestroy {
     this.sendTurn(this.prompt(), true);
   }
 
+  // "Auto" button: plays a canned action so the player can let the story run on its own.
+  // Leaves the draft untouched, since the player did not write this turn.
   protected submitAutoTurn(): void {
     this.sendTurn(AUTO_TURN.message, false);
   }
 
+  // Builds the next turn from the current state and appends it to the history before
+  // sending the whole thing: the backend is stateless and re-reads the story every time.
   private sendTurn(text: string, clearPrompt: boolean): void {
     if (this.controlsDisabled()) return;
 
@@ -210,6 +237,8 @@ export class HomeComponent implements OnDestroy {
       newAmbiance: null,
       newObjects: null,
       diceRolls: null,
+      // The GM's free-form memory and the story status are carried forward from the
+      // previous turn's `new*` fields: the front never interprets them, only relays them
       extra: lastApiResponse?.turns.at(-1)?.newExtra ?? null,
       newExtra: null,
       story: lastApiResponse?.turns.at(-1)?.story ?? null,
@@ -240,6 +269,8 @@ export class HomeComponent implements OnDestroy {
             }
           }
 
+          // Past the turn limit the adventure ends and persistence is handled by
+          // triggerAdventureOver, which only keeps the carry-over
           if (this.turns().length > MAX_TURNS) {
             this.triggerAdventureOver();
           } else {
@@ -267,6 +298,7 @@ export class HomeComponent implements OnDestroy {
     this.historyCollapsed.update((v) => !v);
   }
 
+  // Full restart: a new character and an empty story, save included
   protected randomizeStats(): void {
     this.stats.set(buildRandomStats());
     this.objects.set(new Map());
@@ -278,6 +310,7 @@ export class HomeComponent implements OnDestroy {
     this.clearGameState();
   }
 
+  // Debug panel entry points: force a state without going through the backend
   protected overrideAmbiance(ambiance: Ambiance): void {
     this.ambiance.set(ambiance);
   }
@@ -340,6 +373,7 @@ export class HomeComponent implements OnDestroy {
     });
   }
 
+  // Snapshot with no story: only what survives into the next adventure
   private persistCarryOverState(): void {
     const accountId = this.auth.accountId();
     if (accountId === null) return;
@@ -361,10 +395,14 @@ export class HomeComponent implements OnDestroy {
     }
   }
 
+  // Applies the last turn's `new*` fields. Each is optional: a field the GM left out means
+  // "unchanged", never "reset".
   private updateStats(data: AnswerPayload): void {
     const latestTurn = data.turns.at(-1);
     if (!latestTurn) return;
 
+    // Merged into the existing map rather than replacing it, and truncated because the
+    // model sometimes answers with a decimal
     const updated = new Map(this.stats());
     for (const stat of latestTurn.newstats ?? []) {
       updated.set(stat.name, Math.trunc(Number(stat.value)));
@@ -381,6 +419,8 @@ export class HomeComponent implements OnDestroy {
   }
 }
 
+// Starting roll. Some stats have their own floor (Health in particular) so a character
+// cannot open the adventure already doomed.
 function buildRandomStats(): Map<string, number> {
   return new Map(
     STAT_NAMES.map((name): [string, number] => {
@@ -390,6 +430,9 @@ function buildRandomStats(): Map<string, number> {
   );
 }
 
+// Normalizes the player's text before it reaches the prompt: strips angle brackets and
+// control characters, collapses whitespace. This is prompt hygiene, not XSS protection —
+// Angular already escapes anything it renders.
 function sanitizeText(value: string): string {
   return value
     .replace(/[<>]/g, '')

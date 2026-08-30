@@ -1,3 +1,8 @@
+// Positioning of the neutral decor, slot by slot.
+//
+// The component is mounted in every slot, so the host must be invisible by default: a
+// decor host left as an ordinary block would show up as a phantom child inside the flex
+// and grid parents of the layout and shift them. Each slot then opts back in explicitly.
 :host {
   display: none;
   pointer-events: none;

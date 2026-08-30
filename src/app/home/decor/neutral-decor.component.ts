@@ -3,14 +3,24 @@ import { Ambiance, Stat } from '../../models/turn.model';
 import { ambianceTotal } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot } from './ambiance-decor';
 
-const POLLEN_THRESHOLD = 20;
-const POLLEN_RANGE = 67;
+// Decor for the `neutral` state (every axis below the first threshold). Instantiated once
+// per slot, the `slot` input selecting which fragment of the scene this instance draws.
+//
+// Two evolution mechanics coexist here, both keyed on the ambiance *total*: the blooming
+// cycle scattered across the interface advances by steps (`stage`), while the pollen ramps
+// up continuously (`pollen`). Both are recomputed from the raw ambiance, never handed down
+// by the home.
+
+const POLLEN_THRESHOLD = 20; // below this, no pollen at all
+const POLLEN_RANGE = 67; // total span over which the grain count ramps up
 
 @Component({
   selector: 'app-decor-neutral',
   templateUrl: './neutral-decor.component.html',
   styleUrl: './neutral-decor.component.scss',
   host: {
+    // The host carries its own slot as a class, which is how the stylesheet gives each
+    // slot its position without the layout knowing anything about the decor
     '[class]': '"decor-" + slot()',
     'aria-hidden': 'true',
   },
@@ -20,12 +30,16 @@ export class NeutralDecorComponent {
   readonly ambiance = input<Ambiance | null>(null);
   readonly stats = input<readonly Stat[]>([]);
 
+  // Blooming step, 0 to 3: one extra flower per 10 points of total from 60 upwards
+  // (60/70/80). Clamped on both ends so an off-scale total cannot produce a missing stage.
   protected readonly stage = computed(() => {
     const value = this.ambiance();
     if (!value) return 0;
     return Math.max(0, Math.min(3, Math.floor(ambianceTotal(value) / 10) - 5));
   });
 
+  // Continuous ramp: 8 grains at the threshold, 22 at the top of the range. Returning an
+  // empty array below the threshold destroys the nodes rather than hiding them.
   protected readonly pollen = computed(() => {
     const value = this.ambiance();
     const total = value ? ambianceTotal(value) : 0;
@@ -38,6 +52,8 @@ export class NeutralDecorComponent {
 
     for (let index = 0; index < count; index++) {
       const rand = (slot: number) => noise('pollen', index, slot);
+      // Stratified: one grain per 1/count slice, jittered inside it. The 1.25 exponent
+      // then leans the whole scatter left, where the flora lives.
       const spread = (index + rand(0)) / count;
       grains.push({
         style: {
@@ -58,6 +74,8 @@ export class NeutralDecorComponent {
   });
 }
 
+// Same deterministic FNV-1a as the FX layer: the scatter must stay put across recomputes,
+// otherwise every ambiance change would teleport every grain
 function noise(salt: string, index: number, slot: number): number {
   let hash = 2166136261;
   const seed = `${salt}:${index}:${slot}`;

@@ -3,6 +3,8 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { ApiService } from '../core/api.service';
 import { AdminUser } from '../models/admin.model';
 
+// Back-office listing. The route guard only checks that someone is signed in — the
+// admin role itself is enforced by the backend, which answers 403 to a plain user.
 @Component({
   selector: 'app-admin',
   imports: [DatePipe, DecimalPipe],
@@ -30,6 +32,7 @@ export class AdminComponent {
         this.loading.set(false);
       },
       error: (err) => {
+        // 403 is the expected answer for a non-admin, not a failure worth logging
         this.error.set(
           err?.status === 403
             ? 'Accès refusé : compte non administrateur.'

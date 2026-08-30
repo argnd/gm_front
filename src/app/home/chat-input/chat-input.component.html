@@ -47,6 +47,9 @@
     <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('field-bloom-right')" />
   </div>
 
+  <!-- Sits right under the field, left-aligned, above the horizon rule -->
+  <app-emoji-picker [disabled]="disabled()" (pick)="insertEmoji($event)" />
+
   <div class="chatbox-flourish" aria-hidden="true">
     <span class="flourish-line"></span>
     <svg class="flourish-mark" viewBox="0 0 90 18">

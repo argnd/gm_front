@@ -1,0 +1,202 @@
+// Styles for the console's emoji picker. The trigger deliberately mirrors .chatbox-tool
+// from the console rather than reusing it: view encapsulation scopes that class to the
+// chat-input component, so it cannot reach in here.
+
+// Direct flex child of .chatbox, between the field and the horizon rule: align-self keeps
+// it hugging its button on the left instead of stretching across the card.
+// Direct flex child of .chatbox, between the field and the horizon rule: align-self keeps
+// it hugging its content on the left instead of stretching across the card.
+:host {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  // Pulls the button up against the field, tighter than the card's own 12px rhythm
+  margin-top: -4px;
+}
+
+.emoji-note {
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.emoji-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  // Larger than the .chatbox-tool labels: at 0.74rem the glyph would be unreadable
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color var(--speed-fast) ease,
+    background var(--speed-fast) ease;
+
+  &:hover:not(:disabled),
+  &.is-open {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.emoji-panel {
+  position: absolute;
+  // Anchored left, under the button, since the trigger now sits on the card's left edge
+  left: 0;
+  // Opens upward over the field: .chatbox is overflow:hidden and there is not enough room
+  // below the button for the panel to drop without being clipped
+  bottom: calc(100% + 10px);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  // Wide enough for the four category names to sit on one line, and no wider
+  width: 288px;
+  max-width: calc(100vw - 48px);
+  padding: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: calc(var(--surface-radius) * 0.7);
+  background: var(--surface-raised);
+  box-shadow: 0 16px 38px rgba(5, 9, 20, 0.55);
+  animation: emoji-panel-in var(--speed-slow) ease both;
+}
+
+// Entry only. Closing removes the node outright, so nothing can wedge the panel open.
+@keyframes emoji-panel-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// One line, no wrap and no scroller: the panel is sized so all four names fit
+.emoji-tabs {
+  display: flex;
+  flex: none;
+  flex-wrap: nowrap;
+  gap: 4px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+
+.emoji-tab {
+  flex: none;
+  padding: 3px 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.68rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color var(--speed-fast) ease,
+    border-color var(--speed-fast) ease;
+
+  &:hover {
+    color: var(--text-soft);
+  }
+
+  &.is-active {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 1px;
+  }
+}
+
+// Fixed height rather than auto: the panel must not grow past the top of the card.
+// 8 columns x 3 rows = 24 slots, exactly one category, so no tab ever scrolls.
+// Adding a 25th emoji to a category would bring the scrollbar back.
+.emoji-grid {
+  display: grid;
+  // minmax(0, 1fr), not plain 1fr: the implicit `auto` minimum is the glyph's own size, so
+  // the columns refuse to shrink and the grid overflows sideways into a scrollbar
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 2px;
+  height: 104px;
+  // Sideways scrolling is never wanted here; the columns always fit by construction
+  overflow-x: hidden;
+  // Kept as a safety net, not as an expected state — the styling below only shows if a
+  // category ever outgrows the grid
+  overflow-y: auto;
+
+  // The default scrollbar is a light system widget and reads as a foreign object on the
+  // dark panel. Both syntaxes are declared: the standard one covers Firefox and recent
+  // Chrome, the -webkit- pseudo-elements the older Blink and WebKit builds.
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--accent) 45%, transparent) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 999px;
+    // Painted on the padding box so the transparent border reads as breathing room
+    background-clip: padding-box;
+    background-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  }
+}
+
+.emoji-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background var(--speed-fast) ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: -1px;
+  }
+}

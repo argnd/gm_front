@@ -16,6 +16,7 @@ import { NgComponentOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ACTION_COPY, ACTION_HINTS, AUTO_TURN, ActionCopy, AmbianceKey } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
+import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
 
 // The console: where the player writes their action. Purely presentational — the text is
 // owned by the home, which receives it through promptChange and hands it back as an input.
@@ -27,7 +28,7 @@ const SEAL_MS = 650; // duration of the send-seal animation
 
 @Component({
   selector: 'app-chat-input',
-  imports: [FormsModule, NgComponentOutlet],
+  imports: [FormsModule, NgComponentOutlet, EmojiPickerComponent],
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss',
 })
@@ -145,9 +146,46 @@ export class ChatInputComponent {
       .catch(() => {});
   }
 
+  // Inserts at the caret, replacing the selection if there is one. The text belongs to the
+  // home, so the new value is emitted and only comes back on the next input — hence the
+  // caret is restored afterwards rather than straight away, or it would jump to the end.
+  protected insertEmoji(char: string): void {
+    if (this.disabled()) {
+      return;
+    }
+
+    const element = this.field()?.nativeElement;
+    const current = this.prompt();
+
+    if (!element) {
+      this.promptChange.emit(current + char);
+      return;
+    }
+
+    const start = element.selectionStart ?? current.length;
+    const end = element.selectionEnd ?? start;
+    const caret = start + char.length;
+
+    this.promptChange.emit(current.slice(0, start) + char + current.slice(end));
+
+    setTimeout(() => {
+      const field = this.field()?.nativeElement;
+      if (!field) {
+        return;
+      }
+      field.focus();
+      field.setSelectionRange(caret, caret);
+      // Inserting can push the text onto a new line, and no input event fires here
+      this.grow(field);
+    });
+  }
+
   protected autoGrow(event: Event): void {
+    this.grow(event.target as HTMLTextAreaElement);
+  }
+
+  private grow(element: HTMLTextAreaElement): void {
     // Reset to auto first: scrollHeight only shrinks once the inline height is released
-    const element = event.target as HTMLTextAreaElement;
     element.style.height = 'auto';
     element.style.height = `${Math.min(element.scrollHeight, FIELD_MAX_HEIGHT)}px`;
   }

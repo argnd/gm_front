@@ -1,0 +1,60 @@
+<button
+  class="emoji-trigger"
+  type="button"
+  [class.is-open]="open()"
+  [disabled]="disabled()"
+  [attr.aria-expanded]="open()"
+  aria-haspopup="dialog"
+  aria-label="Insérer un emoji"
+  title="Insérer un emoji"
+  (click)="toggle()"
+>
+  <span aria-hidden="true">🙂</span>
+</button>
+
+<!-- Always visible, not folded into the panel: it tells the player what the emoji do to
+     the story, which is worth knowing before opening anything -->
+<span class="emoji-note">Le Maître du Jeu utilisera des emoji si vous en utilisez.</span>
+
+<!--
+  Opens upward, inside the card: .chatbox is overflow:hidden, so a panel dropping below
+  the action bar would be clipped at the card edge. The grid scrolls rather than growing,
+  which keeps the panel within the card whatever the category holds.
+-->
+@if (open()) {
+  <!--
+    No animate.leave here on purpose: it holds the element in the DOM until animationend
+    fires, and a leave animation that never completes leaves the panel stuck open. The
+    entry animation lives in the stylesheet instead, where it gates nothing.
+  -->
+  <div class="emoji-panel" role="dialog" aria-label="Sélecteur d'emojis">
+    <div class="emoji-tabs" role="tablist">
+      @for (group of groups; track group.key) {
+        <button
+          class="emoji-tab"
+          type="button"
+          role="tab"
+          [class.is-active]="activeKey() === group.key"
+          [attr.aria-selected]="activeKey() === group.key"
+          (click)="selectGroup(group.key)"
+        >
+          {{ group.label }}
+        </button>
+      }
+    </div>
+
+    <div class="emoji-grid">
+      @for (emoji of activeEmojis(); track emoji.char) {
+        <button
+          class="emoji-cell"
+          type="button"
+          [attr.aria-label]="emoji.name"
+          [attr.title]="emoji.name"
+          (click)="select(emoji.char)"
+        >
+          {{ emoji.char }}
+        </button>
+      }
+    </div>
+  </div>
+}

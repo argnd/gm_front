@@ -198,6 +198,8 @@ export class HomeComponent implements OnDestroy {
     }));
     const currentAmbiance = this.ambiance();
 
+    const lastApiResponse = this.turns().at(-1);
+
     const newTurn: Turn = {
       text: sanitizedText,
       stats: currentStats,
@@ -208,10 +210,12 @@ export class HomeComponent implements OnDestroy {
       newAmbiance: null,
       newObjects: null,
       diceRolls: null,
-      extra: null,
+      extra: lastApiResponse?.turns.at(-1)?.newExtra ?? null,
+      newExtra: null,
+      story: lastApiResponse?.turns.at(-1)?.story ?? null,
+      precognition: null,
     };
 
-    const lastApiResponse = this.turns().at(-1);
     const payload: AnswerPayload = {
       turns: lastApiResponse ? [...lastApiResponse.turns, newTurn] : [newTurn],
     };

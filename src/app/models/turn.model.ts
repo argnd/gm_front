@@ -37,6 +37,8 @@ export type DiceRoll = {
   success: boolean | null;
 };
 
+export type StoryStatus = 'ongoing' | 'failure' | 'success';
+
 export type Turn = {
   /** The player's action text */
   text: string;
@@ -58,6 +60,12 @@ export type Turn = {
   diceRolls: DiceRoll[] | null;
   /** Free-form JSON block */
   extra: Record<string, unknown> | null;
+  /** Free-form JSON memory returned by the GM after this turn */
+  newExtra: Record<string, unknown> | null;
+  /** State of the adventure after this turn */
+  story: StoryStatus | null;
+  /** Glimpses of what may come next */
+  precognition: string[] | null;
 };
 
 export type AnswerPayload = {

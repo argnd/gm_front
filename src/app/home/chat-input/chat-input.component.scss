@@ -228,6 +228,23 @@
   margin-left: auto;
 }
 
+// Narrow screens: the counter, the decor and the buttons no longer fit on one line. The
+// group being flex:none, it did not wrap — it overflowed the card and carried the send
+// button off screen, out of reach of even a horizontal scroll. It takes a line of its own
+// here, centred.
+@media (max-width: 620px) {
+  .chatbox-foot {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+
+  .chatbox-actions {
+    flex: 1 1 100%;
+    justify-content: center;
+    margin-left: 0;
+  }
+}
+
 .chatbox-dictation-error {
   min-width: 0;
   overflow: hidden;

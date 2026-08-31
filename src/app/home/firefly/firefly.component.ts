@@ -38,7 +38,7 @@ const BASE_COLOR = { r: 222, g: 234, b: 158 };
 const HUE_COLORS = {
   romance: { r: 255, g: 111, b: 159 },
   adventure: { r: 255, g: 160, b: 74 },
-  other: { r: 143, g: 178, b: 220 },
+  other: { r: 125, g: 143, b: 212 },
 } as const;
 
 @Component({

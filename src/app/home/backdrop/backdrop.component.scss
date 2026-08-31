@@ -1,0 +1,84 @@
+:host {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+}
+
+.bd-sky {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 46%;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--bd-tint) 26%, transparent),
+    transparent
+  );
+  opacity: calc(0.3 + 0.6 * var(--bd-glow, 0));
+  transition: opacity 600ms ease;
+}
+
+.bd-mid {
+  position: absolute;
+  top: calc(42% + 119px);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: color-mix(in srgb, var(--bd-tint) calc(8% + 8% * var(--bd-glow, 0)), #10162a);
+}
+
+.bd-ridge {
+  position: absolute;
+  top: 42%;
+  left: 0;
+  width: 200%;
+  height: 120px;
+  animation: bd-drift 46s linear infinite;
+}
+
+.bd-fill--mid {
+  fill: color-mix(in srgb, var(--bd-tint) calc(8% + 8% * var(--bd-glow, 0)), #10162a);
+}
+
+.bd-dome {
+  position: absolute;
+  bottom: -2px;
+  left: -8%;
+  width: 116%;
+  height: 26%;
+  animation: bd-breathe 16s ease-in-out infinite alternate;
+}
+
+.bd-fill--fore {
+  fill: color-mix(in srgb, var(--bd-tint) calc(5% + 6% * var(--bd-glow, 0)), #0c111f);
+}
+
+.bd-sep {
+  fill: none;
+  stroke: var(--ink-950);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.bd-shade {
+  position: absolute;
+  inset: 0;
+  background: rgb(5, 7, 15);
+  opacity: calc(0.55 * var(--bd-shade, 0));
+  transition: opacity 600ms ease;
+}
+
+@keyframes bd-drift {
+  to {
+    translate: -50% 0;
+  }
+}
+
+@keyframes bd-breathe {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 7px;
+  }
+}

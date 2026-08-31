@@ -5,6 +5,7 @@ import { Stat } from '../../models/turn.model';
 import { isHighStat, isLowStat, statValue } from './ambiance.engine';
 import { FieldMaskService } from './field-mask.service';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
+import { BackdropComponent } from '../backdrop/backdrop.component';
 
 // Full-page ambient layer, behind the interface and inert to the pointer. Holds the
 // permanent base (felt grain, dust, vignette), the stat-driven effects (Mana runes, Gold
@@ -23,7 +24,7 @@ const RUNES = fx.runes;
 
 @Component({
   selector: 'app-fx-layer',
-  imports: [NgComponentOutlet],
+  imports: [NgComponentOutlet, BackdropComponent],
   templateUrl: './fx-layer.component.html',
   styleUrl: './fx-layer.component.scss',
   host: { class: 'gm-fx', 'aria-hidden': 'true' },

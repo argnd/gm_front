@@ -1,0 +1,163 @@
+:host {
+  display: none;
+  pointer-events: none;
+  animation: gm-reveal var(--fx-in) ease;
+}
+
+:host(.decor-fx) {
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
+:host(.decor-stats) {
+  display: block;
+  position: absolute;
+  right: 14px;
+  bottom: 10px;
+  width: 18px;
+  height: 18px;
+  opacity: 0.75;
+}
+
+:host(.decor-objects) {
+  display: block;
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  width: 16px;
+  height: 16px;
+  opacity: 0.75;
+
+  svg {
+    transform: rotate(-6deg);
+  }
+}
+
+:host(.decor-rolls) {
+  display: block;
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  width: 15px;
+  height: 15px;
+  opacity: 0.75;
+
+  svg {
+    transform: rotate(5deg);
+  }
+}
+
+:host(.decor-trail) {
+  display: block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  opacity: 0.8;
+}
+
+:host(.decor-answer-end) {
+  display: block;
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  width: 18px;
+  height: 18px;
+  opacity: 0.8;
+}
+
+:host(.decor-answer) {
+  display: block;
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  width: 16px;
+  height: 16px;
+  opacity: 0.8;
+
+  svg {
+    transform: rotate(7deg);
+  }
+}
+
+:host(.decor-foot) {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: flex-end;
+  height: 24px;
+  opacity: 0.8;
+}
+
+.flag-pair {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.flag-pair-big {
+  width: 20px;
+  height: 20px;
+}
+
+.flag-pair-small {
+  width: 14px;
+  height: 14px;
+  transform: rotate(8deg);
+}
+
+svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.flag {
+  scale: var(--flag-scale, 1);
+  transition: scale var(--speed-slow) ease;
+}
+
+.flag-mast {
+  fill: none;
+  stroke: color-mix(in srgb, var(--adventure-accent-deep) 70%, var(--adventure-accent));
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.flag-cloth {
+  fill: color-mix(in srgb, var(--adventure-accent) 32%, transparent);
+  stroke: color-mix(in srgb, var(--adventure-accent) 78%, transparent);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.leaf {
+  position: absolute;
+  opacity: 0;
+  animation: gm-drift linear infinite;
+}
+
+.leaf-spin {
+  animation: gm-spin linear infinite;
+}
+
+.leaf-body {
+  fill: color-mix(in srgb, var(--adventure-accent) 46%, transparent);
+  stroke: color-mix(in srgb, var(--adventure-accent) 80%, transparent);
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+}
+
+.leaf-vein {
+  fill: none;
+  stroke: color-mix(in srgb, var(--adventure-accent-deep) 70%, var(--adventure-accent));
+  stroke-width: 0.7;
+  stroke-linecap: round;
+}
+
+@media (max-width: 460px) {
+  :host(.decor-foot) {
+    display: none;
+  }
+}

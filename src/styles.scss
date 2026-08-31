@@ -296,6 +296,14 @@ body {
   --shadow-alpha: 0.7;
 }
 
+.gm-page.amb-state-adventure-1,
+.gm-page.amb-state-adventure-2,
+.gm-page.amb-state-adventure-3 {
+  --surface-alpha: 0.85;
+  --border-alpha: 0.85;
+  --shadow-alpha: 0.7;
+}
+
 .gm-page.decor-vanish [class^='decor-'] {
   opacity: 0 !important;
   transition: opacity var(--fx-out) ease;

@@ -1,0 +1,77 @@
+@switch (slot()) {
+  @case ('stats') {
+    @if (stage() >= 1) {
+      <svg class="flag" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
+        <path class="flag-mast" d="M6 2.5 L6 18" />
+        <path class="flag-cloth" d="M7 3 C11 2.4 13 3.4 16 5.2 C13 6.4 11 7.6 7 8 Z" />
+      </svg>
+    }
+  }
+  @case ('objects') {
+    @if (stage() >= 2) {
+      <svg class="flag" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
+        <path class="flag-mast" d="M6 2.5 L6 18" />
+        <path class="flag-cloth" d="M7 3 C11 2.4 13 3.4 16 5.2 C13 6.4 11 7.6 7 8 Z" />
+      </svg>
+    }
+  }
+  @case ('rolls') {
+    @if (stage() >= 3) {
+      <svg class="flag" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
+        <path class="flag-mast" d="M6 2.5 L6 18" />
+        <path class="flag-cloth" d="M7 3 C11 2.4 13 3.4 16 5.2 C13 6.4 11 7.6 7 8 Z" />
+      </svg>
+    }
+  }
+  @case ('trail') {
+    @if (stage() >= 4) {
+      <svg class="flag" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
+        <path class="flag-mast" d="M6 2.5 L6 18" />
+        <path class="flag-cloth" d="M7 3 C11 2.4 13 3.4 16 5.2 C13 6.4 11 7.6 7 8 Z" />
+      </svg>
+    }
+  }
+  @case ('answer-end') {
+    @if (stage() >= 5) {
+      <svg class="flag" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
+        <path class="flag-mast" d="M6 2.5 L6 18" />
+        <path class="flag-cloth" d="M7 3 C11 2.4 13 3.4 16 5.2 C13 6.4 11 7.6 7 8 Z" />
+      </svg>
+    }
+  }
+  @case ('answer') {
+    <svg class="flag" viewBox="0 0 20 20">
+      <path class="flag-mast" d="M6 2.5 L6 18" />
+      <path class="flag-cloth" d="M7 3 C11 2.4 13 3.4 16 5.2 C13 6.4 11 7.6 7 8 Z" />
+    </svg>
+  }
+  @case ('foot') {
+    <div class="flag-pair">
+      <svg class="flag flag-pair-big" viewBox="0 0 20 20">
+        <path class="flag-mast" d="M6 2.5 L6 18" />
+        <path class="flag-cloth" d="M7 3 C11 2.4 13 3.4 16 5.2 C13 6.4 11 7.6 7 8 Z" />
+      </svg>
+      @if (stage() >= 6) {
+        <svg
+          class="flag flag-pair-small"
+          viewBox="0 0 20 20"
+          animate.enter="gm-appear"
+          animate.leave="gm-vanish"
+        >
+          <path class="flag-mast" d="M6 2.5 L6 18" />
+          <path class="flag-cloth" d="M7 3 C11 2.4 13 3.4 16 5.2 C13 6.4 11 7.6 7 8 Z" />
+        </svg>
+      }
+    </div>
+  }
+  @case ('fx') {
+    @for (leaf of leaves(); track $index) {
+      <span class="leaf" [style]="leaf.style">
+        <svg class="leaf-spin" [style]="leaf.spin" viewBox="0 0 16 16">
+          <path class="leaf-body" d="M8 1 C12 4 13 9 8 15 C3 9 4 4 8 1 Z" />
+          <path class="leaf-vein" d="M8 3.5 L8 12" />
+        </svg>
+      </span>
+    }
+  }
+}

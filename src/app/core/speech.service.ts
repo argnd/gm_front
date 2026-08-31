@@ -82,6 +82,11 @@ export class SpeechService {
     }
   }
 
+  autoPlay(id: string, text: string): void {
+    this.stop();
+    this.speakLocal(id, text);
+  }
+
   stopIf(id: string): void {
     if (this.speakingId() === id || this.loadingId() === id) {
       this.stop();

@@ -1,6 +1,7 @@
 import { Component, DestroyRef, Type, inject, input, signal } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { AuthService } from '../../core/auth.service';
+import { InputSettingsService } from '../../core/input-settings.service';
 import { SpeechService } from '../../core/speech.service';
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 
@@ -29,6 +30,7 @@ const TOP_PX = 8;
 export class NavbarComponent {
   protected readonly auth = inject(AuthService);
   protected readonly speech = inject(SpeechService);
+  protected readonly inputSettings = inject(InputSettingsService);
 
   readonly decor = input<Type<unknown> | null>(null);
   readonly decorData = input<AmbianceDecorData>(EMPTY_DECOR_DATA);
@@ -64,6 +66,10 @@ export class NavbarComponent {
 
   protected onPremiumChange(event: Event): void {
     this.speech.setPremium((event.target as HTMLInputElement).checked);
+  }
+
+  protected onEnterSendsChange(event: Event): void {
+    this.inputSettings.setEnterSends((event.target as HTMLInputElement).checked);
   }
 
   // Coalesces a burst of scroll events into one decision per frame

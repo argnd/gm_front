@@ -34,7 +34,8 @@
       [disabled]="disabled()"
       (focus)="focused.set(true)"
       (blur)="focused.set(false)"
-      enterkeyhint="enter"
+      [attr.enterkeyhint]="inputSettings.enterSends() ? 'send' : 'enter'"
+      (keydown.enter)="onEnterKey($event)"
       (input)="autoGrow($event)"
     ></textarea>
     <!-- Rotating suggestion, shown only while the field is empty -->

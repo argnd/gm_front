@@ -64,6 +64,15 @@
   white-space: nowrap;
 }
 
+// The switches travel together between the brand and the user block, so the bar keeps
+// three groups whatever the number of options
+.switches {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 22px);
+  min-width: 0;
+}
+
 // Narration switch. The native checkbox stays in the DOM, only visually replaced by the
 // track below, so the control keeps its keyboard behaviour and its announced state.
 .voice {
@@ -150,6 +159,90 @@
   }
 }
 
+// Enter-key switch, built like the narration one above: same hidden checkbox, same track.
+.enter {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.enter-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.enter-track {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 34px;
+  height: 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  transition:
+    border-color var(--speed-fast) ease,
+    background-color var(--speed-fast) ease;
+}
+
+.enter-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  transition:
+    transform var(--speed-fast) ease,
+    background-color var(--speed-fast) ease;
+}
+
+.enter-label {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  transition: color var(--speed-fast) ease;
+}
+
+.enter:hover {
+  .enter-track {
+    border-color: var(--accent);
+  }
+
+  .enter-label {
+    color: var(--text-soft);
+  }
+}
+
+.enter-input:focus-visible + .enter-track {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.enter.is-on {
+  .enter-track {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  .enter-knob {
+    background: var(--accent);
+    transform: translateX(16px);
+  }
+
+  .enter-label {
+    color: var(--accent);
+  }
+}
+
 .user {
   display: flex;
   align-items: center;
@@ -195,7 +288,17 @@
 
 @media (max-width: 620px) {
   .user-name,
-  .voice-label {
+  .voice-label,
+  .enter-label {
+    display: none;
+  }
+}
+
+// Two switches next to the user block no longer leave room for the title on a narrow
+// phone, and the sign-out button would run past the edge of the bar. The mark alone still
+// identifies it.
+@media (max-width: 430px) {
+  .brand-name {
     display: none;
   }
 }

@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import { Ambiance, Stat } from '../../models/turn.model';
-import { ambianceValue } from '../ambiance/ambiance.engine';
+import { ambianceValue, isHighStat, statValue } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot } from './ambiance-decor';
 
 const HEART_THRESHOLD = 30;
@@ -43,15 +43,22 @@ export class RomanceDecorComponent {
     const romance = ambianceValue(this.ambiance(), 'romance');
     if (romance < HEART_THRESHOLD) return [];
 
+    const beating = isHighStat(statValue(this.stats(), 'Health'));
     const progress = Math.min(1, (romance - HEART_THRESHOLD) / HEART_RANGE);
     const count = Math.round(8 + 6 * progress);
-    const flock: { face: boolean; style: Record<string, string> }[] = [];
+    const flock: {
+      face: boolean;
+      beating: boolean;
+      style: Record<string, string>;
+      beat: Record<string, string>;
+    }[] = [];
 
     for (let index = 0; index < count; index++) {
       const rand = (slot: number) => noise('heart', index, slot);
       const width = 13 + rand(5) * 11;
       flock.push({
         face: index % 3 === 0,
+        beating,
         style: {
           left: pct((index + rand(0)) / count),
           top: pct(0.05 + rand(1) * 0.9),
@@ -62,6 +69,10 @@ export class RomanceDecorComponent {
           height: px(width * (22 / 24)),
           'animation-duration': secs(13 + rand(6) * 11),
           'animation-delay': secs(-rand(7) * 24),
+        },
+        beat: {
+          'animation-duration': secs(1.2 + rand(8) * 0.6),
+          'animation-delay': secs(-rand(9) * 2),
         },
       });
     }

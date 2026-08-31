@@ -158,6 +158,10 @@ svg {
   animation: gm-drift linear infinite;
 }
 
+.heart--beating .heart-shape {
+  animation: gm-heartbeat ease-in-out infinite;
+}
+
 .heart-body {
   fill: color-mix(in srgb, var(--romance-accent) 82%, var(--romance-accent-soft));
   stroke: color-mix(in srgb, var(--romance-accent-deep) 55%, var(--romance-accent));

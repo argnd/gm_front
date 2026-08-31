@@ -4,17 +4,35 @@
     <span class="brand-name">Maître du Jeu</span>
   </span>
 
-  <label class="voice" [class.is-on]="speech.premium()" title="Narration lue par l’IA">
-    <input
-      class="voice-input"
-      type="checkbox"
-      aria-label="Voix supérieure"
-      [checked]="speech.premium()"
-      (change)="onPremiumChange($event)"
-    />
-    <span class="voice-track" aria-hidden="true"><span class="voice-knob"></span></span>
-    <span class="voice-label">Voix supérieure</span>
-  </label>
+  <div class="switches">
+    <label class="voice" [class.is-on]="speech.premium()" title="Narration lue par l’IA">
+      <input
+        class="voice-input"
+        type="checkbox"
+        aria-label="Voix supérieure"
+        [checked]="speech.premium()"
+        (change)="onPremiumChange($event)"
+      />
+      <span class="voice-track" aria-hidden="true"><span class="voice-knob"></span></span>
+      <span class="voice-label">Voix supérieure</span>
+    </label>
+
+    <label
+      class="enter"
+      [class.is-on]="inputSettings.enterSends()"
+      title="Entrée envoie l’action, Maj+Entrée passe à la ligne"
+    >
+      <input
+        class="enter-input"
+        type="checkbox"
+        aria-label="Entrée envoie l’action"
+        [checked]="inputSettings.enterSends()"
+        (change)="onEnterSendsChange($event)"
+      />
+      <span class="enter-track" aria-hidden="true"><span class="enter-knob"></span></span>
+      <span class="enter-label">Entrée envoie</span>
+    </label>
+  </div>
 
   <div class="user">
     @if (auth.user()) {

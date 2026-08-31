@@ -18,6 +18,7 @@ import { ACTION_COPY, ACTION_HINTS, AUTO_TURN, ActionCopy, AmbianceKey } from '.
 import { AmbianceDecorSlot, AmbianceDecorData, EMPTY_DECOR_DATA } from '../decor/ambiance-decor';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
 import { DictationService } from '../../core/dictation.service';
+import { InputSettingsService } from '../../core/input-settings.service';
 
 // The console: where the player writes their action. Purely presentational — the text is
 // owned by the home, which receives it through promptChange and hands it back as an input.
@@ -48,6 +49,7 @@ export class ChatInputComponent {
 
   protected readonly autoLabel = AUTO_TURN.label;
   protected readonly dictation = inject(DictationService);
+  protected readonly inputSettings = inject(InputSettingsService);
 
   private readonly field = viewChild<ElementRef<HTMLTextAreaElement>>('field');
 
@@ -219,6 +221,22 @@ export class ChatInputComponent {
       // Inserting can push the text onto a new line, and no input event fires here
       this.grow(field);
     });
+  }
+
+  // Enter sends only when the navbar switch says so; otherwise the field keeps the plain
+  // line break it has always done. Bound to `keydown.enter`, which Angular fires only when
+  // no modifier is held: Shift+Enter never reaches here and stays a line break in both
+  // modes, or the switch would leave no way at all to write a second line.
+  protected onEnterKey(event: Event): void {
+    if (!this.inputSettings.enterSends()) {
+      return;
+    }
+    // A key press that closes an IME candidate list is not a validation of the action
+    if ((event as KeyboardEvent).isComposing) {
+      return;
+    }
+    event.preventDefault();
+    this.emitSubmit();
   }
 
   protected autoGrow(event: Event): void {

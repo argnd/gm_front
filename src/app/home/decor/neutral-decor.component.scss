@@ -6,6 +6,7 @@
 :host {
   display: none;
   pointer-events: none;
+  animation: gm-reveal var(--fx-in) ease;
 }
 
 :host(.decor-head) {

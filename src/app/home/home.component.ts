@@ -1,4 +1,13 @@
-import { Component, OnDestroy, Type, computed, effect, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  Type,
+  computed,
+  effect,
+  inject,
+  signal,
+  untracked,
+} from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import {
   AMBIANCE_DECOR,
@@ -13,6 +22,7 @@ import { Stat, Ambiance, DEFAULT_AMBIANCE, Turn, AnswerPayload } from '../models
 import {
   ACTION_COPY,
   AUTO_TURN,
+  AmbianceState,
   MAX_TURNS,
   STAT_NAMES,
   STAT_RELICS,
@@ -48,6 +58,12 @@ import { AdventureOverOverlayComponent } from './adventure-over-overlay/adventur
 // curves belong to the decor components themselves.
 
 const ADVENTURE_OVER_DELAY_MS = 4_000; // time the end overlay stays up before the reset
+const DECOR_VANISH_MS = 420;
+const ROLLS_HIDDEN_STATES: ReadonlySet<AmbianceState> = new Set([
+  'romance-1',
+  'romance-2',
+  'romance-3',
+]);
 
 @Component({
   selector: 'app-home',
@@ -151,7 +167,15 @@ export class HomeComponent implements OnDestroy {
 
   protected readonly ambianceState = computed(() => resolveAmbianceState(this.ambiance()));
 
+  protected readonly rollsPanelVisible = computed(
+    () => !ROLLS_HIDDEN_STATES.has(this.ambianceState()),
+  );
+
   protected readonly decorComponent = signal<Type<unknown> | null>(null);
+
+  protected readonly decorVanishing = signal(false);
+
+  private decorSwapTimer: ReturnType<typeof setTimeout> | null = null;
 
   // Raw data handed to every slot: each decor state derives its own thresholds from it
   protected readonly decorData = computed<AmbianceDecorData>(() => ({
@@ -165,16 +189,46 @@ export class HomeComponent implements OnDestroy {
     effect(() => {
       const state = this.ambianceState();
       const loader = AMBIANCE_DECOR[state];
+
+      if (this.decorSwapTimer !== null) {
+        clearTimeout(this.decorSwapTimer);
+        this.decorSwapTimer = null;
+      }
+
+      const swapTo = (component: Type<unknown> | null) => {
+        if (untracked(this.decorComponent) === null) {
+          this.decorVanishing.set(false);
+          this.decorComponent.set(component);
+          return;
+        }
+        this.decorVanishing.set(true);
+        this.decorSwapTimer = setTimeout(() => {
+          this.decorSwapTimer = null;
+          this.decorVanishing.set(false);
+          if (this.ambianceState() === state) {
+            this.decorComponent.set(component);
+          }
+        }, DECOR_VANISH_MS);
+      };
+
       if (!loader) {
-        this.decorComponent.set(null);
+        if (untracked(this.decorComponent) === null) {
+          this.decorVanishing.set(false);
+          return;
+        }
+        swapTo(null);
         return;
       }
+
       loader().then((component) => {
         // Race guard: two fast ambiance changes resolve their imports in any order, and a
         // late arrival must not overwrite the decor of the state now in force
-        if (this.ambianceState() === state) {
-          this.decorComponent.set(component);
+        if (this.ambianceState() !== state) return;
+        if (component === untracked(this.decorComponent)) {
+          this.decorVanishing.set(false);
+          return;
         }
+        swapTo(component);
       });
     });
 
@@ -199,6 +253,9 @@ export class HomeComponent implements OnDestroy {
   ngOnDestroy(): void {
     if (this.adventureOverTimer !== null) {
       clearTimeout(this.adventureOverTimer);
+    }
+    if (this.decorSwapTimer !== null) {
+      clearTimeout(this.decorSwapTimer);
     }
   }
 

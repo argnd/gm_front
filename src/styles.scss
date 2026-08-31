@@ -288,6 +288,19 @@ body {
   color: var(--blend-title, var(--neutral-accent));
 }
 
+.gm-page.amb-state-romance-1,
+.gm-page.amb-state-romance-2,
+.gm-page.amb-state-romance-3 {
+  --surface-alpha: 0.7;
+  --border-alpha: 0.7;
+  --shadow-alpha: 0.7;
+}
+
+.gm-page.decor-vanish [class^='decor-'] {
+  opacity: 0 !important;
+  transition: opacity var(--fx-out) ease;
+}
+
 // ---------------------------------------------------------------------------
 // Stat-driven staging — each class only retunes tokens, never layout
 // ---------------------------------------------------------------------------
@@ -351,6 +364,12 @@ body {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes gm-reveal {
+  from {
+    opacity: 0;
   }
 }
 

@@ -1,0 +1,182 @@
+:host {
+  display: none;
+  pointer-events: none;
+  animation: gm-reveal var(--fx-in) ease;
+}
+
+:host(.decor-fx) {
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
+:host(.decor-stats) {
+  display: block;
+  position: absolute;
+  right: 14px;
+  bottom: 10px;
+  width: 40px;
+  height: 20px;
+  opacity: 0.75;
+
+  .gift-pair {
+    justify-content: flex-end;
+  }
+}
+
+:host(.decor-objects) {
+  display: block;
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  width: 16px;
+  height: 16px;
+  opacity: 0.75;
+
+  svg {
+    transform: rotate(-7deg);
+  }
+}
+
+:host(.decor-rolls) {
+  display: block;
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  width: 15px;
+  height: 15px;
+  opacity: 0.75;
+
+  svg {
+    transform: rotate(6deg);
+  }
+}
+
+:host(.decor-trail) {
+  display: block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  opacity: 0.8;
+}
+
+:host(.decor-answer-end) {
+  display: block;
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  width: 18px;
+  height: 18px;
+  opacity: 0.8;
+}
+
+:host(.decor-answer) {
+  display: block;
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  width: 16px;
+  height: 16px;
+  opacity: 0.8;
+
+  svg {
+    transform: rotate(8deg);
+  }
+}
+
+:host(.decor-foot) {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: flex-end;
+  height: 24px;
+  opacity: 0.8;
+}
+
+.gift-pair {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.gift-pair-big {
+  width: 20px;
+  height: 20px;
+}
+
+.gift-pair-small {
+  width: 14px;
+  height: 14px;
+  transform: rotate(9deg);
+}
+
+svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.gift {
+  scale: var(--gift-scale, 1);
+  transition: scale var(--speed-slow) ease;
+}
+
+.gift-body {
+  fill: color-mix(in srgb, var(--romance-accent) 30%, transparent);
+  stroke: color-mix(in srgb, var(--romance-accent) 75%, transparent);
+  stroke-width: 1;
+}
+
+.gift-lid {
+  fill: color-mix(in srgb, var(--romance-accent-soft) 32%, transparent);
+  stroke: color-mix(in srgb, var(--romance-accent) 75%, transparent);
+  stroke-width: 1;
+}
+
+.gift-ribbon {
+  fill: color-mix(in srgb, var(--romance-accent-soft) 60%, transparent);
+}
+
+.gift-bow {
+  fill: color-mix(in srgb, var(--romance-accent) 24%, transparent);
+  stroke: color-mix(in srgb, var(--romance-accent) 80%, transparent);
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 460px) {
+  :host(.decor-foot) {
+    display: none;
+  }
+}
+
+.heart {
+  position: absolute;
+  overflow: visible;
+  opacity: 0;
+  animation: gm-drift linear infinite;
+}
+
+.heart-body {
+  fill: color-mix(in srgb, var(--romance-accent) 82%, var(--romance-accent-soft));
+  stroke: color-mix(in srgb, var(--romance-accent-deep) 55%, var(--romance-accent));
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+}
+
+.heart-eye {
+  fill: var(--romance-accent-deep);
+}
+
+.heart-smile {
+  fill: none;
+  stroke: var(--romance-accent-deep);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.heart-blush {
+  fill: color-mix(in srgb, var(--romance-accent-deep) 40%, var(--romance-accent));
+  opacity: 0.7;
+}

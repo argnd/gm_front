@@ -9,6 +9,7 @@
 <div
   class="gm-page"
   [class]="pageClasses()"
+  [class.decor-vanish]="decorVanishing()"
   [style]="pageVars()"
   [style.--surface-alpha]="debugSurfaceOpacity() === 100 ? null : debugSurfaceOpacity() / 100"
   [style.--border-alpha]="debugBorderOpacity() === 100 ? null : debugBorderOpacity() / 100"
@@ -144,12 +145,16 @@
           [decorData]="decorData()"
         />
 
-        <app-rolls-panel
-          gmPlayField
-          [rolls]="rollEntries()"
-          [decor]="decorComponent()"
-          [decorData]="decorData()"
-        />
+        @if (rollsPanelVisible()) {
+          <app-rolls-panel
+            gmPlayField
+            animate.enter="gm-appear"
+            animate.leave="gm-vanish"
+            [rolls]="rollEntries()"
+            [decor]="decorComponent()"
+            [decorData]="decorData()"
+          />
+        }
       </aside>
     </div>
   </div>

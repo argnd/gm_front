@@ -36,4 +36,7 @@ export const EMPTY_DECOR_DATA: AmbianceDecorData = { ambiance: null, stats: [] }
 // and a state absent from this map simply renders nothing — adding one is a single line.
 export const AMBIANCE_DECOR: Partial<Record<AmbianceState, () => Promise<Type<unknown>>>> = {
   neutral: () => import('./neutral-decor.component').then((m) => m.NeutralDecorComponent),
+  'romance-1': () => import('./romance-decor.component').then((m) => m.RomanceDecorComponent),
+  'romance-2': () => import('./romance-decor.component').then((m) => m.RomanceDecorComponent),
+  'romance-3': () => import('./romance-decor.component').then((m) => m.RomanceDecorComponent),
 };

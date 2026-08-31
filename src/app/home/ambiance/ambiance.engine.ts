@@ -229,7 +229,63 @@ export function ambianceVars(ambiance: Ambiance | null): Record<string, string> 
 
   vars['--dominant'] = (dominant / AMBIANCE_MAX).toFixed(3);
 
+  vars['--blend-accent'] = blendAccent(ambiance, 'accent');
+  vars['--blend-accent-soft'] = blendAccent(ambiance, 'soft');
+  vars['--blend-accent-deep'] = blendAccent(ambiance, 'deep');
+  vars['--blend-title'] = blendAccent(ambiance, 'title');
+
   return vars;
+}
+
+type AccentVariant = 'accent' | 'soft' | 'deep' | 'title';
+type AccentTriple = Record<AccentVariant, readonly [number, number, number]>;
+
+const ACCENT_TRIPLES: Record<AmbianceKey | 'neutral', AccentTriple> = {
+  neutral: {
+    accent: [132, 148, 184],
+    soft: [188, 199, 222],
+    deep: [56, 68, 94],
+    title: [76, 88, 116],
+  },
+  romance: {
+    accent: [255, 111, 159],
+    soft: [255, 177, 203],
+    deep: [77, 18, 41],
+    title: [196, 101, 134],
+  },
+  adventure: {
+    accent: [255, 160, 74],
+    soft: [255, 205, 147],
+    deep: [74, 42, 12],
+    title: [150, 92, 42],
+  },
+  other: {
+    accent: [125, 143, 212],
+    soft: [193, 201, 240],
+    deep: [39, 43, 82],
+    title: [164, 176, 228],
+  },
+};
+
+function blendAccent(ambiance: Ambiance | null, variant: AccentVariant): string {
+  const total = ambiance ? ambianceTotal(ambiance) : 0;
+  const baseWeight = Math.max(0, 1 - total / AMBIANCE_MAX_TOTAL);
+  const base = ACCENT_TRIPLES.neutral[variant];
+  let r = base[0] * baseWeight;
+  let g = base[1] * baseWeight;
+  let b = base[2] * baseWeight;
+  let weightSum = baseWeight;
+
+  for (const key of AMBIANCE_KEYS) {
+    const weight = ambianceValue(ambiance, key) / AMBIANCE_MAX_TOTAL;
+    const hue = ACCENT_TRIPLES[key][variant];
+    r += hue[0] * weight;
+    g += hue[1] * weight;
+    b += hue[2] * weight;
+    weightSum += weight;
+  }
+
+  return `rgb(${Math.round(r / weightSum)}, ${Math.round(g / weightSum)}, ${Math.round(b / weightSum)})`;
 }
 
 export function ambianceTotal(ambiance: Ambiance): number {

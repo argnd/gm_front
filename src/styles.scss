@@ -114,9 +114,9 @@ body {
   --other-band: 0;
   --dominant: 0;
 
-  --accent: var(--neutral-accent);
-  --accent-soft: var(--neutral-accent-soft);
-  --accent-deep: var(--neutral-accent-deep);
+  --accent: var(--blend-accent, var(--neutral-accent));
+  --accent-soft: var(--blend-accent-soft, var(--neutral-accent-soft));
+  --accent-deep: var(--blend-accent-deep, var(--neutral-accent-deep));
 
   --page-bg: radial-gradient(
     120% 90% at 50% -10%,
@@ -142,7 +142,7 @@ body {
   --surface-alpha: 1;
   --surface-bg: color-mix(
     in srgb,
-    var(--surface-base) calc(var(--surface-alpha) * 100%),
+    color-mix(in srgb, var(--accent-deep) 22%, var(--surface-base)) calc(var(--surface-alpha) * 100%),
     transparent
   );
   --border-alpha: 1;
@@ -285,7 +285,7 @@ body {
   font-weight: 700;
   letter-spacing: var(--label-spacing);
   text-transform: var(--label-transform);
-  color: var(--accent);
+  color: var(--blend-title, var(--neutral-accent));
 }
 
 // ---------------------------------------------------------------------------

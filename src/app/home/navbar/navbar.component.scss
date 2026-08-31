@@ -6,6 +6,9 @@
   position: sticky;
   top: 0;
   z-index: 2;
+  --accent: var(--neutral-accent);
+  --accent-soft: var(--neutral-accent-soft);
+  --accent-deep: var(--neutral-accent-deep);
   // Fast on purpose: the bar should be gone almost as soon as the reader starts scrolling,
   // so the slower --speed-slow used elsewhere would read as lag here
   transition: transform var(--speed-fast) ease-out;

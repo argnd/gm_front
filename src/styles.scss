@@ -292,6 +292,15 @@ body {
 // Stat-driven staging — each class only retunes tokens, never layout
 // ---------------------------------------------------------------------------
 
+.gm-page.stat-str-high {
+  --surface-radius: 3px;
+  --surface-shadow: 0 24px 46px rgba(3, 6, 14, calc(0.6 * var(--shadow-alpha)));
+}
+
+.gm-page.stat-str-low {
+  --surface-shadow: 0 4px 12px rgba(5, 9, 20, calc(0.16 * var(--shadow-alpha)));
+}
+
 .gm-page.stat-gold-high {
   --surface-shadow: 0 18px 44px rgba(3, 6, 15, calc(0.55 * var(--shadow-alpha))),
     0 0 0 1px rgba(242, 193, 78, calc(0.3 * var(--shadow-alpha)));
@@ -360,6 +369,24 @@ body {
   }
   100% {
     transform: translate3d(var(--drift, 60px), calc(-1 * var(--lift, 90px)), 0);
+    opacity: 0;
+  }
+}
+
+@keyframes gm-dash {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  1.5% {
+    opacity: var(--peak, 0.4);
+  }
+  10.5% {
+    opacity: var(--peak, 0.4);
+  }
+  12%,
+  100% {
+    transform: translateX(var(--dash, 900px));
     opacity: 0;
   }
 }
@@ -442,6 +469,26 @@ body {
   5%,
   46% {
     opacity: var(--flicker-dim, 0.08);
+  }
+}
+
+@keyframes gm-tremble {
+  0%,
+  88%,
+  100% {
+    translate: 0 0;
+  }
+  90% {
+    translate: -1px 0;
+  }
+  92% {
+    translate: 1.2px 0.4px;
+  }
+  94% {
+    translate: -0.8px 0;
+  }
+  96% {
+    translate: 0.6px 0;
   }
 }
 

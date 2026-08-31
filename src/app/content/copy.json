@@ -31,6 +31,18 @@
     "INT": "Un brouillard s’attarde sur chaque pensée.",
     "Gold": "Votre bourse ne pèse plus que son cuir."
   },
+  "statRelics": {
+    "INT": {
+      "high": {
+        "name": "Âge des étoiles",
+        "description": "Fragment du premier ciel, tiède comme une braise qui refuse de mourir. Qui le porte marche sous une bonne étoile : la fortune le précède, et le hasard lui sourit sans qu’il ait à le prier. Cet objet est magique, il revient toujours à son porteur. L’âge des étoiles commence."
+      },
+      "low": {
+        "name": "Marque de folie",
+        "description": "Un murmure sans source s’est installé dans les pensées, et il ne veut plus en sortir. Depuis, rien ne tombe juste : les certitudes se dérobent une à une, et le malheur trouve toujours le chemin de celui qui l’écoute. Cet objet est magique, il revient toujours à son porteur."
+      }
+    }
+  },
   "ambianceLabels": {
     "romance": "Romance",
     "adventure": "Aventure",

@@ -15,11 +15,15 @@ import {
   AUTO_TURN,
   MAX_TURNS,
   STAT_NAMES,
+  STAT_RELICS,
   STAT_ROLL,
+  StatRelic,
   ambianceClasses,
   ambianceVars,
   dominantKey,
   highStats,
+  isHighStat,
+  isLowStat,
   lowStats,
   resolveAmbianceState,
 } from './ambiance/ambiance.engine';
@@ -175,6 +179,7 @@ export class HomeComponent implements OnDestroy {
     });
 
     this.restoreGameState();
+    this.applyStatRelics();
   }
 
   // Inputs for one NgComponentOutlet: the same decor component, told which slot it renders
@@ -307,6 +312,7 @@ export class HomeComponent implements OnDestroy {
     this.halfturns.set([]);
     this.conversation.set(null);
     this.error.set(null);
+    this.applyStatRelics();
     this.clearGameState();
   }
 
@@ -317,6 +323,7 @@ export class HomeComponent implements OnDestroy {
 
   protected overrideStats(stats: Stat[]): void {
     this.stats.set(new Map(stats.map((stat) => [stat.name, stat.value])));
+    this.applyStatRelics();
   }
 
   private triggerAdventureOver(): void {
@@ -416,7 +423,32 @@ export class HomeComponent implements OnDestroy {
         new Map(latestTurn.newObjects.map((object) => [object.name, object.description])),
       );
     }
+    this.applyStatRelics();
   }
+
+  private applyStatRelics(): void {
+    const value = this.stats().get('INT') ?? 0;
+    const relics = STAT_RELICS['INT'];
+    const updated = new Map(this.objects());
+    let changed = reconcileRelic(updated, relics.high, isHighStat(value));
+    changed = reconcileRelic(updated, relics.low, isLowStat(value)) || changed;
+
+    if (changed) {
+      this.objects.set(updated);
+    }
+  }
+}
+
+function reconcileRelic(objects: Map<string, string>, relic: StatRelic, wanted: boolean): boolean {
+  if (wanted && !objects.has(relic.name)) {
+    objects.set(relic.name, relic.description);
+    return true;
+  }
+  if (!wanted && objects.has(relic.name)) {
+    objects.delete(relic.name);
+    return true;
+  }
+  return false;
 }
 
 // Starting roll. Some stats have their own floor (Health in particular) so a character

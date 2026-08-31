@@ -41,18 +41,35 @@ export class FxLayerComponent {
   }
 
   // Permanent, ambiance-independent: the grain that keeps the page from feeling flat
-  protected readonly dust = computed(() =>
-    build(11, 'dust', (rand) => ({
+  protected readonly dustSinking = computed(() => this.hasLow('AGI'));
+
+  protected readonly dust = computed(() => {
+    const sinking = this.dustSinking();
+    return build(11, 'dust', (rand) => ({
       style: {
         left: pct(rand(0)),
         top: pct(rand(1)),
         '--drift': px(-40 + rand(2) * 80),
-        '--lift': px(60 + rand(3) * 120),
+        '--lift': px(sinking ? -(50 + rand(3) * 90) : 60 + rand(3) * 120),
         '--peak': (0.1 + rand(4) * 0.16).toFixed(3),
         width: px(2 + rand(5) * 2),
         height: px(2 + rand(5) * 2),
-        'animation-duration': secs(26 + rand(6) * 22),
+        'animation-duration': secs(sinking ? 40 + rand(6) * 26 : 26 + rand(6) * 22),
         'animation-delay': secs(-rand(7) * 30),
+      },
+    }));
+  });
+
+  protected readonly windTrails = computed(() =>
+    build(this.hasHigh('AGI') ? 5 : 0, 'wind', (rand) => ({
+      style: {
+        left: pct(-0.1 + rand(0) * 0.3),
+        top: pct(0.08 + rand(1) * 0.8),
+        width: px(60 + rand(2) * 80),
+        '--dash': px(700 + rand(3) * 700),
+        '--peak': (0.25 + rand(4) * 0.25).toFixed(3),
+        'animation-duration': secs(8 + rand(5) * 7),
+        'animation-delay': secs(-rand(6) * 15),
       },
     })),
   );

@@ -359,3 +359,47 @@
     inset 0 0 0 1px rgba(242, 193, 78, calc(0.34 * var(--border-alpha))),
     0 0 26px color-mix(in srgb, var(--accent) calc(9% * var(--shadow-alpha)), transparent);
 }
+
+:host-context(.stat-str-high) .chatbox.is-sealing .chatbox-trim {
+  animation: chatbox-slam 650ms ease-out;
+}
+
+:host-context(.stat-str-low) .chatbox.is-sealing .chatbox-trim {
+  animation: chatbox-seal-weak 650ms ease-out;
+}
+
+@keyframes chatbox-seal-weak {
+  0% {
+    opacity: 0.7;
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--accent) calc(45% * var(--border-alpha)), transparent),
+      0 0 18px color-mix(in srgb, var(--accent) calc(12% * var(--shadow-alpha)), transparent);
+  }
+  100% {
+    opacity: 0.5;
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--accent) calc(32% * var(--border-alpha)), transparent),
+      0 0 26px color-mix(in srgb, var(--accent) calc(9% * var(--shadow-alpha)), transparent);
+  }
+}
+
+@keyframes chatbox-slam {
+  0% {
+    opacity: 1;
+    box-shadow:
+      inset 0 0 0 3px color-mix(in srgb, var(--accent) calc(95% * var(--border-alpha)), transparent),
+      0 0 14px color-mix(in srgb, var(--accent) calc(50% * var(--shadow-alpha)), transparent);
+  }
+  12% {
+    opacity: 1;
+    box-shadow:
+      inset 0 0 0 2px color-mix(in srgb, var(--accent) calc(80% * var(--border-alpha)), transparent),
+      0 0 58px color-mix(in srgb, var(--accent) calc(42% * var(--shadow-alpha)), transparent);
+  }
+  100% {
+    opacity: 0.5;
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--accent) calc(32% * var(--border-alpha)), transparent),
+      0 0 26px color-mix(in srgb, var(--accent) calc(9% * var(--shadow-alpha)), transparent);
+  }
+}

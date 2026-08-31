@@ -6,8 +6,26 @@
 <div class="fx-felt"></div>
 
 <div class="fx-weather">
-  @for (fleck of dust(); track $index) {
-    <span class="fx-dust" [style]="fleck.style"></span>
+  @if (dustSinking()) {
+    <div class="fx-dust-group" animate.enter="gm-appear" animate.leave="gm-vanish">
+      @for (fleck of dust(); track $index) {
+        <span class="fx-dust" [style]="fleck.style"></span>
+      }
+    </div>
+  } @else {
+    <div class="fx-dust-group" animate.enter="gm-appear" animate.leave="gm-vanish">
+      @for (fleck of dust(); track $index) {
+        <span class="fx-dust" [style]="fleck.style"></span>
+      }
+    </div>
+  }
+
+  @if (windTrails().length) {
+    <div class="fx-gust" animate.enter="gm-appear" animate.leave="gm-vanish">
+      @for (trail of windTrails(); track $index) {
+        <span class="fx-wind" [style]="trail.style"></span>
+      }
+    </div>
   }
 
   @if (runes().length) {

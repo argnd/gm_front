@@ -59,6 +59,10 @@ export const STAT_SIGNATURES: Record<string, string> = copy.statSignatures;
 
 export const STAT_SIGNATURES_LOW: Record<string, string> = copy.statSignaturesLow;
 
+export type StatRelic = { name: string; description: string };
+
+export const STAT_RELICS: Record<string, { high: StatRelic; low: StatRelic }> = copy.statRelics;
+
 export type ActionCopy = {
   label: string;
   placeholder: string;

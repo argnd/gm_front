@@ -102,10 +102,12 @@
   color: var(--accent);
   font-size: 0.9rem;
   opacity: 0.5;
+  rotate: 0deg;
   transition:
     color var(--fx-out) ease,
     text-shadow var(--fx-out) ease,
-    opacity var(--fx-out) ease;
+    opacity var(--fx-out) ease,
+    rotate var(--fx-out) ease;
 }
 
 .stat[data-stat='health'] {
@@ -159,6 +161,44 @@
     var(--surface-shadow),
     inset 0 0 0 1px color-mix(in srgb, var(--danger) 14%, transparent),
     inset 0 0 30px color-mix(in srgb, var(--danger) 6%, transparent);
+}
+
+:host-context(.stat-str-high) .stat[data-stat='str'] .stat-glyph {
+  color: var(--stone);
+  text-shadow:
+    0 1px 0 rgba(5, 9, 20, 0.7),
+    0 0 10px color-mix(in srgb, var(--stone) 45%, transparent);
+}
+
+:host-context(.stat-str-low) .stat[data-stat='str'] .stat-glyph {
+  rotate: -14deg;
+  transition-duration: var(--fx-in);
+  animation: gm-tremble 6.5s linear infinite;
+}
+
+:host-context(.stat-agi-high) .stat[data-stat='agi'] .stat-glyph {
+  rotate: -8deg;
+  transition-duration: var(--fx-in);
+  text-shadow:
+    -5px 0 4px color-mix(in srgb, var(--accent) 45%, transparent),
+    -10px 0 7px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+:host-context(.stat-agi-low) .stat[data-stat='agi'] .stat-glyph {
+  rotate: 24deg;
+  transition-duration: var(--fx-in);
+}
+
+:host-context(.stat-int-high) .stat[data-stat='int'] .stat-glyph {
+  --min-opacity: 0.72;
+  --max-opacity: 1;
+  animation: gm-breathe 4.8s ease-in-out infinite;
+}
+
+:host-context(.stat-int-low) .stat[data-stat='int'] .stat-glyph {
+  --flicker-base: 0.28;
+  --flicker-dim: 0.12;
+  animation: gm-flicker 9s linear infinite;
 }
 
 .stat-name {

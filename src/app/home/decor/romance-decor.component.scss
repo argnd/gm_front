@@ -277,6 +277,17 @@ svg {
   stroke-linecap: round;
 }
 
+.vg-crown {
+  fill: color-mix(in srgb, var(--romance-accent-soft) 55%, transparent);
+  stroke: color-mix(in srgb, var(--romance-accent) 78%, transparent);
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+}
+
+.vg-crown-ball {
+  fill: color-mix(in srgb, var(--romance-accent-soft) 85%, transparent);
+}
+
 .lovebirds {
   position: absolute;
   right: 18px;

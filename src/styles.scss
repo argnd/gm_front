@@ -304,6 +304,14 @@ body {
   --shadow-alpha: 0.7;
 }
 
+.gm-page.amb-state-other-1,
+.gm-page.amb-state-other-2,
+.gm-page.amb-state-other-3 {
+  --surface-alpha: 0.6;
+  --border-alpha: 0.6;
+  --shadow-alpha: 0.6;
+}
+
 .gm-page.decor-vanish [class^='decor-'] {
   opacity: 0 !important;
   transition: opacity var(--fx-out) ease;

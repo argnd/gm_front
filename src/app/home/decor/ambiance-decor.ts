@@ -42,4 +42,7 @@ export const AMBIANCE_DECOR: Partial<Record<AmbianceState, () => Promise<Type<un
   'adventure-1': () => import('./adventure-decor.component').then((m) => m.AdventureDecorComponent),
   'adventure-2': () => import('./adventure-decor.component').then((m) => m.AdventureDecorComponent),
   'adventure-3': () => import('./adventure-decor.component').then((m) => m.AdventureDecorComponent),
+  'other-1': () => import('./other-decor.component').then((m) => m.OtherDecorComponent),
+  'other-2': () => import('./other-decor.component').then((m) => m.OtherDecorComponent),
+  'other-3': () => import('./other-decor.component').then((m) => m.OtherDecorComponent),
 };

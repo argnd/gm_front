@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import { Ambiance, Stat } from '../../models/turn.model';
-import { ambianceValue, isHighStat, statValue } from '../ambiance/ambiance.engine';
+import { ambianceValue, isHighStat, statValue, tierOf } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot } from './ambiance-decor';
 
 const HEART_THRESHOLD = 30;
@@ -33,6 +33,8 @@ export class RomanceDecorComponent {
     if (romance < GIFT_THRESHOLD) return 0;
     return Math.min(GIFT_MAX, 1 + Math.floor((romance - GIFT_THRESHOLD) / GIFT_STEP));
   });
+
+  protected readonly tier = computed(() => tierOf(ambianceValue(this.ambiance(), 'romance')));
 
   protected readonly giftScale = computed(() => {
     const romance = ambianceValue(this.ambiance(), 'romance');

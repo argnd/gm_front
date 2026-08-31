@@ -188,6 +188,80 @@ svg {
   stroke-linecap: round;
 }
 
+:host(.decor-stage) {
+  display: block;
+  position: relative;
+  flex: none;
+  width: 140px;
+  height: 64px;
+  margin: -12px 0;
+  opacity: 0.85;
+}
+
+@media (max-width: 620px) {
+  :host(.decor-stage) {
+    margin: -12px auto 0;
+  }
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+}
+
+.vg-fill {
+  fill: color-mix(in srgb, var(--other-accent) 30%, transparent);
+  stroke: color-mix(in srgb, var(--other-accent) 75%, transparent);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.vg-soft {
+  fill: color-mix(in srgb, var(--other-accent-soft) 38%, transparent);
+  stroke: color-mix(in srgb, var(--other-accent) 70%, transparent);
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+}
+
+.vg-line {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent) 75%, transparent);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.vg-detail {
+  fill: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+}
+
+.vg-detail-line {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.vg-spark-line {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent-soft) 75%, transparent);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.vg-thin {
+  stroke-width: 0.8;
+}
+
+.vg-halo {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent-soft) 40%, transparent);
+  stroke-width: 1;
+}
+
+.vg-handle {
+  stroke-width: 2;
+}
+
 .book-pile {
   position: absolute;
   right: 20px;

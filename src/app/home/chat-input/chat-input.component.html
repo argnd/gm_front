@@ -72,6 +72,7 @@
       <span class="chatbox-dictation-error" role="status">{{ dictationError }}</span>
     }
     <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('foot')" />
+    <ng-container *ngComponentOutlet="decor(); inputs: decorInputs('stage')" />
     <span class="chatbox-actions">
       <!-- No engine, no button: Firefox has none, and an inert control would only puzzle -->
       @if (dictation.available()) {

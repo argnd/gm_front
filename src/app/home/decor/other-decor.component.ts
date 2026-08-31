@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import { Ambiance, Stat } from '../../models/turn.model';
-import { ambianceValue, isLowStat, statValue } from '../ambiance/ambiance.engine';
+import { ambianceValue, isLowStat, statValue, tierOf } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot } from './ambiance-decor';
 
 const SCRAP_THRESHOLD = 30;
@@ -34,6 +34,8 @@ export class OtherDecorComponent {
     if (other < EMBLEM_THRESHOLD) return 0;
     return Math.min(EMBLEM_MAX, 1 + Math.floor((other - EMBLEM_THRESHOLD) / EMBLEM_STEP));
   });
+
+  protected readonly tier = computed(() => tierOf(ambianceValue(this.ambiance(), 'other')));
 
   protected readonly emblemScale = computed(() => {
     const other = ambianceValue(this.ambiance(), 'other');

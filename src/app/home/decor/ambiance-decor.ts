@@ -15,6 +15,7 @@ export type AmbianceDecorSlot =
   | 'field-bloom-right'
   | 'answer'
   | 'answer-end'
+  | 'stage'
   | 'navbar'
   | 'stats'
   | 'objects'

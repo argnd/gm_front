@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import { Ambiance, Stat } from '../../models/turn.model';
-import { ambianceValue, isHighStat, statValue } from '../ambiance/ambiance.engine';
+import { ambianceValue, isHighStat, statValue, tierOf } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot } from './ambiance-decor';
 
 const LEAF_THRESHOLD = 30;
@@ -34,6 +34,8 @@ export class AdventureDecorComponent {
     if (adventure < FLAG_THRESHOLD) return 0;
     return Math.min(FLAG_MAX, 1 + Math.floor((adventure - FLAG_THRESHOLD) / FLAG_STEP));
   });
+
+  protected readonly tier = computed(() => tierOf(ambianceValue(this.ambiance(), 'adventure')));
 
   protected readonly flagScale = computed(() => {
     const adventure = ambianceValue(this.ambiance(), 'adventure');

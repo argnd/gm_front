@@ -441,7 +441,8 @@ export class HomeComponent implements OnDestroy {
 
 function reconcileRelic(objects: Map<string, string>, relic: StatRelic, wanted: boolean): boolean {
   if (wanted && !objects.has(relic.name)) {
-    objects.set(relic.name, relic.description);
+    const pick = Math.floor(Math.random() * relic.descriptions.length);
+    objects.set(relic.name, relic.descriptions[pick]);
     return true;
   }
   if (!wanted && objects.has(relic.name)) {

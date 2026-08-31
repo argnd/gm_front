@@ -66,7 +66,7 @@
   }
   @case ('fx') {
     @for (leaf of leaves(); track $index) {
-      <span class="leaf" [style]="leaf.style">
+      <span class="leaf" [class.leaf--gusty]="leaf.gusty" [style]="leaf.style">
         <svg class="leaf-spin" [style]="leaf.spin" viewBox="0 0 16 16">
           <path class="leaf-body" d="M8 1 C12 4 13 9 8 15 C3 9 4 4 8 1 Z" />
           <path class="leaf-vein" d="M8 3.5 L8 12" />

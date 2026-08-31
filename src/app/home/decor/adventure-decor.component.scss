@@ -138,6 +138,12 @@ svg {
   animation: gm-drift linear infinite;
 }
 
+.leaf--gusty {
+  animation-name: gm-drift, gm-flutter;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+}
+
 .leaf-spin {
   animation: gm-spin linear infinite;
 }

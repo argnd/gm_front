@@ -499,6 +499,26 @@ body {
   }
 }
 
+@keyframes gm-flutter {
+  0%,
+  55%,
+  100% {
+    translate: 0 0;
+  }
+  62% {
+    translate: 14px -3px;
+  }
+  70% {
+    translate: -9px 2px;
+  }
+  78% {
+    translate: 11px -2px;
+  }
+  86% {
+    translate: 0 0;
+  }
+}
+
 @keyframes gm-tremble {
   0%,
   88%,

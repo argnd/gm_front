@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import { Ambiance, Stat } from '../../models/turn.model';
-import { ambianceValue } from '../ambiance/ambiance.engine';
+import { ambianceValue, isHighStat, statValue } from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot } from './ambiance-decor';
 
 const LEAF_THRESHOLD = 30;
@@ -43,25 +43,40 @@ export class AdventureDecorComponent {
     const adventure = ambianceValue(this.ambiance(), 'adventure');
     if (adventure < LEAF_THRESHOLD) return [];
 
+    const gusty = isHighStat(statValue(this.stats(), 'AGI'));
     const progress = Math.min(1, (adventure - LEAF_THRESHOLD) / LEAF_RANGE);
     const count = Math.round(8 + 6 * progress);
-    const drift: { style: Record<string, string>; spin: Record<string, string> }[] = [];
+    const drift: {
+      gusty: boolean;
+      style: Record<string, string>;
+      spin: Record<string, string>;
+    }[] = [];
 
     for (let index = 0; index < count; index++) {
       const rand = (slot: number) => noise('leaf', index, slot);
       const size = 10 + rand(5) * 6;
+      const x = (index + rand(0)) / count;
+      const style: Record<string, string> = {
+        left: pct(x),
+        top: pct(rand(1) * 0.85),
+        '--drift': px(60 + rand(2) * 80),
+        '--lift': px(-(120 + rand(3) * 100)),
+        '--peak': (0.4 + rand(4) * 0.3).toFixed(3),
+        width: px(size),
+        height: px(size),
+        'animation-duration': secs(14 + rand(6) * 10),
+        'animation-delay': secs(-rand(7) * 24),
+      };
+
+      if (gusty) {
+        const flutter = 7 + rand(9) * 6;
+        style['animation-duration'] = `${secs(14 + rand(6) * 10)}, ${secs(flutter)}`;
+        style['animation-delay'] = `${secs(-rand(7) * 24)}, ${secs(-rand(10) * flutter)}`;
+      }
+
       drift.push({
-        style: {
-          left: pct((index + rand(0)) / count),
-          top: pct(rand(1) * 0.85),
-          '--drift': px(60 + rand(2) * 80),
-          '--lift': px(-(120 + rand(3) * 100)),
-          '--peak': (0.4 + rand(4) * 0.3).toFixed(3),
-          width: px(size),
-          height: px(size),
-          'animation-duration': secs(14 + rand(6) * 10),
-          'animation-delay': secs(-rand(7) * 24),
-        },
+        gusty,
+        style,
         spin: {
           'animation-duration': secs(5 + rand(8) * 4),
         },

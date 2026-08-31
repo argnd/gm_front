@@ -10,6 +10,9 @@ const FLAG_STEP = 13;
 const FLAG_MAX = 6;
 const FLAG_RESUME = 59;
 const FLAG_RESUME_RANGE = 41;
+const FIRE_RANGE = 70;
+const FIRE_FLAMES = 60;
+const FIRE_BLAZE = 90;
 
 @Component({
   selector: 'app-decor-adventure',
@@ -84,6 +87,36 @@ export class AdventureDecorComponent {
     }
 
     return drift;
+  });
+
+  protected readonly campfire = computed(() => {
+    const adventure = ambianceValue(this.ambiance(), 'adventure');
+    if (adventure < LEAF_THRESHOLD) return null;
+
+    const growth = Math.min(1, (adventure - LEAF_THRESHOLD) / FIRE_RANGE);
+    const tier = adventure >= FIRE_BLAZE ? 3 : adventure >= FIRE_FLAMES ? 2 : 1;
+    const sparks: { style: Record<string, string> }[] = [];
+
+    if (tier >= 3) {
+      for (let index = 0; index < 6; index++) {
+        const rand = (slot: number) => noise('spark', index, slot);
+        sparks.push({
+          style: {
+            left: pct(0.32 + rand(0) * 0.36),
+            bottom: px(26 + rand(1) * 10),
+            '--drift': px(-12 + rand(2) * 24),
+            '--lift': px(36 + rand(3) * 40),
+            '--peak': (0.45 + rand(4) * 0.3).toFixed(3),
+            width: px(2 + rand(5) * 1.5),
+            height: px(2 + rand(5) * 1.5),
+            'animation-duration': secs(2.4 + rand(6) * 1.8),
+            'animation-delay': secs(-rand(7) * 4),
+          },
+        });
+      }
+    }
+
+    return { tier, scale: (0.8 + 0.5 * growth).toFixed(3), sparks };
   });
 }
 

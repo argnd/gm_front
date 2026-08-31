@@ -10,6 +10,9 @@ const EMBLEM_STEP = 13;
 const EMBLEM_MAX = 6;
 const EMBLEM_RESUME = 59;
 const EMBLEM_RESUME_RANGE = 41;
+const BOOK_STEP = 10;
+const BOOK_MAX = 8;
+const BOOK_OPEN = 90;
 
 @Component({
   selector: 'app-decor-other',
@@ -84,6 +87,68 @@ export class OtherDecorComponent {
     }
 
     return litter;
+  });
+
+  protected readonly bookPile = computed(() => {
+    const other = ambianceValue(this.ambiance(), 'other');
+    if (other < SCRAP_THRESHOLD) return null;
+
+    const count = Math.min(BOOK_MAX, 2 + Math.floor((other - SCRAP_THRESHOLD) / BOOK_STEP));
+    const books: {
+      transform: string;
+      rectX: string;
+      rectY: string;
+      rectW: string;
+      rectH: string;
+      markShift: string;
+      mark: number;
+    }[] = [];
+    let top = 106;
+
+    for (let index = 0; index < count; index++) {
+      const rand = (slot: number) => noise('book', index, slot);
+      const width = 42 + rand(0) * 16;
+      const height = 9 + rand(1) * 3.5;
+      top -= height;
+      books.push({
+        transform: `translate(${(41 + rand(2) * 8).toFixed(1)} ${(top + height / 2).toFixed(1)}) rotate(${(-3 + rand(3) * 6).toFixed(1)})`,
+        rectX: (-width / 2).toFixed(1),
+        rectY: (-height / 2).toFixed(1),
+        rectW: width.toFixed(1),
+        rectH: height.toFixed(1),
+        markShift: `translate(${(width / 2 - 6).toFixed(1)} 0)`,
+        mark: index % 6,
+      });
+    }
+
+    const open = other >= BOOK_OPEN;
+    const pages: { style: Record<string, string> }[] = [];
+
+    if (open) {
+      for (let index = 0; index < 3; index++) {
+        const rand = (slot: number) => noise('page', index, slot);
+        pages.push({
+          style: {
+            left: pct(0.3 + rand(0) * 0.4),
+            bottom: px(110 - top + 6 + rand(1) * 8),
+            '--drift': px(-16 + rand(2) * 32),
+            '--lift': px(40 + rand(3) * 30),
+            '--peak': (0.35 + rand(4) * 0.25).toFixed(3),
+            width: px(5 + rand(5) * 2.5),
+            height: px(6 + rand(5) * 2.5),
+            'animation-duration': secs(4 + rand(6) * 2.5),
+            'animation-delay': secs(-rand(7) * 6),
+          },
+        });
+      }
+    }
+
+    return {
+      books,
+      open,
+      openAt: `translate(45 ${(top - 3).toFixed(1)})`,
+      pages,
+    };
   });
 }
 

@@ -111,5 +111,41 @@
         </svg>
       </span>
     }
+    @if (lovebirds(); as birds) {
+      <div class="lovebirds" animate.enter="gm-appear" animate.leave="gm-vanish">
+        <svg viewBox="0 0 150 64">
+          <path class="branch-line" d="M150 40 C118 45 72 49 10 46" />
+          <path class="branch-line branch-line--twig" d="M58 47.5 C50 44 46 38 45 32" />
+          <g transform="translate(104 46)">
+            <g class="bird" transform="scale(-1 1)">
+              <path class="bird-tail" d="M-5.5 -7 L-12 -3.5 M-5.5 -8.5 L-12 -7" />
+              <path class="bird-feet" d="M-1.5 -1.8 L-1.5 0 M1.8 -1.8 L1.8 0" />
+              <ellipse class="bird-body" cx="0" cy="-8" rx="7" ry="6.2" />
+              <circle class="bird-body" cx="5.5" cy="-15.5" r="4.2" />
+              <path class="bird-beak" d="M9.4 -16.4 L12.6 -15.4 L9.4 -14.4 Z" />
+              <circle class="bird-eye" cx="6.6" cy="-16.6" r="0.75" />
+            </g>
+          </g>
+          <g transform="translate(30 46)">
+            <g class="bird bird--suitor" [style.transform]="birds.approach">
+              <path class="bird-tail" d="M-5.5 -7 L-12 -3.5 M-5.5 -8.5 L-12 -7" />
+              <path class="bird-feet" d="M-1.5 -1.8 L-1.5 0 M1.8 -1.8 L1.8 0" />
+              <ellipse class="bird-body" cx="0" cy="-8" rx="7" ry="6.2" />
+              <circle class="bird-body" cx="5.5" cy="-15.5" r="4.2" />
+              <path class="bird-beak" d="M9.4 -16.4 L12.6 -15.4 L9.4 -14.4 Z" />
+              <circle class="bird-eye" cx="6.6" cy="-16.6" r="0.75" />
+            </g>
+          </g>
+          @if (birds.snuggled) {
+            <path
+              class="bird-heart"
+              d="M95 22 C93.2 20.6 92.3 19.4 92.3 18.4 C92.3 17.5 93 17 93.7 17 C94.3 17 94.8 17.4 95 18 C95.2 17.4 95.7 17 96.3 17 C97 17 97.7 17.5 97.7 18.4 C97.7 19.4 96.8 20.6 95 22 Z"
+              animate.enter="gm-appear"
+              animate.leave="gm-vanish"
+            />
+          }
+        </svg>
+      </div>
+    }
   }
 }

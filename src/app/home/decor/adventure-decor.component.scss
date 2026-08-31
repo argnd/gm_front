@@ -162,6 +162,70 @@ svg {
   stroke-linecap: round;
 }
 
+.campfire {
+  position: absolute;
+  right: 20px;
+  bottom: 12px;
+  width: 90px;
+  height: 70px;
+}
+
+.fire-flames {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transition: scale var(--speed-slow) ease;
+}
+
+.fire-flame {
+  fill: color-mix(in srgb, var(--adventure-accent) 38%, transparent);
+  stroke: color-mix(in srgb, var(--adventure-accent) 78%, transparent);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.fire-flame--core {
+  fill: color-mix(in srgb, var(--adventure-accent-soft) 45%, transparent);
+  stroke: none;
+}
+
+.fire-flame--side {
+  fill: color-mix(in srgb, var(--adventure-accent) 26%, transparent);
+}
+
+.fire-smoke {
+  fill: none;
+  stroke: color-mix(in srgb, var(--adventure-accent-soft) 30%, transparent);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+.fire-ember {
+  fill: var(--adventure-accent);
+  --flicker-base: 0.75;
+  --flicker-dim: 0.25;
+  animation: gm-flicker ease-in-out infinite;
+}
+
+.fire-stone {
+  fill: color-mix(in srgb, var(--adventure-accent-deep) 55%, transparent);
+  stroke: color-mix(in srgb, var(--adventure-accent-deep) 80%, var(--adventure-accent));
+  stroke-width: 0.9;
+}
+
+.fire-spark {
+  position: absolute;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--adventure-accent-soft) 85%, transparent);
+  opacity: 0;
+  animation: gm-drift linear infinite;
+}
+
+@media (max-width: 900px) {
+  .campfire {
+    display: none;
+  }
+}
+
 @media (max-width: 460px) {
   :host(.decor-foot) {
     display: none;

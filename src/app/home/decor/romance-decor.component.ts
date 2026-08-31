@@ -10,6 +10,8 @@ const GIFT_STEP = 13;
 const GIFT_MAX = 6;
 const GIFT_RESUME = 59;
 const GIFT_RESUME_RANGE = 41;
+const BIRD_RANGE = 70;
+const BIRD_SNUGGLE = 90;
 
 @Component({
   selector: 'app-decor-romance',
@@ -78,6 +80,17 @@ export class RomanceDecorComponent {
     }
 
     return flock;
+  });
+
+  protected readonly lovebirds = computed(() => {
+    const romance = ambianceValue(this.ambiance(), 'romance');
+    if (romance < HEART_THRESHOLD) return null;
+
+    const closeness = Math.min(1, (romance - HEART_THRESHOLD) / BIRD_RANGE);
+    return {
+      snuggled: romance >= BIRD_SNUGGLE,
+      approach: `translate(${(56 * closeness).toFixed(1)}px, 0) rotate(${(7 * closeness).toFixed(1)}deg)`,
+    };
   });
 }
 

@@ -117,5 +117,62 @@
         </svg>
       </span>
     }
+    @if (bookPile(); as pile) {
+      <div class="book-pile" animate.enter="gm-appear" animate.leave="gm-vanish">
+        <svg viewBox="0 0 90 110">
+          @for (book of pile.books; track $index) {
+            <g [attr.transform]="book.transform">
+              <rect
+                class="book-cover"
+                [class.book-cover--alt]="$odd"
+                [attr.x]="book.rectX"
+                [attr.y]="book.rectY"
+                [attr.width]="book.rectW"
+                [attr.height]="book.rectH"
+                rx="1.4"
+              />
+              <g [attr.transform]="book.markShift">
+                @switch (book.mark) {
+                  @case (0) {
+                    <circle class="mark-stroke" r="2.1" />
+                  }
+                  @case (1) {
+                    <path class="mark-stroke" d="M-2 -2 L2 2 M-2 2 L2 -2" />
+                  }
+                  @case (2) {
+                    <path class="mark-stroke" d="M0 -2.4 L2.2 1.8 L-2.2 1.8 Z" />
+                  }
+                  @case (3) {
+                    <path class="mark-stroke" d="M-3 0 Q-1.5 -2.2 0 0 Q1.5 2.2 3 0" />
+                  }
+                  @case (4) {
+                    <path
+                      class="mark-stroke"
+                      d="M0 -2.6 L0.8 -0.8 L2.6 0 L0.8 0.8 L0 2.6 L-0.8 0.8 L-2.6 0 L-0.8 -0.8 Z"
+                    />
+                  }
+                  @case (5) {
+                    <circle class="mark-fill" cx="-1.4" r="0.9" />
+                    <circle class="mark-fill" cx="1.4" r="0.9" />
+                  }
+                }
+              </g>
+            </g>
+          }
+          @if (pile.open) {
+            <g [attr.transform]="pile.openAt" animate.enter="gm-appear" animate.leave="gm-vanish">
+              <path
+                class="open-book-pages"
+                d="M-13 0 C-9 -4.5 -3.5 -4.5 0 -1.2 C3.5 -4.5 9 -4.5 13 0 L13 2.6 C9 -1 3.5 -1 0 2.2 C-3.5 -1 -9 -1 -13 2.6 Z"
+              />
+              <path class="open-book-spine" d="M0 -1.2 L0 2.2" />
+            </g>
+          }
+        </svg>
+        @for (page of pile.pages; track $index) {
+          <span class="book-page" [style]="page.style"></span>
+        }
+      </div>
+    }
   }
 }

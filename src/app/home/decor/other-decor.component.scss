@@ -188,6 +188,62 @@ svg {
   stroke-linecap: round;
 }
 
+.book-pile {
+  position: absolute;
+  right: 20px;
+  bottom: 12px;
+  width: 90px;
+  height: 110px;
+}
+
+.book-cover {
+  fill: color-mix(in srgb, var(--other-accent) 24%, transparent);
+  stroke: color-mix(in srgb, var(--other-accent) 72%, transparent);
+  stroke-width: 1;
+}
+
+.book-cover--alt {
+  fill: color-mix(in srgb, var(--other-accent-soft) 20%, transparent);
+}
+
+.mark-stroke {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mark-fill {
+  fill: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+}
+
+.open-book-pages {
+  fill: color-mix(in srgb, var(--other-accent-soft) 34%, transparent);
+  stroke: color-mix(in srgb, var(--other-accent) 78%, transparent);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.open-book-spine {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+  stroke-width: 0.8;
+}
+
+.book-page {
+  position: absolute;
+  background: color-mix(in srgb, var(--other-accent-soft) 34%, transparent);
+  opacity: 0;
+  animation: gm-drift linear infinite;
+}
+
+@media (max-width: 900px) {
+  .book-pile {
+    display: none;
+  }
+}
+
 @media (max-width: 460px) {
   :host(.decor-foot) {
     display: none;

@@ -184,3 +184,62 @@ svg {
   fill: color-mix(in srgb, var(--romance-accent-deep) 40%, var(--romance-accent));
   opacity: 0.7;
 }
+
+.lovebirds {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  width: 150px;
+  height: 64px;
+}
+
+.bird--suitor {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transition: transform var(--speed-slow) ease;
+}
+
+.branch-line {
+  fill: none;
+  stroke: color-mix(in srgb, var(--romance-accent-deep) 60%, var(--romance-accent));
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.branch-line--twig {
+  stroke-width: 1.1;
+}
+
+.bird-body {
+  fill: color-mix(in srgb, var(--romance-accent) 30%, transparent);
+  stroke: color-mix(in srgb, var(--romance-accent) 75%, transparent);
+  stroke-width: 1;
+}
+
+.bird-tail,
+.bird-feet {
+  fill: none;
+  stroke: color-mix(in srgb, var(--romance-accent) 70%, transparent);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.bird-beak {
+  fill: color-mix(in srgb, var(--romance-accent-soft) 70%, transparent);
+}
+
+.bird-eye {
+  fill: var(--romance-accent-deep);
+}
+
+.bird-heart {
+  fill: color-mix(in srgb, var(--romance-accent) 55%, var(--romance-accent-soft));
+  stroke: color-mix(in srgb, var(--romance-accent-deep) 45%, var(--romance-accent));
+  stroke-width: 0.6;
+}
+
+@media (max-width: 900px) {
+  .lovebirds {
+    display: none;
+  }
+}

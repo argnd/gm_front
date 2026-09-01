@@ -66,6 +66,7 @@ const ROLLS_HIDDEN_STATES: ReadonlySet<AmbianceState> = new Set([
   'romance-2',
   'romance-3',
   'romance-2-adventure-1',
+  'romance-2-other-1',
 ]);
 
 @Component({

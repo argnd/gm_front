@@ -1,0 +1,499 @@
+:host {
+  display: none;
+  pointer-events: none;
+  animation: gm-reveal var(--fx-in) ease;
+}
+
+:host(.decor-fx) {
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
+:host(.decor-stats) {
+  display: block;
+  position: absolute;
+  right: 14px;
+  bottom: 10px;
+  width: 44px;
+  height: 18px;
+  opacity: 0.75;
+
+  .duo-pair {
+    justify-content: flex-end;
+  }
+}
+
+:host(.decor-objects) {
+  display: block;
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  width: 34px;
+  height: 16px;
+  opacity: 0.75;
+
+  .flag {
+    transform: rotate(-6deg);
+  }
+
+  .emblem {
+    transform: rotate(-6deg);
+  }
+}
+
+:host(.decor-rolls) {
+  display: block;
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  width: 34px;
+  height: 16px;
+  opacity: 0.75;
+
+  .flag,
+  .emblem {
+    transform: rotate(5deg);
+  }
+}
+
+:host(.decor-trail) {
+  display: block;
+  flex: none;
+  width: 34px;
+  height: 16px;
+  opacity: 0.8;
+}
+
+:host(.decor-answer-end) {
+  display: block;
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  width: 38px;
+  height: 16px;
+  opacity: 0.8;
+}
+
+:host(.decor-answer) {
+  display: block;
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  width: 34px;
+  height: 16px;
+  opacity: 0.8;
+
+  .flag {
+    transform: rotate(7deg);
+  }
+
+  .emblem {
+    transform: rotate(7deg);
+  }
+}
+
+:host(.decor-foot) {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: flex-end;
+  height: 24px;
+  opacity: 0.8;
+}
+
+.duo-pair {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.duo-pair .flag,
+.duo-pair .emblem {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+.duo-pair .flag-pair-big,
+.duo-pair .emblem-pair-big {
+  width: 16px;
+  height: 16px;
+}
+
+.duo-pair .emblem-pair-small {
+  width: 12px;
+  height: 12px;
+  transform: rotate(9deg);
+}
+
+.flag {
+  scale: var(--flag-scale, 1);
+  transition: scale var(--speed-slow) ease;
+}
+
+.emblem {
+  scale: var(--emblem-scale, 1);
+  transition: scale var(--speed-slow) ease;
+}
+
+.flag-mast {
+  fill: none;
+  stroke: color-mix(in srgb, var(--adventure-accent-deep) 70%, var(--adventure-accent));
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.flag-cloth {
+  fill: color-mix(in srgb, var(--adventure-accent) 32%, transparent);
+  stroke: color-mix(in srgb, var(--adventure-accent) 78%, transparent);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.emblem-fill {
+  fill: color-mix(in srgb, var(--other-accent) 32%, transparent);
+  stroke: color-mix(in srgb, var(--other-accent) 78%, transparent);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.emblem-stroke {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent) 78%, transparent);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.emblem-glass {
+  fill: color-mix(in srgb, var(--other-accent-soft) 18%, transparent);
+  stroke: color-mix(in srgb, var(--other-accent) 78%, transparent);
+  stroke-width: 1.1;
+}
+
+.emblem-liquid {
+  fill: color-mix(in srgb, var(--other-accent-soft) 45%, transparent);
+}
+
+.emblem-dot {
+  fill: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+}
+
+.emblem-mouth {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.leaf {
+  position: absolute;
+  opacity: 0;
+  animation: gm-drift linear infinite;
+}
+
+.leaf--gusty {
+  animation-name: gm-drift, gm-flutter;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+}
+
+.leaf-spin {
+  animation: gm-spin linear infinite;
+}
+
+.leaf-body {
+  fill: color-mix(in srgb, var(--adventure-accent) 46%, transparent);
+  stroke: color-mix(in srgb, var(--adventure-accent) 80%, transparent);
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+}
+
+.leaf-vein {
+  fill: none;
+  stroke: color-mix(in srgb, var(--adventure-accent-deep) 70%, var(--adventure-accent));
+  stroke-width: 0.7;
+  stroke-linecap: round;
+}
+
+.scrap {
+  position: absolute;
+  opacity: 0;
+  animation: gm-drift linear infinite;
+}
+
+.scrap--jittery {
+  animation-name: gm-drift, gm-tremble;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+}
+
+.scrap-spin {
+  animation: gm-spin linear infinite;
+}
+
+.scrap-body {
+  fill: color-mix(in srgb, var(--other-accent-soft) 26%, transparent);
+  stroke: color-mix(in srgb, var(--other-accent) 72%, transparent);
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+}
+
+.scrap-lines {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+  stroke-width: 0.8;
+  stroke-linecap: round;
+}
+
+:host(.decor-stage) {
+  display: block;
+  position: relative;
+  flex: none;
+  width: 140px;
+  height: 64px;
+  margin: -12px 0;
+  opacity: 0.85;
+}
+
+@media (max-width: 620px) {
+  :host(.decor-stage) {
+    margin: -12px auto 0;
+  }
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+}
+
+.vga-fill {
+  fill: color-mix(in srgb, var(--adventure-accent) 30%, transparent);
+  stroke: color-mix(in srgb, var(--adventure-accent) 75%, transparent);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.vga-soft {
+  fill: color-mix(in srgb, var(--adventure-accent-soft) 38%, transparent);
+  stroke: color-mix(in srgb, var(--adventure-accent) 70%, transparent);
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+}
+
+.vga-line {
+  fill: none;
+  stroke: color-mix(in srgb, var(--adventure-accent) 75%, transparent);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.vga-detail {
+  fill: var(--adventure-accent-deep);
+}
+
+.vga-detail-line {
+  fill: none;
+  stroke: var(--adventure-accent-deep);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.vga-teeth {
+  fill: none;
+  stroke: color-mix(in srgb, var(--adventure-accent-soft) 75%, transparent);
+  stroke-width: 0.8;
+  stroke-linecap: round;
+}
+
+.vga-glare {
+  stroke-width: 1.3;
+}
+
+.vga-brow {
+  stroke-width: 1.5;
+}
+
+.vga-shaft {
+  stroke-width: 2;
+}
+
+.vgo-fill {
+  fill: color-mix(in srgb, var(--other-accent) 30%, transparent);
+  stroke: color-mix(in srgb, var(--other-accent) 75%, transparent);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.vgo-soft {
+  fill: color-mix(in srgb, var(--other-accent-soft) 38%, transparent);
+  stroke: color-mix(in srgb, var(--other-accent) 70%, transparent);
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+}
+
+.vgo-line {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent) 75%, transparent);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.vgo-detail {
+  fill: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+}
+
+.vgo-detail-line {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.vgo-spark-line {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent-soft) 75%, transparent);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.vgo-thin {
+  stroke-width: 0.8;
+}
+
+.vgo-handle {
+  stroke-width: 2;
+}
+
+.campfire {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  width: 90px;
+  height: 70px;
+  transform: scale(0.8);
+  transform-origin: bottom right;
+}
+
+.fire-flames {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transition: scale var(--speed-slow) ease;
+}
+
+.fire-flame {
+  fill: color-mix(in srgb, var(--adventure-accent) 38%, transparent);
+  stroke: color-mix(in srgb, var(--adventure-accent) 78%, transparent);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.fire-flame--core {
+  fill: color-mix(in srgb, var(--adventure-accent-soft) 45%, transparent);
+  stroke: none;
+}
+
+.fire-flame--side {
+  fill: color-mix(in srgb, var(--adventure-accent) 26%, transparent);
+}
+
+.fire-smoke {
+  fill: none;
+  stroke: color-mix(in srgb, var(--adventure-accent-soft) 30%, transparent);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+.fire-ember {
+  fill: var(--adventure-accent);
+  --flicker-base: 0.75;
+  --flicker-dim: 0.25;
+  animation: gm-flicker ease-in-out infinite;
+}
+
+.fire-stone {
+  fill: color-mix(in srgb, var(--adventure-accent-deep) 55%, transparent);
+  stroke: color-mix(in srgb, var(--adventure-accent-deep) 80%, var(--adventure-accent));
+  stroke-width: 0.9;
+}
+
+.fire-spark {
+  position: absolute;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--adventure-accent-soft) 85%, transparent);
+  opacity: 0;
+  animation: gm-drift linear infinite;
+}
+
+.book-pile {
+  position: absolute;
+  right: 96px;
+  bottom: 12px;
+  width: 90px;
+  height: 110px;
+  transform: scale(0.8);
+  transform-origin: bottom right;
+}
+
+.book-cover {
+  fill: color-mix(in srgb, var(--other-accent) 24%, transparent);
+  stroke: color-mix(in srgb, var(--other-accent) 72%, transparent);
+  stroke-width: 1;
+}
+
+.book-cover--alt {
+  fill: color-mix(in srgb, var(--other-accent-soft) 20%, transparent);
+}
+
+.mark-stroke {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mark-fill {
+  fill: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+}
+
+.open-book-pages {
+  fill: color-mix(in srgb, var(--other-accent-soft) 34%, transparent);
+  stroke: color-mix(in srgb, var(--other-accent) 78%, transparent);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.open-book-spine {
+  fill: none;
+  stroke: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+  stroke-width: 0.8;
+}
+
+.book-page {
+  position: absolute;
+  background: color-mix(in srgb, var(--other-accent-soft) 34%, transparent);
+  opacity: 0;
+  animation: gm-drift linear infinite;
+}
+
+@media (max-width: 900px) {
+  .campfire,
+  .book-pile {
+    display: none;
+  }
+}
+
+@media (max-width: 460px) {
+  :host(.decor-foot) {
+    display: none;
+  }
+}

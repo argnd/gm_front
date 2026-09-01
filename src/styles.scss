@@ -312,6 +312,14 @@ body {
   --shadow-alpha: 0.6;
 }
 
+.gm-page.amb-state-romance-1-adventure-1,
+.gm-page.amb-state-romance-2-adventure-1,
+.gm-page.amb-state-adventure-2-romance-1 {
+  --surface-alpha: 0.775;
+  --border-alpha: 0.775;
+  --shadow-alpha: 0.7;
+}
+
 .gm-page.decor-vanish [class^='decor-'] {
   opacity: 0 !important;
   transition: opacity var(--fx-out) ease;

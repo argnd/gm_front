@@ -7,6 +7,7 @@
   stylesheet keeps applying, instead of being pinned to its own default.
 -->
 <div
+  #gmPage
   class="gm-page"
   [class]="pageClasses()"
   [class.decor-vanish]="decorVanishing()"
@@ -16,6 +17,7 @@
   [style.--shadow-alpha]="debugShadowOpacity() === 100 ? null : debugShadowOpacity() / 100"
   [style.--field-dim]="debugFieldDim() === 25 ? null : debugFieldDim() / 100"
   [style.--field-feather]="debugFieldFeather() === 40 ? null : debugFieldFeather() + 'px'"
+  [style.--motion-scale]="debugMotionScale() === 100 ? null : debugMotionScale() / 100"
 >
   <app-fx-layer [stats]="statsEntries()" [decor]="decorComponent()" [decorData]="decorData()" />
 
@@ -178,5 +180,7 @@
     (shadowOpacityChange)="debugShadowOpacity.set($event)"
     (fieldDimChange)="debugFieldDim.set($event)"
     (fieldFeatherChange)="debugFieldFeather.set($event)"
+    (motionScaleChange)="debugMotionScale.set($event)"
+    (adventureOverPreview)="previewAdventureOver()"
   />
 </div>

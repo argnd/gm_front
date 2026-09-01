@@ -27,62 +27,98 @@ import { DebugHistoryComponent } from '../debug-history/debug-history.component'
 const STAT_SLIDER_MAX = 12; // above the nominal scale on purpose, to test overflow
 const PRESET_VALUES = [0, 29, 59, 89] as const; // just under each tier threshold
 
-type DebugTab = 'ambiance' | 'rendu' | 'echanges';
+type DebugTab = 'ambiance' | 'rendu' | 'voix' | 'echanges';
 
 type StatePreset = { key: AmbianceState; label: string; ambiance: Ambiance };
 
+type StatePresetGroup = { label: string; presets: StatePreset[] };
+
 // One entry per reachable state, so every decor can be viewed in one click. Values are
 // chosen to land squarely inside their tier, away from threshold edges.
-const STATE_PRESETS: StatePreset[] = [
-  { key: 'neutral', label: 'Neutre', ambiance: { romance: 10, adventure: 10, other: 10 } },
-  { key: 'romance-1', label: '1R', ambiance: { romance: 45, adventure: 10, other: 10 } },
-  { key: 'adventure-1', label: '1A', ambiance: { romance: 10, adventure: 45, other: 10 } },
-  { key: 'other-1', label: '1O', ambiance: { romance: 10, adventure: 10, other: 45 } },
-  { key: 'romance-2', label: '2R', ambiance: { romance: 65, adventure: 10, other: 10 } },
-  { key: 'adventure-2', label: '2A', ambiance: { romance: 10, adventure: 65, other: 10 } },
-  { key: 'other-2', label: '2O', ambiance: { romance: 10, adventure: 10, other: 65 } },
-  { key: 'romance-3', label: '3R', ambiance: { romance: 90, adventure: 5, other: 5 } },
-  { key: 'adventure-3', label: '3A', ambiance: { romance: 5, adventure: 90, other: 5 } },
-  { key: 'other-3', label: '3O', ambiance: { romance: 5, adventure: 5, other: 90 } },
+const STATE_PRESET_GROUPS: StatePresetGroup[] = [
   {
-    key: 'romance-1-adventure-1',
-    label: '1R + 1A',
-    ambiance: { romance: 40, adventure: 35, other: 10 },
-  },
-  { key: 'romance-1-other-1', label: '1R + 1O', ambiance: { romance: 40, adventure: 10, other: 35 } },
-  {
-    key: 'adventure-1-other-1',
-    label: '1A + 1O',
-    ambiance: { romance: 10, adventure: 40, other: 35 },
+    label: 'Neutre',
+    presets: [
+      { key: 'neutral', label: 'Neutre', ambiance: { romance: 10, adventure: 10, other: 10 } },
+    ],
   },
   {
-    key: 'romance-1-adventure-1-other-1',
-    label: '1R + 1A + 1O',
-    ambiance: { romance: 33, adventure: 33, other: 33 },
+    label: 'Solos',
+    presets: [
+      { key: 'romance-1', label: '1R', ambiance: { romance: 45, adventure: 10, other: 10 } },
+      { key: 'adventure-1', label: '1A', ambiance: { romance: 10, adventure: 45, other: 10 } },
+      { key: 'other-1', label: '1O', ambiance: { romance: 10, adventure: 10, other: 45 } },
+      { key: 'romance-2', label: '2R', ambiance: { romance: 65, adventure: 10, other: 10 } },
+      { key: 'adventure-2', label: '2A', ambiance: { romance: 10, adventure: 65, other: 10 } },
+      { key: 'other-2', label: '2O', ambiance: { romance: 10, adventure: 10, other: 65 } },
+      { key: 'romance-3', label: '3R', ambiance: { romance: 90, adventure: 5, other: 5 } },
+      { key: 'adventure-3', label: '3A', ambiance: { romance: 5, adventure: 90, other: 5 } },
+      { key: 'other-3', label: '3O', ambiance: { romance: 5, adventure: 5, other: 90 } },
+    ],
   },
   {
-    key: 'romance-2-adventure-1',
-    label: '2R + 1A',
-    ambiance: { romance: 60, adventure: 35, other: 5 },
+    label: 'Duos',
+    presets: [
+      {
+        key: 'romance-1-adventure-1',
+        label: '1R + 1A',
+        ambiance: { romance: 40, adventure: 35, other: 10 },
+      },
+      {
+        key: 'romance-1-other-1',
+        label: '1R + 1O',
+        ambiance: { romance: 40, adventure: 10, other: 35 },
+      },
+      {
+        key: 'adventure-1-other-1',
+        label: '1A + 1O',
+        ambiance: { romance: 10, adventure: 40, other: 35 },
+      },
+      {
+        key: 'romance-2-adventure-1',
+        label: '2R + 1A',
+        ambiance: { romance: 60, adventure: 35, other: 5 },
+      },
+      {
+        key: 'romance-2-other-1',
+        label: '2R + 1O',
+        ambiance: { romance: 60, adventure: 5, other: 35 },
+      },
+      {
+        key: 'adventure-2-romance-1',
+        label: '2A + 1R',
+        ambiance: { romance: 35, adventure: 60, other: 5 },
+      },
+      {
+        key: 'adventure-2-other-1',
+        label: '2A + 1O',
+        ambiance: { romance: 5, adventure: 60, other: 35 },
+      },
+      {
+        key: 'other-2-romance-1',
+        label: '2O + 1R',
+        ambiance: { romance: 35, adventure: 5, other: 60 },
+      },
+      {
+        key: 'other-2-adventure-1',
+        label: '2O + 1A',
+        ambiance: { romance: 5, adventure: 35, other: 60 },
+      },
+    ],
   },
-  { key: 'romance-2-other-1', label: '2R + 1O', ambiance: { romance: 60, adventure: 5, other: 35 } },
   {
-    key: 'adventure-2-romance-1',
-    label: '2A + 1R',
-    ambiance: { romance: 35, adventure: 60, other: 5 },
-  },
-  {
-    key: 'adventure-2-other-1',
-    label: '2A + 1O',
-    ambiance: { romance: 5, adventure: 60, other: 35 },
-  },
-  { key: 'other-2-romance-1', label: '2O + 1R', ambiance: { romance: 35, adventure: 5, other: 60 } },
-  {
-    key: 'other-2-adventure-1',
-    label: '2O + 1A',
-    ambiance: { romance: 5, adventure: 35, other: 60 },
+    label: 'Trio',
+    presets: [
+      {
+        key: 'romance-1-adventure-1-other-1',
+        label: '1R + 1A + 1O',
+        ambiance: { romance: 33, adventure: 33, other: 33 },
+      },
+    ],
   },
 ];
+
+const STATE_PRESETS: StatePreset[] = STATE_PRESET_GROUPS.flatMap((group) => group.presets);
 
 @Component({
   selector: 'app-debug-panel',
@@ -112,6 +148,8 @@ export class DebugPanelComponent {
   readonly shadowOpacityChange = output<number>();
   readonly fieldDimChange = output<number>();
   readonly fieldFeatherChange = output<number>();
+  readonly motionScaleChange = output<number>();
+  readonly adventureOverPreview = output<void>();
 
   protected readonly keys = AMBIANCE_KEYS;
   protected readonly labels = AMBIANCE_LABELS;
@@ -125,7 +163,7 @@ export class DebugPanelComponent {
 
   protected readonly tab = signal<DebugTab>('ambiance');
 
-  protected readonly statePresets = STATE_PRESETS;
+  protected readonly statePresetGroups = STATE_PRESET_GROUPS;
 
   protected readonly currentState = computed(() => resolveAmbianceState(this.ambiance()));
 
@@ -134,6 +172,7 @@ export class DebugPanelComponent {
   protected readonly shadowOpacity = signal(100);
   protected readonly fieldDim = signal(25);
   protected readonly fieldFeather = signal(40);
+  protected readonly motionScale = signal(100);
 
   // Budget left over the three axes: shown so the sliders' ceiling is legible
   protected readonly total = computed(() => ambianceTotal(this.current()));
@@ -284,6 +323,28 @@ export class DebugPanelComponent {
   protected applyFieldFeather(value: number): void {
     this.fieldFeather.set(value);
     this.fieldFeatherChange.emit(value);
+  }
+
+  protected onMotionScale(event: Event): void {
+    this.applyMotionScale(Math.round(readNumber(event)));
+  }
+
+  protected applyMotionScale(value: number): void {
+    this.motionScale.set(value);
+    this.motionScaleChange.emit(value);
+  }
+
+  protected previewAdventureOver(): void {
+    this.adventureOverPreview.emit();
+  }
+
+  protected resetRender(): void {
+    this.applySurfaceOpacity(100);
+    this.applyBorderOpacity(100);
+    this.applyShadowOpacity(100);
+    this.applyFieldDim(25);
+    this.applyFieldFeather(40);
+    this.applyMotionScale(100);
   }
 
   protected onVoiceSelect(event: Event): void {

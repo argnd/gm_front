@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   OnDestroy,
   Type,
   computed,
@@ -7,6 +8,7 @@ import {
   inject,
   signal,
   untracked,
+  viewChild,
 } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import {
@@ -113,6 +115,7 @@ export class HomeComponent implements OnDestroy {
   protected readonly debugShadowOpacity = signal(100);
   protected readonly debugFieldDim = signal(25);
   protected readonly debugFieldFeather = signal(40);
+  protected readonly debugMotionScale = signal(100);
 
   protected readonly statsEntries = computed(() =>
     Array.from(this.stats().entries()).map(([name, value]) => ({ name, value })),
@@ -122,8 +125,7 @@ export class HomeComponent implements OnDestroy {
     Array.from(this.objects().entries()).map(([name, description]) => ({ name, description })),
   );
 
-  // Every roll of the whole game, most recent first. Stays empty as long as the backend
-  // sends no diceRolls, which is the current state of the contract.
+  // Every roll of the whole game, most recent first.
   protected readonly rollEntries = computed(() => {
     const last = this.turns().at(-1);
     if (!last) return [];
@@ -177,6 +179,8 @@ export class HomeComponent implements OnDestroy {
 
   private decorSwapTimer: ReturnType<typeof setTimeout> | null = null;
 
+  private readonly gmPage = viewChild<ElementRef<HTMLElement>>('gmPage');
+
   // Raw data handed to every slot: each decor state derives its own thresholds from it
   protected readonly decorData = computed<AmbianceDecorData>(() => ({
     ambiance: this.ambiance(),
@@ -208,7 +212,7 @@ export class HomeComponent implements OnDestroy {
           if (this.ambianceState() === state) {
             this.decorComponent.set(component);
           }
-        }, DECOR_VANISH_MS);
+        }, DECOR_VANISH_MS * this.motionScale());
       };
 
       if (!loader) {
@@ -239,6 +243,13 @@ export class HomeComponent implements OnDestroy {
   // Inputs for one NgComponentOutlet: the same decor component, told which slot it renders
   protected decorInputs(slot: AmbianceDecorSlot): Record<string, unknown> {
     return { slot, ...this.decorData() };
+  }
+
+  private motionScale(): number {
+    const el = untracked(this.gmPage)?.nativeElement;
+    if (!el) return 1;
+    const scale = Number.parseFloat(getComputedStyle(el).getPropertyValue('--motion-scale'));
+    return Number.isFinite(scale) && scale >= 0 ? scale : 1;
   }
 
   protected readonly turnsPlayed = computed(() => this.turns().length);
@@ -333,7 +344,7 @@ export class HomeComponent implements OnDestroy {
 
           // Past the turn limit the adventure ends and persistence is handled by
           // triggerAdventureOver, which only keeps the carry-over
-          if (this.turns().length > MAX_TURNS) {
+          if (this.turns().length >= MAX_TURNS) {
             this.triggerAdventureOver();
           } else {
             this.persistGameState();
@@ -381,6 +392,18 @@ export class HomeComponent implements OnDestroy {
   protected overrideStats(stats: Stat[]): void {
     this.stats.set(new Map(stats.map((stat) => [stat.name, stat.value])));
     this.applyStatRelics();
+  }
+
+  protected previewAdventureOver(): void {
+    if (this.adventureOver()) return;
+    this.adventureOver.set(true);
+    if (this.adventureOverTimer !== null) {
+      clearTimeout(this.adventureOverTimer);
+    }
+    this.adventureOverTimer = setTimeout(() => {
+      this.adventureOver.set(false);
+      this.adventureOverTimer = null;
+    }, ADVENTURE_OVER_DELAY_MS);
   }
 
   private triggerAdventureOver(): void {

@@ -34,6 +34,15 @@
       <button
         type="button"
         role="tab"
+        [class.is-active]="tab() === 'voix'"
+        [attr.aria-selected]="tab() === 'voix'"
+        (click)="selectTab('voix')"
+      >
+        Voix
+      </button>
+      <button
+        type="button"
+        role="tab"
         [class.is-active]="tab() === 'echanges'"
         [attr.aria-selected]="tab() === 'echanges'"
         (click)="selectTab('echanges')"
@@ -51,90 +60,108 @@
           [value]="currentState()"
           (change)="onStateSelect($event)"
         >
-          @for (preset of statePresets; track preset.key) {
-            <option [value]="preset.key">{{ preset.label }}</option>
+          @for (group of statePresetGroups; track group.label) {
+            <optgroup [label]="group.label">
+              @for (preset of group.presets; track preset.key) {
+                <option [value]="preset.key">{{ preset.label }}</option>
+              }
+            </optgroup>
           }
         </select>
         <span class="debug-state-key">{{ currentState() }}</span>
       </div>
 
-      @for (key of keys; track key) {
-        <div class="debug-row">
-          <div class="debug-row-head">
-            <label class="debug-name" [attr.for]="'amb-' + key">{{ labels[key] }}</label>
-            @if (budgetFor(key) < ambianceMax) {
-              <span class="debug-cap">max {{ budgetFor(key) }}</span>
-            }
-            <span class="debug-tier">palier {{ tierOf(key) }}</span>
-            <span class="debug-value">{{ valueOf(key) }}</span>
-          </div>
+      <section class="debug-section">
+        <h3 class="debug-section-title">Axes d’ambiance</h3>
 
-          <input
-            class="debug-slider"
-            type="range"
-            [id]="'amb-' + key"
-            min="0"
-            [max]="ambianceMax"
-            step="1"
-            [value]="valueOf(key)"
-            (input)="onAmbianceInput(key, $event)"
-          />
-
-          <div class="debug-presets">
-            @for (preset of presets; track preset) {
-              <button type="button" (click)="applyPreset(key, preset)">{{ preset }}</button>
-            }
-          </div>
-        </div>
-      }
-
-      <p class="debug-hint">
-        La somme des trois axes ne peut pas dépasser {{ maxTotal }}, comme le vérifie le back. Tirer
-        un curseur s’arrête au budget restant et ne touche pas aux autres axes ; les boutons de
-        palier, eux, redescendent les autres axes proportionnellement pour faire de la place.
-      </p>
-
-      <div class="debug-stats">
-        @for (stat of stats(); track stat.name) {
-          <div class="debug-row debug-row--compact">
+        @for (key of keys; track key) {
+          <div class="debug-row">
             <div class="debug-row-head">
-              <label class="debug-name" [attr.for]="'stat-' + stat.name">
-                {{ statLabels[stat.name] ?? stat.name }}
-              </label>
-              <span class="debug-stat-set">
-                <button type="button" (click)="setStat(stat.name, 1)">1</button>
-                <button type="button" (click)="setStat(stat.name, 9)">9</button>
-              </span>
-              <span
-                class="debug-value"
-                [class.is-high]="isHigh(stat.value)"
-                [class.is-low]="isLow(stat.value)"
-                >{{ stat.value }}</span
-              >
+              <label class="debug-name" [attr.for]="'amb-' + key">{{ labels[key] }}</label>
+              @if (budgetFor(key) < ambianceMax) {
+                <span class="debug-cap">max {{ budgetFor(key) }}</span>
+              }
+              <span class="debug-tier">palier {{ tierOf(key) }}</span>
+              <span class="debug-value">{{ valueOf(key) }}</span>
             </div>
 
             <input
               class="debug-slider"
               type="range"
-              [id]="'stat-' + stat.name"
+              [id]="'amb-' + key"
               min="0"
-              [max]="statMax"
+              [max]="ambianceMax"
               step="1"
-              [value]="stat.value"
-              (input)="onStatInput(stat.name, $event)"
+              [value]="valueOf(key)"
+              (input)="onAmbianceInput(key, $event)"
             />
+
+            <div class="debug-presets">
+              @for (preset of presets; track preset) {
+                <button type="button" (click)="applyPreset(key, preset)">{{ preset }}</button>
+              }
+            </div>
           </div>
         }
-      </div>
 
-      <div class="debug-actions">
-        <button type="button" (click)="resetAmbiance()">Ambiance neutre</button>
-        <button type="button" (click)="liftStats()">Toutes les stats à 9</button>
-        <button type="button" (click)="lowerStats()">Toutes les stats à 3</button>
-        <button type="button" (click)="drainStats()">Toutes les stats à 1</button>
-      </div>
+        <p class="debug-hint">
+          La somme des trois axes ne peut pas dépasser {{ maxTotal }}, comme le vérifie le back.
+          Tirer un curseur s’arrête au budget restant et ne touche pas aux autres axes ; les boutons
+          de palier, eux, redescendent les autres axes proportionnellement pour faire de la place.
+        </p>
+      </section>
+
+      <section class="debug-section">
+        <h3 class="debug-section-title">Stats</h3>
+
+        <div class="debug-stats">
+          @for (stat of stats(); track stat.name) {
+            <div class="debug-row debug-row--compact">
+              <div class="debug-row-head">
+                <label class="debug-name" [attr.for]="'stat-' + stat.name">
+                  {{ statLabels[stat.name] ?? stat.name }}
+                </label>
+                <span class="debug-stat-set">
+                  <button type="button" (click)="setStat(stat.name, 1)">1</button>
+                  <button type="button" (click)="setStat(stat.name, 9)">9</button>
+                </span>
+                <span
+                  class="debug-value"
+                  [class.is-high]="isHigh(stat.value)"
+                  [class.is-low]="isLow(stat.value)"
+                  >{{ stat.value }}</span
+                >
+              </div>
+
+              <input
+                class="debug-slider"
+                type="range"
+                [id]="'stat-' + stat.name"
+                min="0"
+                [max]="statMax"
+                step="1"
+                [value]="stat.value"
+                (input)="onStatInput(stat.name, $event)"
+              />
+            </div>
+          }
+        </div>
+      </section>
+
+      <section class="debug-section">
+        <h3 class="debug-section-title">Raccourcis</h3>
+
+        <div class="debug-actions">
+          <button type="button" (click)="resetAmbiance()">Ambiance neutre</button>
+          <button type="button" (click)="liftStats()">Toutes les stats à 9</button>
+          <button type="button" (click)="lowerStats()">Toutes les stats à 3</button>
+          <button type="button" (click)="drainStats()">Toutes les stats à 1</button>
+        </div>
+      </section>
     } @else if (tab() === 'rendu') {
-      <div class="debug-render">
+      <section class="debug-section">
+        <h3 class="debug-section-title">Surfaces</h3>
+
         <div class="debug-row debug-row--compact">
           <div class="debug-row-head">
             <label class="debug-name" for="render-opacity">Opacité des surfaces</label>
@@ -200,6 +227,10 @@
             <button type="button" (click)="applyShadowOpacity(100)">100</button>
           </div>
         </div>
+      </section>
+
+      <section class="debug-section">
+        <h3 class="debug-section-title">Champs de jeu</h3>
 
         <div class="debug-row debug-row--compact">
           <div class="debug-row-head">
@@ -244,69 +275,100 @@
             <button type="button" (click)="applyFieldFeather(100)">100</button>
           </div>
         </div>
+      </section>
 
-        <div class="debug-speech">
-          @if (speech.premium()) {
-            <div class="debug-state">
-              <label class="debug-name" for="speech-premium-voice">Voix supérieure</label>
-              <select
-                id="speech-premium-voice"
-                class="debug-select"
-                [value]="speech.premiumVoice()"
-                (change)="onPremiumVoiceSelect($event)"
-              >
-                @for (voice of speech.premiumVoices; track voice.name) {
-                  <option [value]="voice.name">{{ voice.label }}</option>
-                }
-              </select>
-            </div>
-          }
+      <section class="debug-section">
+        <h3 class="debug-section-title">Animations</h3>
 
-          @if (speech.localAvailable()) {
-            <div class="debug-state">
-              <label class="debug-name" for="speech-voice">Voix de lecture</label>
-              <select
-                id="speech-voice"
-                class="debug-select"
-                [value]="speech.voiceName() ?? ''"
-                (change)="onVoiceSelect($event)"
-              >
-                @for (voice of speech.voices(); track voice.name) {
-                  <option [value]="voice.name">{{ voice.name }}</option>
-                }
-              </select>
-            </div>
-          } @else {
-            <p class="debug-hint">
-              Aucune voix française locale détectée : sans la voix supérieure, la lecture des tours
-              est désactivée.
-            </p>
-          }
-
-          @if (speech.available()) {
-            <div class="debug-row debug-row--compact">
-              <div class="debug-row-head">
-                <label class="debug-name" for="speech-rate">Vitesse de lecture</label>
-                <span class="debug-value">{{ speech.rate() }}×</span>
-              </div>
-              <input
-                class="debug-slider"
-                id="speech-rate"
-                type="range"
-                min="0.5"
-                max="2"
-                step="0.1"
-                [value]="speech.rate()"
-                (input)="onSpeechRate($event)"
-              />
-              <div class="debug-presets">
-                <button type="button" (click)="applySpeechRate(0.8)">0.8</button>
-                <button type="button" (click)="applySpeechRate(1)">1</button>
-                <button type="button" (click)="applySpeechRate(1.5)">1.5</button>
-              </div>
-            </div>
-          }
+        <div class="debug-row debug-row--compact">
+          <div class="debug-row-head">
+            <label class="debug-name" for="render-motion">Durée des animations</label>
+            <span class="debug-value">{{ motionScale() }}%</span>
+          </div>
+          <input
+            class="debug-slider"
+            id="render-motion"
+            type="range"
+            min="25"
+            max="300"
+            step="5"
+            [value]="motionScale()"
+            (input)="onMotionScale($event)"
+          />
+          <div class="debug-presets">
+            <button type="button" (click)="applyMotionScale(50)">50</button>
+            <button type="button" (click)="applyMotionScale(100)">100</button>
+            <button type="button" (click)="applyMotionScale(200)">200</button>
+          </div>
         </div>
+
+        <div class="debug-actions">
+          <button type="button" (click)="previewAdventureOver()">Aperçu fin de partie</button>
+          <button type="button" (click)="resetRender()">Réinitialiser le rendu</button>
+        </div>
+      </section>
+    } @else if (tab() === 'voix') {
+      <div class="debug-speech">
+        @if (speech.premium()) {
+          <div class="debug-state">
+            <label class="debug-name" for="speech-premium-voice">Voix supérieure</label>
+            <select
+              id="speech-premium-voice"
+              class="debug-select"
+              [value]="speech.premiumVoice()"
+              (change)="onPremiumVoiceSelect($event)"
+            >
+              @for (voice of speech.premiumVoices; track voice.name) {
+                <option [value]="voice.name">{{ voice.label }}</option>
+              }
+            </select>
+          </div>
+        }
+
+        @if (speech.localAvailable()) {
+          <div class="debug-state">
+            <label class="debug-name" for="speech-voice">Voix de lecture</label>
+            <select
+              id="speech-voice"
+              class="debug-select"
+              [value]="speech.voiceName() ?? ''"
+              (change)="onVoiceSelect($event)"
+            >
+              @for (voice of speech.voices(); track voice.name) {
+                <option [value]="voice.name">{{ voice.name }}</option>
+              }
+            </select>
+          </div>
+        } @else {
+          <p class="debug-hint">
+            Aucune voix française locale détectée : sans la voix supérieure, la lecture des tours
+            est désactivée.
+          </p>
+        }
+
+        @if (speech.available()) {
+          <div class="debug-row debug-row--compact">
+            <div class="debug-row-head">
+              <label class="debug-name" for="speech-rate">Vitesse de lecture</label>
+              <span class="debug-value">{{ speech.rate() }}×</span>
+            </div>
+            <input
+              class="debug-slider"
+              id="speech-rate"
+              type="range"
+              min="0.5"
+              max="2"
+              step="0.1"
+              [value]="speech.rate()"
+              (input)="onSpeechRate($event)"
+            />
+            <div class="debug-presets">
+              <button type="button" (click)="applySpeechRate(0.8)">0.8</button>
+              <button type="button" (click)="applySpeechRate(1)">1</button>
+              <button type="button" (click)="applySpeechRate(1.5)">1.5</button>
+            </div>
+          </div>
+        }
       </div>
     } @else {
       <app-debug-history [halfturns]="halfturns()" [turns]="turns()" />

@@ -18,7 +18,6 @@ import { finalize } from 'rxjs';
 import { AuthService } from '../core/auth.service';
 import { ApiService } from '../core/api.service';
 import { GameStateService } from '../core/game-state.service';
-import { SpeechService } from '../core/speech.service';
 import { Stat, Ambiance, DEFAULT_AMBIANCE, Turn, AnswerPayload } from '../models/turn.model';
 import {
   ACTION_COPY,
@@ -90,7 +89,6 @@ export class HomeComponent implements OnDestroy {
   protected readonly auth = inject(AuthService);
   private readonly api = inject(ApiService);
   private readonly gameState = inject(GameStateService);
-  private readonly speech = inject(SpeechService);
 
   protected readonly maxTurns = MAX_TURNS;
 
@@ -325,10 +323,6 @@ export class HomeComponent implements OnDestroy {
           this.conversation.set(data);
           this.turns.update((prev) => [...prev, data]);
           this.updateStats(data);
-          const answer = data.turns.at(-1)?.answer;
-          if (answer) {
-            this.speech.autoPlay(`turn-${data.turns.length - 1}`, answer);
-          }
           if (clearPrompt) {
             this.prompt.set('');
             const accountId = this.auth.accountId();

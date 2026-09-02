@@ -35,6 +35,18 @@ export class RomanceAdventureOtherDecorComponent {
   readonly ambiance = input<Ambiance | null>(null);
   readonly stats = input<readonly Stat[]>([]);
 
+  protected readonly healthHigh = computed(() => isHighStat(statValue(this.stats(), 'Health')));
+  protected readonly healthLow = computed(() => isLowStat(statValue(this.stats(), 'Health')));
+  protected readonly manaHigh = computed(() => isHighStat(statValue(this.stats(), 'Mana')));
+  protected readonly manaLow = computed(() => isLowStat(statValue(this.stats(), 'Mana')));
+  protected readonly strHigh = computed(() => isHighStat(statValue(this.stats(), 'STR')));
+  protected readonly strLow = computed(() => isLowStat(statValue(this.stats(), 'STR')));
+  protected readonly agiHigh = computed(() => isHighStat(statValue(this.stats(), 'AGI')));
+  protected readonly agiLow = computed(() => isLowStat(statValue(this.stats(), 'AGI')));
+  protected readonly intHigh = computed(() => isHighStat(statValue(this.stats(), 'INT')));
+  protected readonly intLow = computed(() => isLowStat(statValue(this.stats(), 'INT')));
+  protected readonly goldHigh = computed(() => isHighStat(statValue(this.stats(), 'Gold')));
+
   protected readonly giftScale = computed(() => {
     const romance = ambianceValue(this.ambiance(), 'romance');
     const first = Math.max(0, Math.min(1, (romance - GIFT_THRESHOLD) / GIFT_RANGE));
@@ -58,11 +70,16 @@ export class RomanceAdventureOtherDecorComponent {
     if (romance < HEART_THRESHOLD) return [];
 
     const beating = isHighStat(statValue(this.stats(), 'Health'));
+    const failing = this.healthLow();
+    const dizzy = this.intLow();
+    const pace = this.agiHigh() ? 0.6 : this.agiLow() ? 1.6 : 1;
     const progress = Math.min(1, (romance - HEART_THRESHOLD) / HEART_RANGE);
     const count = Math.round((8 + 6 * progress) / 3);
     const flock: {
       face: boolean;
       beating: boolean;
+      failing: boolean;
+      dizzy: boolean;
       style: Record<string, string>;
       beat: Record<string, string>;
     }[] = [];
@@ -71,17 +88,19 @@ export class RomanceAdventureOtherDecorComponent {
       const rand = (slot: number) => noise('heart', index, slot);
       const width = 13 + rand(5) * 11;
       flock.push({
-        face: index % 3 === 0,
+        face: !failing && index % 3 === 0,
         beating,
+        failing,
+        dizzy,
         style: {
           left: pct((index + rand(0)) / count),
           top: pct(0.05 + rand(1) * 0.9),
           '--drift': px(-45 + rand(2) * 90),
-          '--lift': px(90 + rand(3) * 110),
-          '--peak': (0.45 + rand(4) * 0.35).toFixed(3),
+          '--lift': px(failing ? -(70 + rand(3) * 90) : 90 + rand(3) * 110),
+          '--peak': ((failing ? 0.6 : 1) * (0.45 + rand(4) * 0.35)).toFixed(3),
           width: px(width),
           height: px(width * (22 / 24)),
-          'animation-duration': secs(13 + rand(6) * 11),
+          'animation-duration': secs((13 + rand(6) * 11) * pace),
           'animation-delay': secs(-rand(7) * 24),
         },
         beat: {
@@ -99,10 +118,13 @@ export class RomanceAdventureOtherDecorComponent {
     if (adventure < LEAF_THRESHOLD) return [];
 
     const gusty = isHighStat(statValue(this.stats(), 'AGI'));
+    const sluggish = this.agiLow();
+    const jittery = this.intLow();
     const progress = Math.min(1, (adventure - LEAF_THRESHOLD) / LEAF_RANGE);
     const count = Math.round((8 + 6 * progress) / 3);
     const drift: {
       gusty: boolean;
+      jittery: boolean;
       style: Record<string, string>;
       spin: Record<string, string>;
     }[] = [];
@@ -111,26 +133,34 @@ export class RomanceAdventureOtherDecorComponent {
       const rand = (slot: number) => noise('leaf', index, slot);
       const size = 10 + rand(5) * 6;
       const x = (index + rand(0)) / count;
+      const fall = secs((14 + rand(6) * 10) * (sluggish ? 1.5 : 1));
       const style: Record<string, string> = {
         left: pct(x),
         top: pct(rand(1) * 0.85),
-        '--drift': px(60 + rand(2) * 80),
+        '--drift': px(sluggish ? 0 : 60 + rand(2) * 80),
         '--lift': px(-(120 + rand(3) * 100)),
         '--peak': (0.4 + rand(4) * 0.3).toFixed(3),
         width: px(size),
         height: px(size),
-        'animation-duration': secs(14 + rand(6) * 10),
+        'animation-duration': fall,
         'animation-delay': secs(-rand(7) * 24),
       };
 
       if (gusty) {
         const flutter = 7 + rand(9) * 6;
-        style['animation-duration'] = `${secs(14 + rand(6) * 10)}, ${secs(flutter)}`;
+        style['animation-duration'] = `${fall}, ${secs(flutter)}`;
         style['animation-delay'] = `${secs(-rand(7) * 24)}, ${secs(-rand(10) * flutter)}`;
+      }
+
+      if (jittery) {
+        const tremble = 1.7 + rand(9) * 1.4;
+        style['animation-duration'] = `${fall}, ${secs(tremble)}`;
+        style['animation-delay'] = `${secs(-rand(7) * 24)}, ${secs(-rand(10) * tremble)}`;
       }
 
       drift.push({
         gusty,
+        jittery,
         style,
         spin: {
           'animation-duration': secs(5 + rand(8) * 4),
@@ -146,10 +176,13 @@ export class RomanceAdventureOtherDecorComponent {
     if (other < SCRAP_THRESHOLD) return [];
 
     const jittery = isLowStat(statValue(this.stats(), 'INT'));
+    const lucid = this.intHigh();
+    const spinPace = this.agiHigh() ? 0.5 : 1;
     const progress = Math.min(1, (other - SCRAP_THRESHOLD) / SCRAP_RANGE);
     const count = Math.round((8 + 6 * progress) / 3);
     const litter: {
       jittery: boolean;
+      lucid: boolean;
       style: Record<string, string>;
       spin: Record<string, string>;
     }[] = [];
@@ -178,9 +211,10 @@ export class RomanceAdventureOtherDecorComponent {
 
       litter.push({
         jittery,
+        lucid,
         style,
         spin: {
-          'animation-duration': secs(7 + rand(8) * 5),
+          'animation-duration': secs((7 + rand(8) * 5) * spinPace),
         },
       });
     }

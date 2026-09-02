@@ -1,6 +1,12 @@
 @switch (slot()) {
   @case ('stats') {
-    <div class="trio-set">
+    <div
+      class="trio-set"
+      [class.trio-set--weak]="strLow()"
+      [class.trio-set--gilded]="goldHigh()"
+      [class.trio-set--arcane]="manaHigh()"
+      [class.trio-set--dim]="manaLow()"
+    >
       <svg class="gift" viewBox="0 0 20 20">
         <rect class="gift-body" x="3" y="8" width="14" height="10" rx="1.5" />
         <rect class="gift-lid" x="2" y="5.5" width="16" height="3.5" rx="1" />
@@ -19,7 +25,13 @@
     </div>
   }
   @case ('answer') {
-    <div class="trio-set">
+    <div
+      class="trio-set"
+      [class.trio-set--weak]="strLow()"
+      [class.trio-set--gilded]="goldHigh()"
+      [class.trio-set--arcane]="manaHigh()"
+      [class.trio-set--dim]="manaLow()"
+    >
       <svg class="gift" viewBox="0 0 20 20">
         <rect class="gift-body" x="3" y="8" width="14" height="10" rx="1.5" />
         <rect class="gift-lid" x="2" y="5.5" width="16" height="3.5" rx="1" />
@@ -43,7 +55,13 @@
     </div>
   }
   @case ('foot') {
-    <div class="trio-set">
+    <div
+      class="trio-set"
+      [class.trio-set--weak]="strLow()"
+      [class.trio-set--gilded]="goldHigh()"
+      [class.trio-set--arcane]="manaHigh()"
+      [class.trio-set--dim]="manaLow()"
+    >
       <svg class="gift gift-pair-big" viewBox="0 0 20 20">
         <rect class="gift-body" x="3" y="8" width="14" height="10" rx="1.5" />
         <rect class="gift-lid" x="2" y="5.5" width="16" height="3.5" rx="1" />
@@ -130,7 +148,12 @@
   }
   @case ('fx') {
     @for (heart of hearts(); track $index) {
-      <span class="heart" [class.heart--beating]="heart.beating" [style]="heart.style">
+      <span
+        class="heart"
+        [class.heart--beating]="heart.beating"
+        [class.heart--failing]="heart.failing"
+        [style]="heart.style"
+      >
         <svg class="heart-shape" [style]="heart.beat" viewBox="0 0 24 22">
           <path
             class="heart-body"
@@ -141,13 +164,22 @@
             <circle class="heart-blush" cx="17.4" cy="10.2" r="1.7" />
             <circle class="heart-eye" cx="8.9" cy="7.8" r="1.05" />
             <circle class="heart-eye" cx="15.1" cy="7.8" r="1.05" />
-            <path class="heart-smile" d="M9.8 10.6 Q12 12.6 14.2 10.6" />
+            @if (heart.dizzy) {
+              <path class="heart-smile" d="M9.6 11.2 Q10.8 9.8 12 11.2 Q13.2 12.6 14.4 11.2" />
+            } @else {
+              <path class="heart-smile" d="M9.8 10.6 Q12 12.6 14.2 10.6" />
+            }
           }
         </svg>
       </span>
     }
     @for (leaf of leaves(); track $index) {
-      <span class="leaf" [class.leaf--gusty]="leaf.gusty" [style]="leaf.style">
+      <span
+        class="leaf"
+        [class.leaf--gusty]="leaf.gusty"
+        [class.leaf--jittery]="leaf.jittery"
+        [style]="leaf.style"
+      >
         <svg class="leaf-spin" [style]="leaf.spin" viewBox="0 0 16 16">
           <path class="leaf-body" d="M8 1 C12 4 13 9 8 15 C3 9 4 4 8 1 Z" />
           <path class="leaf-vein" d="M8 3.5 L8 12" />
@@ -155,7 +187,12 @@
       </span>
     }
     @for (scrap of scraps(); track $index) {
-      <span class="scrap" [class.scrap--jittery]="scrap.jittery" [style]="scrap.style">
+      <span
+        class="scrap"
+        [class.scrap--jittery]="scrap.jittery"
+        [class.scrap--lucid]="scrap.lucid"
+        [style]="scrap.style"
+      >
         <svg class="scrap-spin" [style]="scrap.spin" viewBox="0 0 16 16">
           <path class="scrap-body" d="M3 3.6 L12.8 2.2 L13.9 8.3 L12.7 13.6 L4.1 14.1 Z" />
           <path class="scrap-lines" d="M5.2 5.9 L11 5.2 M5.5 8.1 L11.3 7.5 M5.8 10.3 L9.8 9.9" />
@@ -163,7 +200,15 @@
       </span>
     }
     @if (campfire()) {
-      <div class="campfire" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <div
+        class="campfire"
+        [class.campfire--vital]="healthHigh()"
+        [class.campfire--faint]="healthLow()"
+        [class.campfire--mana]="manaHigh()"
+        [class.campfire--sturdy]="strHigh()"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <svg viewBox="0 0 90 70">
           <circle class="fire-ember" cx="39" cy="55" r="1.6" style="animation-duration: 2.6s" />
           <circle
@@ -188,7 +233,12 @@
       </div>
     }
     @if (bookPile(); as pile) {
-      <div class="book-pile" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <div
+        class="book-pile"
+        [class.book-pile--leaning]="strLow()"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <svg viewBox="0 0 90 110">
           @for (book of pile.books; track $index) {
             <g [attr.transform]="book.transform">

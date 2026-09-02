@@ -86,6 +86,51 @@ svg {
   transform: rotate(9deg);
 }
 
+.trio-set--weak .gift {
+  rotate: -12deg;
+  animation: gm-tremble 6.5s linear infinite;
+}
+
+.trio-set--weak .flag-cloth {
+  transform: rotate(28deg);
+  transform-box: fill-box;
+  transform-origin: 0 20%;
+}
+
+.trio-set--gilded .gift-ribbon {
+  fill: color-mix(in srgb, var(--gold) 70%, var(--romance-accent-soft));
+}
+
+.trio-set--gilded .gift-bow {
+  stroke: color-mix(in srgb, var(--gold) 70%, var(--romance-accent));
+}
+
+.trio-set--gilded .flag-cloth {
+  stroke: color-mix(in srgb, var(--gold) 70%, var(--adventure-accent));
+}
+
+.trio-set--gilded .emblem-fill,
+.trio-set--gilded .emblem-stroke,
+.trio-set--gilded .emblem-glass {
+  stroke: color-mix(in srgb, var(--gold) 70%, var(--other-accent));
+}
+
+.trio-set--arcane .emblem {
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--mana) 75%, transparent));
+}
+
+.trio-set--arcane .emblem > * {
+  --min-opacity: 0.75;
+  --max-opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-breathe 4.8s ease-in-out infinite;
+}
+
+.trio-set--dim .emblem {
+  opacity: 0.45;
+}
+
 .gift {
   scale: var(--gift-scale, 1);
   transition: scale var(--speed-slow) ease;
@@ -204,6 +249,11 @@ svg {
   opacity: 0.7;
 }
 
+.heart--failing .heart-body {
+  fill: color-mix(in srgb, var(--romance-accent) 45%, transparent);
+  stroke: color-mix(in srgb, var(--romance-accent-deep) 35%, var(--romance-accent));
+}
+
 .leaf {
   position: absolute;
   opacity: 0;
@@ -212,6 +262,12 @@ svg {
 
 .leaf--gusty {
   animation-name: gm-drift, gm-flutter;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+}
+
+.leaf--jittery {
+  animation-name: gm-drift, gm-tremble;
   animation-timing-function: linear, ease-in-out;
   animation-iteration-count: infinite, infinite;
 }
@@ -244,6 +300,16 @@ svg {
   animation-name: gm-drift, gm-tremble;
   animation-timing-function: linear, ease-in-out;
   animation-iteration-count: infinite, infinite;
+}
+
+.scrap--lucid .scrap-lines {
+  stroke: color-mix(in srgb, var(--other-accent-soft) 90%, transparent);
+  stroke-width: 1;
+  --min-opacity: 0.6;
+  --max-opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-breathe 3.6s ease-in-out infinite;
 }
 
 .scrap-spin {
@@ -449,6 +515,27 @@ svg {
   stroke-width: 0.9;
 }
 
+.campfire--vital .fire-ember {
+  animation-name: gm-flicker, gm-heartbeat;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.campfire--faint .fire-ember {
+  --flicker-base: 0.35;
+  --flicker-dim: 0.1;
+}
+
+.campfire--mana .fire-ember {
+  fill: color-mix(in srgb, var(--mana) 60%, var(--adventure-accent));
+}
+
+.campfire--sturdy .fire-stone {
+  transform: scale(1.25);
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
 .book-pile {
   position: absolute;
   right: 96px;
@@ -479,6 +566,15 @@ svg {
 
 .mark-fill {
   fill: color-mix(in srgb, var(--other-accent-deep) 70%, var(--other-accent));
+}
+
+.book-pile svg {
+  transform-origin: 50% 100%;
+  transition: transform var(--speed-slow) ease;
+}
+
+.book-pile--leaning svg {
+  transform: rotate(6deg);
 }
 
 @media (max-width: 900px) {

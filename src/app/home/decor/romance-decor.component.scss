@@ -113,10 +113,6 @@
 .gift-pair--weak .gift,
 .gift--weak {
   rotate: -12deg;
-}
-
-.gift-pair--weak .gift:not(.gm-appear):not(.gm-vanish),
-.gift--weak:not(.gm-appear):not(.gm-vanish) {
   animation: gm-tremble 6.5s linear infinite;
 }
 

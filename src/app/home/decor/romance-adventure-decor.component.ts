@@ -96,7 +96,7 @@ export class RomanceAdventureDecorComponent {
     const romance = ambianceValue(this.ambiance(), 'romance');
     if (romance < HEART_THRESHOLD) return [];
 
-    const beating = isHighStat(statValue(this.stats(), 'Health'));
+    const beating = this.healthHigh();
     const failing = this.healthLow();
     const dizzy = this.intLow();
     const pace = this.agiHigh() ? 0.6 : this.agiLow() ? 1.6 : 1;
@@ -144,7 +144,7 @@ export class RomanceAdventureDecorComponent {
     const adventure = ambianceValue(this.ambiance(), 'adventure');
     if (adventure < LEAF_THRESHOLD) return [];
 
-    const gusty = isHighStat(statValue(this.stats(), 'AGI'));
+    const gusty = this.agiHigh();
     const sluggish = this.agiLow();
     const jittery = this.intLow();
     const progress = Math.min(1, (adventure - LEAF_THRESHOLD) / LEAF_RANGE);

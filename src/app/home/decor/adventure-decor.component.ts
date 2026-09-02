@@ -40,6 +40,7 @@ export class AdventureDecorComponent {
   protected readonly manaHigh = computed(() => isHighStat(statValue(this.stats(), 'Mana')));
   protected readonly strHigh = computed(() => isHighStat(statValue(this.stats(), 'STR')));
   protected readonly strLow = computed(() => isLowStat(statValue(this.stats(), 'STR')));
+  protected readonly agiHigh = computed(() => isHighStat(statValue(this.stats(), 'AGI')));
   protected readonly agiLow = computed(() => isLowStat(statValue(this.stats(), 'AGI')));
   protected readonly intLow = computed(() => isLowStat(statValue(this.stats(), 'INT')));
   protected readonly goldHigh = computed(() => isHighStat(statValue(this.stats(), 'Gold')));
@@ -65,7 +66,7 @@ export class AdventureDecorComponent {
     const adventure = ambianceValue(this.ambiance(), 'adventure');
     if (adventure < LEAF_THRESHOLD) return [];
 
-    const gusty = isHighStat(statValue(this.stats(), 'AGI'));
+    const gusty = this.agiHigh();
     const sluggish = this.agiLow();
     const jittery = this.intLow();
     const progress = Math.min(1, (adventure - LEAF_THRESHOLD) / LEAF_RANGE);

@@ -92,7 +92,7 @@ export class AdventureOtherDecorComponent {
     const adventure = ambianceValue(this.ambiance(), 'adventure');
     if (adventure < LEAF_THRESHOLD) return [];
 
-    const gusty = isHighStat(statValue(this.stats(), 'AGI'));
+    const gusty = this.agiHigh();
     const sluggish = this.agiLow();
     const jittery = this.intLow();
     const progress = Math.min(1, (adventure - LEAF_THRESHOLD) / LEAF_RANGE);
@@ -150,7 +150,7 @@ export class AdventureOtherDecorComponent {
     const other = ambianceValue(this.ambiance(), 'other');
     if (other < SCRAP_THRESHOLD) return [];
 
-    const jittery = isLowStat(statValue(this.stats(), 'INT'));
+    const jittery = this.intLow();
     const lucid = this.intHigh();
     const spinPace = this.agiHigh() ? 0.5 : 1;
     const progress = Math.min(1, (other - SCRAP_THRESHOLD) / SCRAP_RANGE);

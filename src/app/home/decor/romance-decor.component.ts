@@ -63,7 +63,7 @@ export class RomanceDecorComponent {
     const romance = ambianceValue(this.ambiance(), 'romance');
     if (romance < HEART_THRESHOLD) return [];
 
-    const beating = isHighStat(statValue(this.stats(), 'Health'));
+    const beating = this.healthHigh();
     const failing = this.healthLow();
     const dizzy = this.intLow();
     const pace = this.agiHigh() ? 0.6 : this.agiLow() ? 1.6 : 1;

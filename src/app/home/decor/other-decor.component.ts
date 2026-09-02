@@ -41,6 +41,7 @@ export class OtherDecorComponent {
   protected readonly strLow = computed(() => isLowStat(statValue(this.stats(), 'STR')));
   protected readonly agiHigh = computed(() => isHighStat(statValue(this.stats(), 'AGI')));
   protected readonly intHigh = computed(() => isHighStat(statValue(this.stats(), 'INT')));
+  protected readonly intLow = computed(() => isLowStat(statValue(this.stats(), 'INT')));
   protected readonly goldHigh = computed(() => isHighStat(statValue(this.stats(), 'Gold')));
 
   protected readonly stage = computed(() => {
@@ -64,7 +65,7 @@ export class OtherDecorComponent {
     const other = ambianceValue(this.ambiance(), 'other');
     if (other < SCRAP_THRESHOLD) return [];
 
-    const jittery = isLowStat(statValue(this.stats(), 'INT'));
+    const jittery = this.intLow();
     const lucid = this.intHigh();
     const spinPace = this.agiHigh() ? 0.5 : 1;
     const progress = Math.min(1, (other - SCRAP_THRESHOLD) / SCRAP_RANGE);

@@ -397,11 +397,11 @@ body {
 
 // Paired with animate.enter / animate.leave in the templates
 .gm-appear {
-  animation: gm-fade var(--fx-in) ease both;
+  animation: gm-fade var(--fx-in) ease both !important;
 }
 
 .gm-vanish {
-  animation: gm-fade var(--fx-out) ease reverse both;
+  animation: gm-fade var(--fx-out) ease reverse both !important;
 }
 
 @keyframes gm-fade {

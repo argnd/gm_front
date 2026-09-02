@@ -1,6 +1,12 @@
 import { Component, computed, input } from '@angular/core';
 import { Ambiance, Stat } from '../../models/turn.model';
-import { ambianceValue, isHighStat, statValue, tierOf } from '../ambiance/ambiance.engine';
+import {
+  ambianceValue,
+  isHighStat,
+  isLowStat,
+  statValue,
+  tierOf,
+} from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot } from './ambiance-decor';
 
 const HEART_THRESHOLD = 30;
@@ -28,6 +34,14 @@ export class RomanceDecorComponent {
   readonly ambiance = input<Ambiance | null>(null);
   readonly stats = input<readonly Stat[]>([]);
 
+  protected readonly healthHigh = computed(() => isHighStat(statValue(this.stats(), 'Health')));
+  protected readonly healthLow = computed(() => isLowStat(statValue(this.stats(), 'Health')));
+  protected readonly strLow = computed(() => isLowStat(statValue(this.stats(), 'STR')));
+  protected readonly agiHigh = computed(() => isHighStat(statValue(this.stats(), 'AGI')));
+  protected readonly agiLow = computed(() => isLowStat(statValue(this.stats(), 'AGI')));
+  protected readonly intLow = computed(() => isLowStat(statValue(this.stats(), 'INT')));
+  protected readonly goldHigh = computed(() => isHighStat(statValue(this.stats(), 'Gold')));
+
   protected readonly stage = computed(() => {
     const romance = ambianceValue(this.ambiance(), 'romance');
     if (romance < GIFT_THRESHOLD) return 0;
@@ -35,6 +49,8 @@ export class RomanceDecorComponent {
   });
 
   protected readonly tier = computed(() => tierOf(ambianceValue(this.ambiance(), 'romance')));
+
+  protected readonly romanceLeads = computed(() => this.tier() >= 2);
 
   protected readonly giftScale = computed(() => {
     const romance = ambianceValue(this.ambiance(), 'romance');
@@ -48,11 +64,16 @@ export class RomanceDecorComponent {
     if (romance < HEART_THRESHOLD) return [];
 
     const beating = isHighStat(statValue(this.stats(), 'Health'));
+    const failing = this.healthLow();
+    const dizzy = this.intLow();
+    const pace = this.agiHigh() ? 0.6 : this.agiLow() ? 1.6 : 1;
     const progress = Math.min(1, (romance - HEART_THRESHOLD) / HEART_RANGE);
     const count = Math.round(8 + 6 * progress);
     const flock: {
       face: boolean;
       beating: boolean;
+      failing: boolean;
+      dizzy: boolean;
       style: Record<string, string>;
       beat: Record<string, string>;
     }[] = [];
@@ -61,17 +82,19 @@ export class RomanceDecorComponent {
       const rand = (slot: number) => noise('heart', index, slot);
       const width = 13 + rand(5) * 11;
       flock.push({
-        face: index % 3 === 0,
+        face: !failing && index % 3 === 0,
         beating,
+        failing,
+        dizzy,
         style: {
           left: pct((index + rand(0)) / count),
           top: pct(0.05 + rand(1) * 0.9),
           '--drift': px(-45 + rand(2) * 90),
-          '--lift': px(90 + rand(3) * 110),
-          '--peak': (0.45 + rand(4) * 0.35).toFixed(3),
+          '--lift': px(failing ? -(70 + rand(3) * 90) : 90 + rand(3) * 110),
+          '--peak': ((failing ? 0.6 : 1) * (0.45 + rand(4) * 0.35)).toFixed(3),
           width: px(width),
           height: px(width * (22 / 24)),
-          'animation-duration': secs(13 + rand(6) * 11),
+          'animation-duration': secs((13 + rand(6) * 11) * pace),
           'animation-delay': secs(-rand(7) * 24),
         },
         beat: {

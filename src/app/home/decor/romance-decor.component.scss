@@ -110,6 +110,26 @@
   transform: rotate(9deg);
 }
 
+.gift-pair--weak .gift,
+.gift--weak {
+  rotate: -12deg;
+}
+
+.gift-pair--weak .gift:not(.gm-appear):not(.gm-vanish),
+.gift--weak:not(.gm-appear):not(.gm-vanish) {
+  animation: gm-tremble 6.5s linear infinite;
+}
+
+.gift-pair--gilded .gift-ribbon,
+.gift--gilded .gift-ribbon {
+  fill: color-mix(in srgb, var(--gold) 70%, var(--romance-accent-soft));
+}
+
+.gift-pair--gilded .gift-bow,
+.gift--gilded .gift-bow {
+  stroke: color-mix(in srgb, var(--gold) 70%, var(--romance-accent));
+}
+
 svg {
   display: block;
   width: 100%;
@@ -183,6 +203,11 @@ svg {
 .heart-blush {
   fill: color-mix(in srgb, var(--romance-accent-deep) 40%, var(--romance-accent));
   opacity: 0.7;
+}
+
+.heart--failing .heart-body {
+  fill: color-mix(in srgb, var(--romance-accent) 45%, transparent);
+  stroke: color-mix(in srgb, var(--romance-accent-deep) 35%, var(--romance-accent));
 }
 
 :host(.decor-stage) {
@@ -300,6 +325,25 @@ svg {
   transform-box: fill-box;
   transform-origin: 50% 100%;
   transition: transform var(--speed-slow) ease;
+}
+
+.perch {
+  transform-box: fill-box;
+  transform-origin: 100% 60%;
+  transition: transform var(--speed-slow) ease;
+}
+
+.lovebirds--bending .perch {
+  transform: rotate(-4deg);
+}
+
+.birds {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+.lovebirds--bobbing .birds {
+  animation: gm-heartbeat 1.6s ease-in-out infinite;
 }
 
 .branch-line {

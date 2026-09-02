@@ -1,6 +1,12 @@
 import { Component, computed, input } from '@angular/core';
 import { Ambiance, Stat } from '../../models/turn.model';
-import { ambianceValue, isHighStat, statValue, tierOf } from '../ambiance/ambiance.engine';
+import {
+  ambianceValue,
+  isHighStat,
+  isLowStat,
+  statValue,
+  tierOf,
+} from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot } from './ambiance-decor';
 
 const LEAF_THRESHOLD = 30;
@@ -29,6 +35,15 @@ export class AdventureDecorComponent {
   readonly ambiance = input<Ambiance | null>(null);
   readonly stats = input<readonly Stat[]>([]);
 
+  protected readonly healthHigh = computed(() => isHighStat(statValue(this.stats(), 'Health')));
+  protected readonly healthLow = computed(() => isLowStat(statValue(this.stats(), 'Health')));
+  protected readonly manaHigh = computed(() => isHighStat(statValue(this.stats(), 'Mana')));
+  protected readonly strHigh = computed(() => isHighStat(statValue(this.stats(), 'STR')));
+  protected readonly strLow = computed(() => isLowStat(statValue(this.stats(), 'STR')));
+  protected readonly agiLow = computed(() => isLowStat(statValue(this.stats(), 'AGI')));
+  protected readonly intLow = computed(() => isLowStat(statValue(this.stats(), 'INT')));
+  protected readonly goldHigh = computed(() => isHighStat(statValue(this.stats(), 'Gold')));
+
   protected readonly stage = computed(() => {
     const adventure = ambianceValue(this.ambiance(), 'adventure');
     if (adventure < FLAG_THRESHOLD) return 0;
@@ -36,6 +51,8 @@ export class AdventureDecorComponent {
   });
 
   protected readonly tier = computed(() => tierOf(ambianceValue(this.ambiance(), 'adventure')));
+
+  protected readonly adventureLeads = computed(() => this.tier() >= 2);
 
   protected readonly flagScale = computed(() => {
     const adventure = ambianceValue(this.ambiance(), 'adventure');
@@ -49,10 +66,13 @@ export class AdventureDecorComponent {
     if (adventure < LEAF_THRESHOLD) return [];
 
     const gusty = isHighStat(statValue(this.stats(), 'AGI'));
+    const sluggish = this.agiLow();
+    const jittery = this.intLow();
     const progress = Math.min(1, (adventure - LEAF_THRESHOLD) / LEAF_RANGE);
     const count = Math.round(8 + 6 * progress);
     const drift: {
       gusty: boolean;
+      jittery: boolean;
       style: Record<string, string>;
       spin: Record<string, string>;
     }[] = [];
@@ -61,26 +81,34 @@ export class AdventureDecorComponent {
       const rand = (slot: number) => noise('leaf', index, slot);
       const size = 10 + rand(5) * 6;
       const x = (index + rand(0)) / count;
+      const fall = secs((14 + rand(6) * 10) * (sluggish ? 1.5 : 1));
       const style: Record<string, string> = {
         left: pct(x),
         top: pct(rand(1) * 0.85),
-        '--drift': px(60 + rand(2) * 80),
+        '--drift': px(sluggish ? 0 : 60 + rand(2) * 80),
         '--lift': px(-(120 + rand(3) * 100)),
         '--peak': (0.4 + rand(4) * 0.3).toFixed(3),
         width: px(size),
         height: px(size),
-        'animation-duration': secs(14 + rand(6) * 10),
+        'animation-duration': fall,
         'animation-delay': secs(-rand(7) * 24),
       };
 
       if (gusty) {
         const flutter = 7 + rand(9) * 6;
-        style['animation-duration'] = `${secs(14 + rand(6) * 10)}, ${secs(flutter)}`;
+        style['animation-duration'] = `${fall}, ${secs(flutter)}`;
         style['animation-delay'] = `${secs(-rand(7) * 24)}, ${secs(-rand(10) * flutter)}`;
+      }
+
+      if (jittery) {
+        const tremble = 1.7 + rand(9) * 1.4;
+        style['animation-duration'] = `${fall}, ${secs(tremble)}`;
+        style['animation-delay'] = `${secs(-rand(7) * 24)}, ${secs(-rand(10) * tremble)}`;
       }
 
       drift.push({
         gusty,
+        jittery,
         style,
         spin: {
           'animation-duration': secs(5 + rand(8) * 4),

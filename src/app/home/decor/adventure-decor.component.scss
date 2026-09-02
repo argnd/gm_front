@@ -132,6 +132,18 @@ svg {
   stroke-linejoin: round;
 }
 
+.flag-pair--weak .flag-cloth,
+.flag--weak .flag-cloth {
+  transform: rotate(28deg);
+  transform-box: fill-box;
+  transform-origin: 0 20%;
+}
+
+.flag-pair--gilded .flag-cloth,
+.flag--gilded .flag-cloth {
+  stroke: color-mix(in srgb, var(--gold) 70%, var(--adventure-accent));
+}
+
 .leaf {
   position: absolute;
   opacity: 0;
@@ -140,6 +152,12 @@ svg {
 
 .leaf--gusty {
   animation-name: gm-drift, gm-flutter;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+}
+
+.leaf--jittery {
+  animation-name: gm-drift, gm-tremble;
   animation-timing-function: linear, ease-in-out;
   animation-iteration-count: infinite, infinite;
 }
@@ -305,6 +323,44 @@ svg {
   background: color-mix(in srgb, var(--adventure-accent-soft) 85%, transparent);
   opacity: 0;
   animation: gm-drift linear infinite;
+}
+
+.campfire--vital .fire-ember {
+  animation-name: gm-flicker, gm-heartbeat;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.campfire--faint .fire-ember {
+  --flicker-base: 0.35;
+  --flicker-dim: 0.1;
+}
+
+.campfire--mana .fire-ember {
+  fill: color-mix(in srgb, var(--mana) 60%, var(--adventure-accent));
+}
+
+.campfire--sturdy .fire-stone {
+  transform: scale(1.25);
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+.campfire--beating .fire-flames {
+  animation: gm-heartbeat 1.6s ease-in-out infinite;
+}
+
+.campfire--arcane .fire-flame--core {
+  fill: color-mix(in srgb, var(--mana) 55%, var(--adventure-accent-soft));
+}
+
+.campfire--gilded .fire-flame {
+  fill: color-mix(in srgb, var(--gold) 45%, var(--adventure-accent));
+  stroke: color-mix(in srgb, var(--gold) 70%, transparent);
+}
+
+.campfire--gilded .fire-ember {
+  fill: var(--gold);
 }
 
 @media (max-width: 900px) {

@@ -1,6 +1,12 @@
 import { Component, computed, input } from '@angular/core';
 import { Ambiance, Stat } from '../../models/turn.model';
-import { ambianceValue, isLowStat, statValue, tierOf } from '../ambiance/ambiance.engine';
+import {
+  ambianceValue,
+  isHighStat,
+  isLowStat,
+  statValue,
+  tierOf,
+} from '../ambiance/ambiance.engine';
 import { AmbianceDecorSlot } from './ambiance-decor';
 
 const SCRAP_THRESHOLD = 30;
@@ -29,6 +35,14 @@ export class OtherDecorComponent {
   readonly ambiance = input<Ambiance | null>(null);
   readonly stats = input<readonly Stat[]>([]);
 
+  protected readonly manaHigh = computed(() => isHighStat(statValue(this.stats(), 'Mana')));
+  protected readonly manaLow = computed(() => isLowStat(statValue(this.stats(), 'Mana')));
+  protected readonly strHigh = computed(() => isHighStat(statValue(this.stats(), 'STR')));
+  protected readonly strLow = computed(() => isLowStat(statValue(this.stats(), 'STR')));
+  protected readonly agiHigh = computed(() => isHighStat(statValue(this.stats(), 'AGI')));
+  protected readonly intHigh = computed(() => isHighStat(statValue(this.stats(), 'INT')));
+  protected readonly goldHigh = computed(() => isHighStat(statValue(this.stats(), 'Gold')));
+
   protected readonly stage = computed(() => {
     const other = ambianceValue(this.ambiance(), 'other');
     if (other < EMBLEM_THRESHOLD) return 0;
@@ -36,6 +50,8 @@ export class OtherDecorComponent {
   });
 
   protected readonly tier = computed(() => tierOf(ambianceValue(this.ambiance(), 'other')));
+
+  protected readonly otherLeads = computed(() => this.tier() >= 2);
 
   protected readonly emblemScale = computed(() => {
     const other = ambianceValue(this.ambiance(), 'other');
@@ -49,10 +65,13 @@ export class OtherDecorComponent {
     if (other < SCRAP_THRESHOLD) return [];
 
     const jittery = isLowStat(statValue(this.stats(), 'INT'));
+    const lucid = this.intHigh();
+    const spinPace = this.agiHigh() ? 0.5 : 1;
     const progress = Math.min(1, (other - SCRAP_THRESHOLD) / SCRAP_RANGE);
     const count = Math.round(8 + 6 * progress);
     const litter: {
       jittery: boolean;
+      lucid: boolean;
       style: Record<string, string>;
       spin: Record<string, string>;
     }[] = [];
@@ -81,9 +100,10 @@ export class OtherDecorComponent {
 
       litter.push({
         jittery,
+        lucid,
         style,
         spin: {
-          'animation-duration': secs(7 + rand(8) * 5),
+          'animation-duration': secs((7 + rand(8) * 5) * spinPace),
         },
       });
     }
@@ -96,6 +116,7 @@ export class OtherDecorComponent {
     if (other < SCRAP_THRESHOLD) return null;
 
     const count = Math.min(BOOK_MAX, 2 + Math.floor((other - SCRAP_THRESHOLD) / BOOK_STEP));
+    const thick = this.strHigh() && this.otherLeads() ? 1.3 : 1;
     const books: {
       transform: string;
       rectX: string;
@@ -110,7 +131,7 @@ export class OtherDecorComponent {
     for (let index = 0; index < count; index++) {
       const rand = (slot: number) => noise('book', index, slot);
       const width = 42 + rand(0) * 16;
-      const height = 9 + rand(1) * 3.5;
+      const height = (9 + rand(1) * 3.5) * thick;
       top -= height;
       books.push({
         transform: `translate(${(41 + rand(2) * 8).toFixed(1)} ${(top + height / 2).toFixed(1)}) rotate(${(-3 + rand(3) * 6).toFixed(1)})`,

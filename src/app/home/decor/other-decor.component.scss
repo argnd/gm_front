@@ -110,6 +110,34 @@
   transform: rotate(9deg);
 }
 
+.emblem-pair--gilded .emblem-fill,
+.emblem-pair--gilded .emblem-stroke,
+.emblem-pair--gilded .emblem-glass,
+.emblem--gilded .emblem-fill,
+.emblem--gilded .emblem-stroke,
+.emblem--gilded .emblem-glass {
+  stroke: color-mix(in srgb, var(--gold) 70%, var(--other-accent));
+}
+
+.emblem-pair--arcane .emblem,
+.emblem--arcane {
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--mana) 75%, transparent));
+}
+
+.emblem-pair--arcane .emblem > *,
+.emblem--arcane > * {
+  --min-opacity: 0.75;
+  --max-opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-breathe 4.8s ease-in-out infinite;
+}
+
+.emblem-pair--dim .emblem,
+.emblem--dim {
+  opacity: 0.45;
+}
+
 svg {
   display: block;
   width: 100%;
@@ -168,6 +196,16 @@ svg {
   animation-name: gm-drift, gm-tremble;
   animation-timing-function: linear, ease-in-out;
   animation-iteration-count: infinite, infinite;
+}
+
+.scrap--lucid .scrap-lines {
+  stroke: color-mix(in srgb, var(--other-accent-soft) 90%, transparent);
+  stroke-width: 1;
+  --min-opacity: 0.6;
+  --max-opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-breathe 3.6s ease-in-out infinite;
 }
 
 .scrap-spin {
@@ -310,6 +348,34 @@ svg {
   background: color-mix(in srgb, var(--other-accent-soft) 34%, transparent);
   opacity: 0;
   animation: gm-drift linear infinite;
+}
+
+.book-pile svg {
+  transform-origin: 50% 100%;
+  transition: transform var(--speed-slow) ease;
+}
+
+.book-pile--leaning svg {
+  transform: rotate(6deg);
+}
+
+.book-pile--arcane .mark-stroke {
+  stroke: color-mix(in srgb, var(--mana) 60%, var(--other-accent));
+  filter: drop-shadow(0 0 2px color-mix(in srgb, var(--mana) 80%, transparent));
+}
+
+.book-pile--arcane .mark-fill {
+  fill: color-mix(in srgb, var(--mana) 60%, var(--other-accent));
+  filter: drop-shadow(0 0 2px color-mix(in srgb, var(--mana) 80%, transparent));
+}
+
+.book-pile--lucid .mark-stroke,
+.book-pile--lucid .mark-fill {
+  --min-opacity: 0.55;
+  --max-opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-breathe 4.8s ease-in-out infinite;
 }
 
 @media (max-width: 900px) {

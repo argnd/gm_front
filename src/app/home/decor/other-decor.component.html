@@ -1,7 +1,14 @@
 @switch (slot()) {
   @case ('stats') {
     @if (stage() >= 1) {
-      <div class="emblem-pair" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <div
+        class="emblem-pair"
+        [class.emblem-pair--arcane]="manaHigh()"
+        [class.emblem-pair--dim]="manaLow()"
+        [class.emblem-pair--gilded]="goldHigh()"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <svg class="emblem emblem-pair-big" viewBox="0 0 20 20">
           <circle class="emblem-glass" cx="8.6" cy="8.6" r="5.4" />
           <path class="emblem-stroke" d="M12.6 12.6 L17 17" />
@@ -31,7 +38,15 @@
   }
   @case ('objects') {
     @if (stage() >= 2) {
-      <svg class="emblem" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <svg
+        class="emblem"
+        [class.emblem--arcane]="manaHigh()"
+        [class.emblem--dim]="manaLow()"
+        [class.emblem--gilded]="goldHigh()"
+        viewBox="0 0 20 20"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <path
           class="emblem-fill"
           d="M4.5 17.5 L4.5 9.5 C4.5 5.6 6.8 3 10 3 C13.2 3 15.5 5.6 15.5 9.5 L15.5 17.5 L13.7 15.8 L11.85 17.5 L10 15.8 L8.15 17.5 L6.3 15.8 Z"
@@ -43,7 +58,15 @@
   }
   @case ('rolls') {
     @if (stage() >= 3) {
-      <svg class="emblem" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <svg
+        class="emblem"
+        [class.emblem--arcane]="manaHigh()"
+        [class.emblem--dim]="manaLow()"
+        [class.emblem--gilded]="goldHigh()"
+        viewBox="0 0 20 20"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <path class="emblem-fill" d="M6.4 9.8 C6.4 7.2 8 5.6 10 5.6 C12 5.6 13.6 7.2 13.6 9.8 Z" />
         <ellipse class="emblem-fill" cx="10" cy="11.2" rx="7.2" ry="2.7" />
         <circle class="emblem-dot" cx="5.6" cy="11.4" r="0.7" />
@@ -54,7 +77,15 @@
   }
   @case ('trail') {
     @if (stage() >= 4) {
-      <svg class="emblem" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <svg
+        class="emblem"
+        [class.emblem--arcane]="manaHigh()"
+        [class.emblem--dim]="manaLow()"
+        [class.emblem--gilded]="goldHigh()"
+        viewBox="0 0 20 20"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <path
           class="emblem-fill"
           d="M10 3 L11.8 7.6 L16.7 7.8 L12.9 10.9 L14.1 15.7 L10 13 L5.9 15.7 L7.1 10.9 L3.3 7.8 L8.2 7.6 Z"
@@ -65,7 +96,15 @@
   }
   @case ('answer-end') {
     @if (stage() >= 5) {
-      <svg class="emblem" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <svg
+        class="emblem"
+        [class.emblem--arcane]="manaHigh()"
+        [class.emblem--dim]="manaLow()"
+        [class.emblem--gilded]="goldHigh()"
+        viewBox="0 0 20 20"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <circle class="emblem-stroke" cx="10" cy="10" r="5.2" />
         <path
           class="emblem-stroke"
@@ -76,7 +115,13 @@
     }
   }
   @case ('answer') {
-    <svg class="emblem" viewBox="0 0 20 20">
+    <svg
+      class="emblem"
+      [class.emblem--arcane]="manaHigh()"
+      [class.emblem--dim]="manaLow()"
+      [class.emblem--gilded]="goldHigh()"
+      viewBox="0 0 20 20"
+    >
       <path
         class="emblem-fill"
         d="M4.2 3.4 C8 2.2 12 2.2 15.8 3.4 C15.8 9.2 14.2 13.9 10 16.4 C5.8 13.9 4.2 9.2 4.2 3.4 Z"
@@ -152,7 +197,12 @@
     }
   }
   @case ('foot') {
-    <div class="emblem-pair">
+    <div
+      class="emblem-pair"
+      [class.emblem-pair--arcane]="manaHigh()"
+      [class.emblem-pair--dim]="manaLow()"
+      [class.emblem-pair--gilded]="goldHigh()"
+    >
       <svg class="emblem emblem-pair-big" viewBox="0 0 20 20">
         <path
           class="emblem-fill"
@@ -175,7 +225,12 @@
   }
   @case ('fx') {
     @for (scrap of scraps(); track $index) {
-      <span class="scrap" [class.scrap--jittery]="scrap.jittery" [style]="scrap.style">
+      <span
+        class="scrap"
+        [class.scrap--jittery]="scrap.jittery"
+        [class.scrap--lucid]="scrap.lucid"
+        [style]="scrap.style"
+      >
         <svg class="scrap-spin" [style]="scrap.spin" viewBox="0 0 16 16">
           <path class="scrap-body" d="M3 3.6 L12.8 2.2 L13.9 8.3 L12.7 13.6 L4.1 14.1 Z" />
           <path class="scrap-lines" d="M5.2 5.9 L11 5.2 M5.5 8.1 L11.3 7.5 M5.8 10.3 L9.8 9.9" />
@@ -183,7 +238,14 @@
       </span>
     }
     @if (bookPile(); as pile) {
-      <div class="book-pile" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <div
+        class="book-pile"
+        [class.book-pile--leaning]="strLow()"
+        [class.book-pile--arcane]="manaHigh() && otherLeads()"
+        [class.book-pile--lucid]="intHigh() && otherLeads()"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <svg viewBox="0 0 90 110">
           @for (book of pile.books; track $index) {
             <g [attr.transform]="book.transform">

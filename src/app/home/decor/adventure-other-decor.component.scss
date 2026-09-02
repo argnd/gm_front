@@ -134,6 +134,38 @@ svg {
   transform: rotate(9deg);
 }
 
+.duo-pair--weak .flag-cloth {
+  transform: rotate(28deg);
+  transform-box: fill-box;
+  transform-origin: 0 20%;
+}
+
+.duo-pair--gilded .flag-cloth {
+  stroke: color-mix(in srgb, var(--gold) 70%, var(--adventure-accent));
+}
+
+.duo-pair--gilded .emblem-fill,
+.duo-pair--gilded .emblem-stroke,
+.duo-pair--gilded .emblem-glass {
+  stroke: color-mix(in srgb, var(--gold) 70%, var(--other-accent));
+}
+
+.duo-pair--arcane .emblem {
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--mana) 75%, transparent));
+}
+
+.duo-pair--arcane .emblem > * {
+  --min-opacity: 0.75;
+  --max-opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-breathe 4.8s ease-in-out infinite;
+}
+
+.duo-pair--dim .emblem {
+  opacity: 0.45;
+}
+
 .flag {
   scale: var(--flag-scale, 1);
   transition: scale var(--speed-slow) ease;
@@ -206,6 +238,12 @@ svg {
   animation-iteration-count: infinite, infinite;
 }
 
+.leaf--jittery {
+  animation-name: gm-drift, gm-tremble;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+}
+
 .leaf-spin {
   animation: gm-spin linear infinite;
 }
@@ -234,6 +272,16 @@ svg {
   animation-name: gm-drift, gm-tremble;
   animation-timing-function: linear, ease-in-out;
   animation-iteration-count: infinite, infinite;
+}
+
+.scrap--lucid .scrap-lines {
+  stroke: color-mix(in srgb, var(--other-accent-soft) 90%, transparent);
+  stroke-width: 1;
+  --min-opacity: 0.6;
+  --max-opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-breathe 3.6s ease-in-out infinite;
 }
 
 .scrap-spin {
@@ -433,6 +481,44 @@ svg {
   animation: gm-drift linear infinite;
 }
 
+.campfire--vital .fire-ember {
+  animation-name: gm-flicker, gm-heartbeat;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.campfire--faint .fire-ember {
+  --flicker-base: 0.35;
+  --flicker-dim: 0.1;
+}
+
+.campfire--mana .fire-ember {
+  fill: color-mix(in srgb, var(--mana) 60%, var(--adventure-accent));
+}
+
+.campfire--sturdy .fire-stone {
+  transform: scale(1.25);
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+.campfire--beating .fire-flames {
+  animation: gm-heartbeat 1.6s ease-in-out infinite;
+}
+
+.campfire--arcane .fire-flame--core {
+  fill: color-mix(in srgb, var(--mana) 55%, var(--adventure-accent-soft));
+}
+
+.campfire--gilded .fire-flame {
+  fill: color-mix(in srgb, var(--gold) 45%, var(--adventure-accent));
+  stroke: color-mix(in srgb, var(--gold) 70%, transparent);
+}
+
+.campfire--gilded .fire-ember {
+  fill: var(--gold);
+}
+
 .book-pile {
   position: absolute;
   right: 96px;
@@ -483,6 +569,34 @@ svg {
   background: color-mix(in srgb, var(--other-accent-soft) 34%, transparent);
   opacity: 0;
   animation: gm-drift linear infinite;
+}
+
+.book-pile svg {
+  transform-origin: 50% 100%;
+  transition: transform var(--speed-slow) ease;
+}
+
+.book-pile--leaning svg {
+  transform: rotate(6deg);
+}
+
+.book-pile--arcane .mark-stroke {
+  stroke: color-mix(in srgb, var(--mana) 60%, var(--other-accent));
+  filter: drop-shadow(0 0 2px color-mix(in srgb, var(--mana) 80%, transparent));
+}
+
+.book-pile--arcane .mark-fill {
+  fill: color-mix(in srgb, var(--mana) 60%, var(--other-accent));
+  filter: drop-shadow(0 0 2px color-mix(in srgb, var(--mana) 80%, transparent));
+}
+
+.book-pile--lucid .mark-stroke,
+.book-pile--lucid .mark-fill {
+  --min-opacity: 0.55;
+  --max-opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-breathe 4.8s ease-in-out infinite;
 }
 
 @media (max-width: 900px) {

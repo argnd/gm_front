@@ -47,6 +47,20 @@ export class RomanceOtherDecorComponent {
 
   protected readonly state = computed(() => resolveAmbianceState(this.ambiance()));
 
+  protected readonly healthHigh = computed(() => isHighStat(statValue(this.stats(), 'Health')));
+  protected readonly healthLow = computed(() => isLowStat(statValue(this.stats(), 'Health')));
+  protected readonly manaHigh = computed(() => isHighStat(statValue(this.stats(), 'Mana')));
+  protected readonly manaLow = computed(() => isLowStat(statValue(this.stats(), 'Mana')));
+  protected readonly strHigh = computed(() => isHighStat(statValue(this.stats(), 'STR')));
+  protected readonly strLow = computed(() => isLowStat(statValue(this.stats(), 'STR')));
+  protected readonly agiHigh = computed(() => isHighStat(statValue(this.stats(), 'AGI')));
+  protected readonly agiLow = computed(() => isLowStat(statValue(this.stats(), 'AGI')));
+  protected readonly intHigh = computed(() => isHighStat(statValue(this.stats(), 'INT')));
+  protected readonly intLow = computed(() => isLowStat(statValue(this.stats(), 'INT')));
+  protected readonly goldHigh = computed(() => isHighStat(statValue(this.stats(), 'Gold')));
+  protected readonly romanceLeads = computed(() => this.state() === 'romance-2-other-1');
+  protected readonly otherLeads = computed(() => this.state() === 'other-2-romance-1');
+
   protected readonly romanceStage = computed(() => {
     const romance = ambianceValue(this.ambiance(), 'romance');
     if (romance < GIFT_THRESHOLD) return 0;
@@ -78,11 +92,16 @@ export class RomanceOtherDecorComponent {
     if (romance < HEART_THRESHOLD) return [];
 
     const beating = isHighStat(statValue(this.stats(), 'Health'));
+    const failing = this.healthLow();
+    const dizzy = this.intLow();
+    const pace = this.agiHigh() ? 0.6 : this.agiLow() ? 1.6 : 1;
     const progress = Math.min(1, (romance - HEART_THRESHOLD) / HEART_RANGE);
     const count = Math.round((8 + 6 * progress) / 2);
     const flock: {
       face: boolean;
       beating: boolean;
+      failing: boolean;
+      dizzy: boolean;
       style: Record<string, string>;
       beat: Record<string, string>;
     }[] = [];
@@ -91,17 +110,19 @@ export class RomanceOtherDecorComponent {
       const rand = (slot: number) => noise('heart', index, slot);
       const width = 13 + rand(5) * 11;
       flock.push({
-        face: index % 3 === 0,
+        face: !failing && index % 3 === 0,
         beating,
+        failing,
+        dizzy,
         style: {
           left: pct((index + rand(0)) / count),
           top: pct(0.05 + rand(1) * 0.9),
           '--drift': px(-45 + rand(2) * 90),
-          '--lift': px(90 + rand(3) * 110),
-          '--peak': (0.45 + rand(4) * 0.35).toFixed(3),
+          '--lift': px(failing ? -(70 + rand(3) * 90) : 90 + rand(3) * 110),
+          '--peak': ((failing ? 0.6 : 1) * (0.45 + rand(4) * 0.35)).toFixed(3),
           width: px(width),
           height: px(width * (22 / 24)),
-          'animation-duration': secs(13 + rand(6) * 11),
+          'animation-duration': secs((13 + rand(6) * 11) * pace),
           'animation-delay': secs(-rand(7) * 24),
         },
         beat: {
@@ -119,10 +140,13 @@ export class RomanceOtherDecorComponent {
     if (other < SCRAP_THRESHOLD) return [];
 
     const jittery = isLowStat(statValue(this.stats(), 'INT'));
+    const lucid = this.intHigh();
+    const spinPace = this.agiHigh() ? 0.5 : 1;
     const progress = Math.min(1, (other - SCRAP_THRESHOLD) / SCRAP_RANGE);
     const count = Math.round((8 + 6 * progress) / 2);
     const litter: {
       jittery: boolean;
+      lucid: boolean;
       style: Record<string, string>;
       spin: Record<string, string>;
     }[] = [];
@@ -151,9 +175,10 @@ export class RomanceOtherDecorComponent {
 
       litter.push({
         jittery,
+        lucid,
         style,
         spin: {
-          'animation-duration': secs(7 + rand(8) * 5),
+          'animation-duration': secs((7 + rand(8) * 5) * spinPace),
         },
       });
     }
@@ -177,6 +202,7 @@ export class RomanceOtherDecorComponent {
     if (other < SCRAP_THRESHOLD) return null;
 
     const count = Math.min(BOOK_MAX, 2 + Math.floor((other - SCRAP_THRESHOLD) / BOOK_STEP));
+    const thick = this.strHigh() && this.otherLeads() ? 1.3 : 1;
     const books: {
       transform: string;
       rectX: string;
@@ -191,7 +217,7 @@ export class RomanceOtherDecorComponent {
     for (let index = 0; index < count; index++) {
       const rand = (slot: number) => noise('book', index, slot);
       const width = 42 + rand(0) * 16;
-      const height = 9 + rand(1) * 3.5;
+      const height = (9 + rand(1) * 3.5) * thick;
       top -= height;
       books.push({
         transform: `translate(${(41 + rand(2) * 8).toFixed(1)} ${(top + height / 2).toFixed(1)}) rotate(${(-3 + rand(3) * 6).toFixed(1)})`,

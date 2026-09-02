@@ -48,6 +48,20 @@ export class AdventureOtherDecorComponent {
 
   protected readonly state = computed(() => resolveAmbianceState(this.ambiance()));
 
+  protected readonly healthHigh = computed(() => isHighStat(statValue(this.stats(), 'Health')));
+  protected readonly healthLow = computed(() => isLowStat(statValue(this.stats(), 'Health')));
+  protected readonly manaHigh = computed(() => isHighStat(statValue(this.stats(), 'Mana')));
+  protected readonly manaLow = computed(() => isLowStat(statValue(this.stats(), 'Mana')));
+  protected readonly strHigh = computed(() => isHighStat(statValue(this.stats(), 'STR')));
+  protected readonly strLow = computed(() => isLowStat(statValue(this.stats(), 'STR')));
+  protected readonly agiHigh = computed(() => isHighStat(statValue(this.stats(), 'AGI')));
+  protected readonly agiLow = computed(() => isLowStat(statValue(this.stats(), 'AGI')));
+  protected readonly intHigh = computed(() => isHighStat(statValue(this.stats(), 'INT')));
+  protected readonly intLow = computed(() => isLowStat(statValue(this.stats(), 'INT')));
+  protected readonly goldHigh = computed(() => isHighStat(statValue(this.stats(), 'Gold')));
+  protected readonly adventureLeads = computed(() => this.state() === 'adventure-2-other-1');
+  protected readonly otherLeads = computed(() => this.state() === 'other-2-adventure-1');
+
   protected readonly adventureStage = computed(() => {
     const adventure = ambianceValue(this.ambiance(), 'adventure');
     if (adventure < FLAG_THRESHOLD) return 0;
@@ -79,10 +93,13 @@ export class AdventureOtherDecorComponent {
     if (adventure < LEAF_THRESHOLD) return [];
 
     const gusty = isHighStat(statValue(this.stats(), 'AGI'));
+    const sluggish = this.agiLow();
+    const jittery = this.intLow();
     const progress = Math.min(1, (adventure - LEAF_THRESHOLD) / LEAF_RANGE);
     const count = Math.round((8 + 6 * progress) / 2);
     const drift: {
       gusty: boolean;
+      jittery: boolean;
       style: Record<string, string>;
       spin: Record<string, string>;
     }[] = [];
@@ -91,26 +108,34 @@ export class AdventureOtherDecorComponent {
       const rand = (slot: number) => noise('leaf', index, slot);
       const size = 10 + rand(5) * 6;
       const x = (index + rand(0)) / count;
+      const fall = secs((14 + rand(6) * 10) * (sluggish ? 1.5 : 1));
       const style: Record<string, string> = {
         left: pct(x),
         top: pct(rand(1) * 0.85),
-        '--drift': px(60 + rand(2) * 80),
+        '--drift': px(sluggish ? 0 : 60 + rand(2) * 80),
         '--lift': px(-(120 + rand(3) * 100)),
         '--peak': (0.4 + rand(4) * 0.3).toFixed(3),
         width: px(size),
         height: px(size),
-        'animation-duration': secs(14 + rand(6) * 10),
+        'animation-duration': fall,
         'animation-delay': secs(-rand(7) * 24),
       };
 
       if (gusty) {
         const flutter = 7 + rand(9) * 6;
-        style['animation-duration'] = `${secs(14 + rand(6) * 10)}, ${secs(flutter)}`;
+        style['animation-duration'] = `${fall}, ${secs(flutter)}`;
         style['animation-delay'] = `${secs(-rand(7) * 24)}, ${secs(-rand(10) * flutter)}`;
+      }
+
+      if (jittery) {
+        const tremble = 1.7 + rand(9) * 1.4;
+        style['animation-duration'] = `${fall}, ${secs(tremble)}`;
+        style['animation-delay'] = `${secs(-rand(7) * 24)}, ${secs(-rand(10) * tremble)}`;
       }
 
       drift.push({
         gusty,
+        jittery,
         style,
         spin: {
           'animation-duration': secs(5 + rand(8) * 4),
@@ -126,10 +151,13 @@ export class AdventureOtherDecorComponent {
     if (other < SCRAP_THRESHOLD) return [];
 
     const jittery = isLowStat(statValue(this.stats(), 'INT'));
+    const lucid = this.intHigh();
+    const spinPace = this.agiHigh() ? 0.5 : 1;
     const progress = Math.min(1, (other - SCRAP_THRESHOLD) / SCRAP_RANGE);
     const count = Math.round((8 + 6 * progress) / 2);
     const litter: {
       jittery: boolean;
+      lucid: boolean;
       style: Record<string, string>;
       spin: Record<string, string>;
     }[] = [];
@@ -158,9 +186,10 @@ export class AdventureOtherDecorComponent {
 
       litter.push({
         jittery,
+        lucid,
         style,
         spin: {
-          'animation-duration': secs(7 + rand(8) * 5),
+          'animation-duration': secs((7 + rand(8) * 5) * spinPace),
         },
       });
     }
@@ -203,6 +232,7 @@ export class AdventureOtherDecorComponent {
     if (other < SCRAP_THRESHOLD) return null;
 
     const count = Math.min(BOOK_MAX, 2 + Math.floor((other - SCRAP_THRESHOLD) / BOOK_STEP));
+    const thick = this.strHigh() && this.otherLeads() ? 1.3 : 1;
     const books: {
       transform: string;
       rectX: string;
@@ -217,7 +247,7 @@ export class AdventureOtherDecorComponent {
     for (let index = 0; index < count; index++) {
       const rand = (slot: number) => noise('book', index, slot);
       const width = 42 + rand(0) * 16;
-      const height = 9 + rand(1) * 3.5;
+      const height = (9 + rand(1) * 3.5) * thick;
       top -= height;
       books.push({
         transform: `translate(${(41 + rand(2) * 8).toFixed(1)} ${(top + height / 2).toFixed(1)}) rotate(${(-3 + rand(3) * 6).toFixed(1)})`,

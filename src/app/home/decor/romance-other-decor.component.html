@@ -1,6 +1,12 @@
 @switch (slot()) {
   @case ('stats') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       @if (romanceStage() >= 1) {
         <svg class="gift" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
           <rect class="gift-body" x="3" y="8" width="14" height="10" rx="1.5" />
@@ -19,7 +25,13 @@
     </div>
   }
   @case ('objects') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       @if (romanceStage() >= 2) {
         <svg class="gift" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
           <rect class="gift-body" x="3" y="8" width="14" height="10" rx="1.5" />
@@ -43,7 +55,15 @@
   }
   @case ('rolls') {
     @if (otherStage() >= 3) {
-      <svg class="emblem" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <svg
+        class="emblem"
+        [class.emblem--arcane]="manaHigh()"
+        [class.emblem--dim]="manaLow()"
+        [class.emblem--gilded]="goldHigh()"
+        viewBox="0 0 20 20"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <path class="emblem-fill" d="M6.4 9.8 C6.4 7.2 8 5.6 10 5.6 C12 5.6 13.6 7.2 13.6 9.8 Z" />
         <ellipse class="emblem-fill" cx="10" cy="11.2" rx="7.2" ry="2.7" />
         <circle class="emblem-dot" cx="5.6" cy="11.4" r="0.7" />
@@ -53,7 +73,13 @@
     }
   }
   @case ('trail') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       @if (romanceStage() >= 3) {
         <svg class="gift" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
           <rect class="gift-body" x="3" y="8" width="14" height="10" rx="1.5" />
@@ -75,7 +101,13 @@
     </div>
   }
   @case ('answer-end') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       @if (romanceStage() >= 4) {
         <svg class="gift" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
           <rect class="gift-body" x="3" y="8" width="14" height="10" rx="1.5" />
@@ -98,7 +130,13 @@
     </div>
   }
   @case ('answer') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       <svg class="gift" viewBox="0 0 20 20">
         <rect class="gift-body" x="3" y="8" width="14" height="10" rx="1.5" />
         <rect class="gift-lid" x="2" y="5.5" width="16" height="3.5" rx="1" />
@@ -118,7 +156,13 @@
     </div>
   }
   @case ('foot') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       <svg class="gift gift-pair-big" viewBox="0 0 20 20">
         <rect class="gift-body" x="3" y="8" width="14" height="10" rx="1.5" />
         <rect class="gift-lid" x="2" y="5.5" width="16" height="3.5" rx="1" />
@@ -288,7 +332,12 @@
   }
   @case ('fx') {
     @for (heart of hearts(); track $index) {
-      <span class="heart" [class.heart--beating]="heart.beating" [style]="heart.style">
+      <span
+        class="heart"
+        [class.heart--beating]="heart.beating"
+        [class.heart--failing]="heart.failing"
+        [style]="heart.style"
+      >
         <svg class="heart-shape" [style]="heart.beat" viewBox="0 0 24 22">
           <path
             class="heart-body"
@@ -299,13 +348,22 @@
             <circle class="heart-blush" cx="17.4" cy="10.2" r="1.7" />
             <circle class="heart-eye" cx="8.9" cy="7.8" r="1.05" />
             <circle class="heart-eye" cx="15.1" cy="7.8" r="1.05" />
-            <path class="heart-smile" d="M9.8 10.6 Q12 12.6 14.2 10.6" />
+            @if (heart.dizzy) {
+              <path class="heart-smile" d="M9.6 11.2 Q10.8 9.8 12 11.2 Q13.2 12.6 14.4 11.2" />
+            } @else {
+              <path class="heart-smile" d="M9.8 10.6 Q12 12.6 14.2 10.6" />
+            }
           }
         </svg>
       </span>
     }
     @for (scrap of scraps(); track $index) {
-      <span class="scrap" [class.scrap--jittery]="scrap.jittery" [style]="scrap.style">
+      <span
+        class="scrap"
+        [class.scrap--jittery]="scrap.jittery"
+        [class.scrap--lucid]="scrap.lucid"
+        [style]="scrap.style"
+      >
         <svg class="scrap-spin" [style]="scrap.spin" viewBox="0 0 16 16">
           <path class="scrap-body" d="M3 3.6 L12.8 2.2 L13.9 8.3 L12.7 13.6 L4.1 14.1 Z" />
           <path class="scrap-lines" d="M5.2 5.9 L11 5.2 M5.5 8.1 L11.3 7.5 M5.8 10.3 L9.8 9.9" />
@@ -313,43 +371,60 @@
       </span>
     }
     @if (lovebirds(); as birds) {
-      <div class="lovebirds" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <div
+        class="lovebirds"
+        [class.lovebirds--bobbing]="healthHigh() && romanceLeads()"
+        [class.lovebirds--bending]="strLow() && romanceLeads()"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <svg viewBox="0 0 150 64">
-          <path class="branch-line" d="M150 40 C118 45 72 49 10 46" />
-          <path class="branch-line branch-line--twig" d="M58 47.5 C50 44 46 38 45 32" />
-          <g transform="translate(104 46)">
-            <g class="bird" transform="scale(-1 1)">
-              <path class="bird-tail" d="M-5.5 -7 L-12 -3.5 M-5.5 -8.5 L-12 -7" />
-              <path class="bird-feet" d="M-1.5 -1.8 L-1.5 0 M1.8 -1.8 L1.8 0" />
-              <ellipse class="bird-body" cx="0" cy="-8" rx="7" ry="6.2" />
-              <circle class="bird-body" cx="5.5" cy="-15.5" r="4.2" />
-              <path class="bird-beak" d="M9.4 -16.4 L12.6 -15.4 L9.4 -14.4 Z" />
-              <circle class="bird-eye" cx="6.6" cy="-16.6" r="0.75" />
+          <g class="perch">
+            <path class="branch-line" d="M150 40 C118 45 72 49 10 46" />
+            <path class="branch-line branch-line--twig" d="M58 47.5 C50 44 46 38 45 32" />
+            <g class="birds">
+              <g transform="translate(104 46)">
+                <g class="bird" transform="scale(-1 1)">
+                  <path class="bird-tail" d="M-5.5 -7 L-12 -3.5 M-5.5 -8.5 L-12 -7" />
+                  <path class="bird-feet" d="M-1.5 -1.8 L-1.5 0 M1.8 -1.8 L1.8 0" />
+                  <ellipse class="bird-body" cx="0" cy="-8" rx="7" ry="6.2" />
+                  <circle class="bird-body" cx="5.5" cy="-15.5" r="4.2" />
+                  <path class="bird-beak" d="M9.4 -16.4 L12.6 -15.4 L9.4 -14.4 Z" />
+                  <circle class="bird-eye" cx="6.6" cy="-16.6" r="0.75" />
+                </g>
+              </g>
+              <g transform="translate(30 46)">
+                <g class="bird bird--suitor" [style.transform]="birds.approach">
+                  <path class="bird-tail" d="M-5.5 -7 L-12 -3.5 M-5.5 -8.5 L-12 -7" />
+                  <path class="bird-feet" d="M-1.5 -1.8 L-1.5 0 M1.8 -1.8 L1.8 0" />
+                  <ellipse class="bird-body" cx="0" cy="-8" rx="7" ry="6.2" />
+                  <circle class="bird-body" cx="5.5" cy="-15.5" r="4.2" />
+                  <path class="bird-beak" d="M9.4 -16.4 L12.6 -15.4 L9.4 -14.4 Z" />
+                  <circle class="bird-eye" cx="6.6" cy="-16.6" r="0.75" />
+                </g>
+              </g>
             </g>
+            @if (birds.snuggled) {
+              <path
+                class="bird-heart"
+                d="M95 22 C93.2 20.6 92.3 19.4 92.3 18.4 C92.3 17.5 93 17 93.7 17 C94.3 17 94.8 17.4 95 18 C95.2 17.4 95.7 17 96.3 17 C97 17 97.7 17.5 97.7 18.4 C97.7 19.4 96.8 20.6 95 22 Z"
+                animate.enter="gm-appear"
+                animate.leave="gm-vanish"
+              />
+            }
           </g>
-          <g transform="translate(30 46)">
-            <g class="bird bird--suitor" [style.transform]="birds.approach">
-              <path class="bird-tail" d="M-5.5 -7 L-12 -3.5 M-5.5 -8.5 L-12 -7" />
-              <path class="bird-feet" d="M-1.5 -1.8 L-1.5 0 M1.8 -1.8 L1.8 0" />
-              <ellipse class="bird-body" cx="0" cy="-8" rx="7" ry="6.2" />
-              <circle class="bird-body" cx="5.5" cy="-15.5" r="4.2" />
-              <path class="bird-beak" d="M9.4 -16.4 L12.6 -15.4 L9.4 -14.4 Z" />
-              <circle class="bird-eye" cx="6.6" cy="-16.6" r="0.75" />
-            </g>
-          </g>
-          @if (birds.snuggled) {
-            <path
-              class="bird-heart"
-              d="M95 22 C93.2 20.6 92.3 19.4 92.3 18.4 C92.3 17.5 93 17 93.7 17 C94.3 17 94.8 17.4 95 18 C95.2 17.4 95.7 17 96.3 17 C97 17 97.7 17.5 97.7 18.4 C97.7 19.4 96.8 20.6 95 22 Z"
-              animate.enter="gm-appear"
-              animate.leave="gm-vanish"
-            />
-          }
         </svg>
       </div>
     }
     @if (bookPile(); as pile) {
-      <div class="book-pile" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <div
+        class="book-pile"
+        [class.book-pile--leaning]="strLow()"
+        [class.book-pile--arcane]="manaHigh() && otherLeads()"
+        [class.book-pile--lucid]="intHigh() && otherLeads()"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <svg viewBox="0 0 90 110">
           @for (book of pile.books; track $index) {
             <g [attr.transform]="book.transform">

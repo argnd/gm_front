@@ -134,6 +134,47 @@ svg {
   transform: rotate(9deg);
 }
 
+.duo-pair--weak .gift {
+  rotate: -12deg;
+  animation: gm-tremble 6.5s linear infinite;
+}
+
+.duo-pair--gilded .gift-ribbon {
+  fill: color-mix(in srgb, var(--gold) 70%, var(--romance-accent-soft));
+}
+
+.duo-pair--gilded .gift-bow {
+  stroke: color-mix(in srgb, var(--gold) 70%, var(--romance-accent));
+}
+
+.duo-pair--gilded .emblem-fill,
+.duo-pair--gilded .emblem-stroke,
+.duo-pair--gilded .emblem-glass,
+.emblem--gilded .emblem-fill,
+.emblem--gilded .emblem-stroke,
+.emblem--gilded .emblem-glass {
+  stroke: color-mix(in srgb, var(--gold) 70%, var(--other-accent));
+}
+
+.duo-pair--arcane .emblem,
+.emblem--arcane {
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--mana) 75%, transparent));
+}
+
+.duo-pair--arcane .emblem > *,
+.emblem--arcane > * {
+  --min-opacity: 0.75;
+  --max-opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-breathe 4.8s ease-in-out infinite;
+}
+
+.duo-pair--dim .emblem,
+.emblem--dim {
+  opacity: 0.45;
+}
+
 .gift {
   scale: var(--gift-scale, 1);
   transition: scale var(--speed-slow) ease;
@@ -237,6 +278,11 @@ svg {
   opacity: 0.7;
 }
 
+.heart--failing .heart-body {
+  fill: color-mix(in srgb, var(--romance-accent) 45%, transparent);
+  stroke: color-mix(in srgb, var(--romance-accent-deep) 35%, var(--romance-accent));
+}
+
 .scrap {
   position: absolute;
   opacity: 0;
@@ -247,6 +293,16 @@ svg {
   animation-name: gm-drift, gm-tremble;
   animation-timing-function: linear, ease-in-out;
   animation-iteration-count: infinite, infinite;
+}
+
+.scrap--lucid .scrap-lines {
+  stroke: color-mix(in srgb, var(--other-accent-soft) 90%, transparent);
+  stroke-width: 1;
+  --min-opacity: 0.6;
+  --max-opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-breathe 3.6s ease-in-out infinite;
 }
 
 .scrap-spin {
@@ -407,6 +463,25 @@ svg {
   transition: transform var(--speed-slow) ease;
 }
 
+.perch {
+  transform-box: fill-box;
+  transform-origin: 100% 60%;
+  transition: transform var(--speed-slow) ease;
+}
+
+.lovebirds--bending .perch {
+  transform: rotate(-4deg);
+}
+
+.birds {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+.lovebirds--bobbing .birds {
+  animation: gm-heartbeat 1.6s ease-in-out infinite;
+}
+
 .branch-line {
   fill: none;
   stroke: color-mix(in srgb, var(--romance-accent-deep) 60%, var(--romance-accent));
@@ -496,6 +571,34 @@ svg {
   background: color-mix(in srgb, var(--other-accent-soft) 34%, transparent);
   opacity: 0;
   animation: gm-drift linear infinite;
+}
+
+.book-pile svg {
+  transform-origin: 50% 100%;
+  transition: transform var(--speed-slow) ease;
+}
+
+.book-pile--leaning svg {
+  transform: rotate(6deg);
+}
+
+.book-pile--arcane .mark-stroke {
+  stroke: color-mix(in srgb, var(--mana) 60%, var(--other-accent));
+  filter: drop-shadow(0 0 2px color-mix(in srgb, var(--mana) 80%, transparent));
+}
+
+.book-pile--arcane .mark-fill {
+  fill: color-mix(in srgb, var(--mana) 60%, var(--other-accent));
+  filter: drop-shadow(0 0 2px color-mix(in srgb, var(--mana) 80%, transparent));
+}
+
+.book-pile--lucid .mark-stroke,
+.book-pile--lucid .mark-fill {
+  --min-opacity: 0.55;
+  --max-opacity: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-breathe 4.8s ease-in-out infinite;
 }
 
 @media (max-width: 900px) {

@@ -1,6 +1,12 @@
 @switch (slot()) {
   @case ('stats') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       @if (adventureStage() >= 1) {
         <svg class="flag" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
           <path class="flag-mast" d="M6 2.5 L6 18" />
@@ -16,7 +22,13 @@
     </div>
   }
   @case ('objects') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       @if (adventureStage() >= 2) {
         <svg class="flag" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
           <path class="flag-mast" d="M6 2.5 L6 18" />
@@ -36,7 +48,13 @@
     </div>
   }
   @case ('rolls') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       @if (adventureStage() >= 3) {
         <svg class="flag" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
           <path class="flag-mast" d="M6 2.5 L6 18" />
@@ -55,7 +73,13 @@
     </div>
   }
   @case ('trail') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       @if (adventureStage() >= 4) {
         <svg class="flag" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
           <path class="flag-mast" d="M6 2.5 L6 18" />
@@ -74,7 +98,13 @@
     </div>
   }
   @case ('answer-end') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       @if (adventureStage() >= 5) {
         <svg class="flag" viewBox="0 0 20 20" animate.enter="gm-appear" animate.leave="gm-vanish">
           <path class="flag-mast" d="M6 2.5 L6 18" />
@@ -94,7 +124,13 @@
     </div>
   }
   @case ('answer') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       <svg class="flag" viewBox="0 0 20 20">
         <path class="flag-mast" d="M6 2.5 L6 18" />
         <path class="flag-cloth" d="M7 3 C11 2.4 13 3.4 16 5.2 C13 6.4 11 7.6 7 8 Z" />
@@ -111,7 +147,13 @@
     </div>
   }
   @case ('foot') {
-    <div class="duo-pair">
+    <div
+      class="duo-pair"
+      [class.duo-pair--weak]="strLow()"
+      [class.duo-pair--gilded]="goldHigh()"
+      [class.duo-pair--arcane]="manaHigh()"
+      [class.duo-pair--dim]="manaLow()"
+    >
       <svg class="flag flag-pair-big" viewBox="0 0 20 20">
         <path class="flag-mast" d="M6 2.5 L6 18" />
         <path class="flag-cloth" d="M7 3 C11 2.4 13 3.4 16 5.2 C13 6.4 11 7.6 7 8 Z" />
@@ -253,7 +295,12 @@
   }
   @case ('fx') {
     @for (leaf of leaves(); track $index) {
-      <span class="leaf" [class.leaf--gusty]="leaf.gusty" [style]="leaf.style">
+      <span
+        class="leaf"
+        [class.leaf--gusty]="leaf.gusty"
+        [class.leaf--jittery]="leaf.jittery"
+        [style]="leaf.style"
+      >
         <svg class="leaf-spin" [style]="leaf.spin" viewBox="0 0 16 16">
           <path class="leaf-body" d="M8 1 C12 4 13 9 8 15 C3 9 4 4 8 1 Z" />
           <path class="leaf-vein" d="M8 3.5 L8 12" />
@@ -261,7 +308,12 @@
       </span>
     }
     @for (scrap of scraps(); track $index) {
-      <span class="scrap" [class.scrap--jittery]="scrap.jittery" [style]="scrap.style">
+      <span
+        class="scrap"
+        [class.scrap--jittery]="scrap.jittery"
+        [class.scrap--lucid]="scrap.lucid"
+        [style]="scrap.style"
+      >
         <svg class="scrap-spin" [style]="scrap.spin" viewBox="0 0 16 16">
           <path class="scrap-body" d="M3 3.6 L12.8 2.2 L13.9 8.3 L12.7 13.6 L4.1 14.1 Z" />
           <path class="scrap-lines" d="M5.2 5.9 L11 5.2 M5.5 8.1 L11.3 7.5 M5.8 10.3 L9.8 9.9" />
@@ -269,7 +321,18 @@
       </span>
     }
     @if (campfire(); as fire) {
-      <div class="campfire" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <div
+        class="campfire"
+        [class.campfire--vital]="healthHigh()"
+        [class.campfire--faint]="healthLow()"
+        [class.campfire--mana]="manaHigh()"
+        [class.campfire--sturdy]="strHigh()"
+        [class.campfire--beating]="healthHigh() && adventureLeads()"
+        [class.campfire--arcane]="manaHigh() && adventureLeads()"
+        [class.campfire--gilded]="goldHigh() && adventureLeads()"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <svg viewBox="0 0 90 70">
           @if (fire.tier >= 2) {
             <path class="fire-smoke" d="M46 20 C41 14 49 9 44 2" />
@@ -310,7 +373,14 @@
       </div>
     }
     @if (bookPile(); as pile) {
-      <div class="book-pile" animate.enter="gm-appear" animate.leave="gm-vanish">
+      <div
+        class="book-pile"
+        [class.book-pile--leaning]="strLow()"
+        [class.book-pile--arcane]="manaHigh() && otherLeads()"
+        [class.book-pile--lucid]="intHigh() && otherLeads()"
+        animate.enter="gm-appear"
+        animate.leave="gm-vanish"
+      >
         <svg viewBox="0 0 90 110">
           @for (book of pile.books; track $index) {
             <g [attr.transform]="book.transform">
